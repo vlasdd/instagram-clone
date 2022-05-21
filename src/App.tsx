@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense, FC } from "react";
+import { Route, Routes } from 'react-router-dom';
+import RoutesTypes from "./constants/routes-types"
 
-function App() {
+const Dashboard: React.LazyExoticComponent<React.FC<{}>> = lazy(() => import("./pages/Dashboard"));
+const Login: React.LazyExoticComponent<React.FC<{}>> = lazy(() => import("./pages/Login"));
+const SignUp: React.LazyExoticComponent<React.FC<{}>> = lazy(() => import("./pages/SignUp"));
+const NotFound: React.LazyExoticComponent<React.FC<{}>> = lazy(() => import("./pages/NotFound"));
+
+const App: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Suspense fallback={<p>Loading...</p>}>
+      <Routes>
+        <Route
+          path={RoutesTypes.DASHBOARD}
+          element={<Dashboard />}
+        />
+        <Route
+          path={RoutesTypes.LOGIN}
+          element={<Login />}
+        />
+        <Route
+          path={RoutesTypes.SIGN_UP}
+          element={<SignUp />}
+        />
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+      </Routes>
+    </Suspense>
+  )
 }
 
 export default App;
