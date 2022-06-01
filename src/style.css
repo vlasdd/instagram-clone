@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input, select{
+    outline: none;
+}
+
+select {
+    color: gray;
+}
+
+select:focus{
+    color: black;
+}
+
+.back{
+    background: rgba(var(--b3f,250,250,250),1);
+}
