@@ -63,7 +63,7 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
 
     return (
         <div className="w-4/5 sm:w-3/5 lg:w-1/3">
-            <div className="flex flex-col items-center w-full border bg-white">
+            <div className="flex flex-col items-center w-full border bg-white px-2">
                 <div className="flex justify-center w-full">
                     <img
                         src="/images/cake.jpg"

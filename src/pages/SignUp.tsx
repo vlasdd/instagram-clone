@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SignUpOne from "../components/SignUp/SignUpOne";
-import SignUpTwo from "../components/SignUp/SignUpTwo";
+import SignUpOne from "../components/sign-up/SignUpOne";
+import SignUpTwo from "../components/sign-up/SignUpTwo";
 import BirthdateState from "../types/birthdate-type";
 import UserData from "../types/user-data-type";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -36,7 +36,7 @@ const SignUp: React.FC = () => {
 
         try {
             const user = await createUserWithEmailAndPassword(auth, userData.emailOrPhoneNumber, userData.password);
-            await setDoc(doc(db, "users", user.user.uid), {
+            await setDoc(doc(db, "users", userData.username), {
                 userId: user.user.uid,
                 username: userData.username.toLowerCase(),
                 fullName: userData.fullName,
@@ -50,7 +50,7 @@ const SignUp: React.FC = () => {
                 posts: []
             })
 
-            const currentDoc = await getDoc(doc(db, "users", user.user.uid));
+            const currentDoc = await getDoc(doc(db, "users", userData.username));
             dispatch(setActiveUser(currentDoc.data() as UserState));
             navigate(RoutesTypes.DASHBOARD);
         }

@@ -5,6 +5,7 @@ import RoutesTypes from '../../constants/routes-types';
 import { removeActiveUser } from '../../redux/features/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import ProfileDropMenuElement from './ProfileDropMenuElement';
+import { motion } from "framer-motion";
 
 const ProfileDropMenuContainer: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -17,7 +18,12 @@ const ProfileDropMenuContainer: React.FC = () => {
     }
 
     return (
-        <div className="w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative">
+        <motion.div 
+            className="w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative"
+            initial={{ y: -50 }}
+            animate={{ y: 0 }}
+            exit={{ y: 50 }}
+        >
             <ProfileDropMenuElement
                 image={
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -61,7 +67,7 @@ const ProfileDropMenuContainer: React.FC = () => {
                 callback={handleLogout}
             />
             <div className="w-4 h-4 absolute bg-white rotate-45 top-[-8px] right-8 "></div>
-        </div>
+        </motion.div>
 
     )
 }

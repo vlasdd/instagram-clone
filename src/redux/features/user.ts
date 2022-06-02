@@ -6,25 +6,29 @@ const initialState: { user: UserState } = {
     user: {
         dateCreated: 0,
         emailAddress: "",
-        following: [],
-        followers: [],
-        fullName: "",
+        following: [
+            {profileImage: "../images/default-avatar-image.jpg", username: "123134", fullName: "1231243124", isFollowed: true, additionalInfo: "asdadasdasdad"},
+            {profileImage: "../images/default-avatar-image.jpg", username: "asda", fullName: "sadasdasd", isFollowed: false}
+        ],
+        followers: [
+            {profileImage: "../images/default-avatar-image.jpg", username: "123134", fullName: "1231243124", isFollowed: true},
+            {profileImage: "../images/default-avatar-image.jpg", username: "asda", fullName: "sadasdasd", isFollowed: false, additionalInfo: "asdadasdasdad"}
+        ],
+        fullName: "full name",
         userId: "qe132",
-        username: "usernameaa",
+        username: "usernamea",
         birthdate:  {} as BirthdateState,
         phoneNumber: "",
         profileImage: "",
         posts: []
     }
 }
+
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
         setActiveUser: (state, action: PayloadAction<UserState>) => {
-            console.log("//////////////////")
-            console.log(action.payload)
-            console.log("//////////////////")
             state.user = action.payload
         },
         removeActiveUser: (state) => {
