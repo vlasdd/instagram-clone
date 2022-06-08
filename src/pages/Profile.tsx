@@ -7,41 +7,52 @@ import AccountsRoutes from '../constants/accounts-routes';
 import ProfileRoutes from '../constants/profile-routes';
 import RoutesTypes from '../constants/routes-types';
 import { db } from '../firebase/firebase-config';
-import { setIsModalOpen } from '../redux/features/isModalOpen';
 import { setActiveUser } from '../redux/features/user';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import UserState from '../types/user-state-type';
+import { initialState as initialUser } from '../redux/features/user';
 
-const Profile: React.FC = () => {
-    const user = useAppSelector(state => state.currentUser.user);
-    const { username } = useParams();
-    const navigate = useNavigate();
+type ProfileProps = {
+    setGlobalUser: React.Dispatch<React.SetStateAction<UserState>>
+    globalUser: UserState
+}
+
+const Profile: React.FC<ProfileProps> = ({ setGlobalUser, globalUser }) => {
+    const currentUser = useAppSelector(state => state.currentUser.user);
     const dispatch = useAppDispatch();
 
+    const { uid } = useParams();
+    const navigate = useNavigate();
+
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
-    console.log(shouldRedirect);
-    //const [navigationRoute, setNavigationRoute] = useState<string>(RoutesTypes.LOGIN);
 
     useEffect(() => {
+        console.log("use effect 1")
         const getUser = async () => {
-            const currentUser = await getDoc(doc(db, "users", username as string));
+            const userOnPage = await getDoc(doc(db, "users", uid as string));
 
-            if(!currentUser.data()){
-               // setNavigationRoute(RoutesTypes.NOT_FOUND);
+            if (!userOnPage.data()) {
                 setShouldRedirect(true);
                 return;
             }
 
-            setActiveUser(currentUser.data() as UserState);
+            setGlobalUser(userOnPage.data() as UserState);
+
+            if (uid === currentUser.userId) {
+                dispatch(setActiveUser(userOnPage.data() as UserState));
+            }
         }
 
         getUser();
     }, [])
 
-    
-    /*if (!user.userId.length) {
-        return <Navigate to={RoutesTypes.LOGIN} />
-    }*/
+    useEffect(() => {
+        console.log("use effect 2");
+
+        if (uid === currentUser.userId) {
+            setGlobalUser(currentUser);
+        }
+    }, [currentUser])
 
     return (
         shouldRedirect ?
@@ -52,13 +63,13 @@ const Profile: React.FC = () => {
                 <div className="flex w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center h-60 gap-4 pt-4 pb-3 px-1">
                     <div className="w-2/5 max-w-xs h-full flex items-start justify-center mt-4">
                         <img
-                            src={user.profileImage.length ? user.profileImage : "../images/default-avatar-gray.jpg"}
+                            src={globalUser.profileImage.length ? globalUser.profileImage : "../images/default-avatar-gray.jpg"}
                             className="rounded-full w-full sm:w-3/5 max-w-[190px]"
                         />
                     </div>
                     <div className="flex flex-col w-3/5 py-4 gap-4">
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <p className="text-2xl font-light">{user.username}</p>
+                            <p className="text-2xl font-light">{globalUser.username}</p>
                             <div className="flex items-center gap-4">
                                 <Link
                                     to={RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE}
@@ -76,31 +87,31 @@ const Profile: React.FC = () => {
                         </div>
                         <div className="flex gap-2 sm:gap-8">
                             <div className="flex gap-1 items-center flex-col sm:flex-row">
-                                <p className="font-medium">{user.posts.length}</p>
-                                <p>{`post${user.posts.length === 1 ? "" : "s"}`}</p>
+                                <p className="font-medium">{globalUser.posts.length}</p>
+                                <p>{`post${globalUser.posts.length === 1 ? "" : "s"}`}</p>
                             </div>
                             <button 
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.stopPropagation();
                                     navigate(ProfileRoutes.FOLLOWERS)
-                                    dispatch(setIsModalOpen(true))
                                 }}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
-                                <p className="font-medium">{user.followers.length}</p>
-                                <p>{`follower${user.followers.length === 1 ? "" : "s"}`}</p>
+                                <p className="font-medium">{globalUser.followers.length}</p>
+                                <p>{`follower${globalUser.followers.length === 1 ? "" : "s"}`}</p>
                             </button>
                             <button
-                                onClick={() => {
+                                onClick={(event) => {
+                                    event.stopPropagation();
                                     navigate(ProfileRoutes.FOLLOWING)
-                                    dispatch(setIsModalOpen(true))
                                 }}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
-                                <p className="font-medium">{user.following.length}</p>
+                                <p className="font-medium">{globalUser.following.length}</p>
                                 <p>following</p>
                             </button>
                         </div>
-                        <p className="font-medium">{user.fullName}</p>
+                        <p className="font-medium">{globalUser.fullName}</p>
                         <div className="flex"></div>
                     </div>
                 </div>

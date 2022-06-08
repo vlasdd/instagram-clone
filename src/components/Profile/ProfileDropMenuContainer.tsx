@@ -16,10 +16,11 @@ const ProfileDropMenuContainer: React.FC = () => {
         dispatch(removeActiveUser());
         navigate(RoutesTypes.LOGIN);
     }
-
+//w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative
+    //w-screen h-screen bg-[rgba(0,0,0,0.6)] fixed top-0 right-0 
     return (
-        <motion.div 
-            className="w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative"
+        <motion.div
+            className="w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md absolute z-50 left-[-168px] top-10"
             initial={{ y: -50 }}
             animate={{ y: 0 }}
             exit={{ y: 50 }}
@@ -31,7 +32,7 @@ const ProfileDropMenuContainer: React.FC = () => {
                     </svg>
                 } text="Profile"
                 callback={() => {
-                    navigate(RoutesTypes.DASHBOARD + user.username)
+                    navigate(RoutesTypes.DASHBOARD + user.userId)
                 }}
             />
             <ProfileDropMenuElement
@@ -41,7 +42,7 @@ const ProfileDropMenuContainer: React.FC = () => {
                     </svg>
                 } text="Saved"
                 callback={() => {
-                    navigate(RoutesTypes.DASHBOARD + user.username + "/" + ProfileRoutes.SAVED)
+                    navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)
                 }}
             />
             <ProfileDropMenuElement
@@ -62,13 +63,12 @@ const ProfileDropMenuContainer: React.FC = () => {
                 callback={() => console.log("clicked")}
             />
             <div className="w-full border-t-2"></div>
-            <ProfileDropMenuElement 
+            <ProfileDropMenuElement
                 text="Log Out"
                 callback={handleLogout}
             />
             <div className="w-4 h-4 absolute bg-white rotate-45 top-[-8px] right-8 "></div>
         </motion.div>
-
     )
 }
 

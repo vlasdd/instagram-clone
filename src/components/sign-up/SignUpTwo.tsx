@@ -105,7 +105,7 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
                         disabled={isInvalid}
                         type="button"
                         className={`
-                            bg-blue-500 w-4/5 text-white rounded h-8 font-bold 
+                            bg-blue-500 w-3/5 text-white rounded h-8 font-bold 
                             ${isInvalid && "opacity-50"}
                         `}
                         onClick={() => {

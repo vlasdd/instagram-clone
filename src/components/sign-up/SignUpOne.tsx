@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import RoutesTypes from "../../constants/routes-types"
+import isEmailAvailable from '../../firebase/isEmailAvailable';
 import isUsernameAvailable from "../../firebase/isUsernameAvailable";
 import UserData from "../../types/user-data-type";
 
@@ -11,9 +12,6 @@ type SignUpOneProps = {
 }
 
 const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUserData }) => {
-    /*const navigate = useNavigate();
-    const dispatch = useAppDispatch();*/
-
     const [error, setError] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const isInvalid = userData.password.length < 6
@@ -24,15 +22,26 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
     const handleSignUp = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
 
-        const isAvailable = await isUsernameAvailable(userData.username)
-        if (!isAvailable) {
+        const isNameAvailable = await isUsernameAvailable(userData.username);
+        if (!isNameAvailable) {
             setError("This username is not available");
             return;
         }
 
-        /*if(!userData.emailOrPhoneNumber.includes("@") && !userData.emailOrPhoneNumber.split("").every(symbol => 
-            symbol)){
-        }*/
+        const isEmailAddressAvailable = await isEmailAvailable(userData.emailOrPhoneNumber);
+        if (!isEmailAddressAvailable) {
+            setError("Another account is using the same email");
+            return;
+        }
+
+        const isEmailValid = userData.emailOrPhoneNumber.match(
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+
+        if (!isEmailValid) {
+            setError("Enter a valid email address.");
+            return;
+        }
 
         setCurrentPageId(prevVal => prevVal + 1)
     }
@@ -47,7 +56,7 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                     />
                 </div>
                 <p className="w-4/5 pb-4 text-center text-gray-400 font-semibold">Sign up to see photos and videos from your friends</p>
-                {error && <p className="mb-4 w-4/5 text-xs text-red-500">{error}</p>}
+                {error && <p className="mb-4 w-4/5 text-sm text-red-500 text-center">{error}</p>}
                 <form
                     method="POST"
                     className="flex flex-col items-center w-full"

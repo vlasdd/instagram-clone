@@ -1,13 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducers from "./features/user";
-import windowReducers from "./features/isWindowOpen";
-import modalReducers from "./features/isModalOpen";
 
 const store = configureStore({
   reducer: {
     currentUser: userReducers,
-    isWindowOpen: windowReducers,
-    isModalOpen: modalReducers,
   }
 })
 

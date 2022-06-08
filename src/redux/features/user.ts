@@ -2,20 +2,22 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import BirthdateState from "../../types/birthdate-type";
 import UserState from "../../types/user-state-type";
 
-const initialState: { user: UserState } = {
+export const initialState: { user: UserState } = {
     user: {
         dateCreated: 0,
         emailAddress: "",
-        following: [
-            {profileImage: "../images/default-avatar-image.jpg", username: "123134", fullName: "1231243124", isFollowed: true, additionalInfo: "asdadasdasdad"},
-            {profileImage: "../images/default-avatar-image.jpg", username: "asda", fullName: "sadasdasd", isFollowed: false}
+        /*following: [
+            {profileImage: "../images/default-avatar-image.jpg", username: "1231asd34", fullName: "1231243124", additionalInfo: "asdadasdasdad"},
+            {profileImage: "../images/default-avatar-image.jpg", username: "asda", fullName: "sadasdasd"}
         ],
         followers: [
-            {profileImage: "../images/default-avatar-image.jpg", username: "123134", fullName: "1231243124", isFollowed: true},
-            {profileImage: "../images/default-avatar-image.jpg", username: "asda", fullName: "sadasdasd", isFollowed: false, additionalInfo: "asdadasdasdad"}
-        ],
+            {profileImage: "../images/default-avatar-image.jpg", username: "12313asdas4", fullName: "1231243124", },
+            {profileImage: "../images/default-avatar-image.jpg", username: "asda", fullName: "sadasdasd", additionalInfo: "asdadasdasdad"}
+        ],*/
+        following: [],
+        followers: [],
         fullName: "full name",
-        userId: "qe132",
+        userId: "jXvXw2V5w9fWoLqvEPfGLGp6wMy1",
         username: "usernamea",
         birthdate:  {} as BirthdateState,
         phoneNumber: "",

@@ -9,13 +9,16 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useAppDispatch } from "../redux/hooks";
 import { setActiveUser } from "../redux/features/user";
 import UserState from "../types/user-state-type";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import RoutesTypes from "../constants/routes-types";
 
 const SignUp: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const lastPageId = 2;
+
+    const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
     const [currentPageId, setCurrentPageId] = useState<number>(0)
     const [userData, setUserData] = useState<UserData>({
         username: "",
@@ -36,50 +39,64 @@ const SignUp: React.FC = () => {
 
         try {
             const user = await createUserWithEmailAndPassword(auth, userData.emailOrPhoneNumber, userData.password);
-            await setDoc(doc(db, "users", userData.username), {
+
+            const userDoc: UserState = {
                 userId: user.user.uid,
                 username: userData.username.toLowerCase(),
                 fullName: userData.fullName,
                 emailAddress: userData.emailOrPhoneNumber.toLowerCase(),
-                following: [],
-                followers: [],
+                /*following: [],
+                followers: [],*/
+                following: [
+                    {userId: "12312", profileImage: "../images/default-avatar-image.jpg", username: "first", fullName: "1231243124"},
+                    {userId: "Qsd342", profileImage: "../images/default-avatar-image.jpg", username: "second", fullName: "sadasdasd"}
+                ],
+                followers: [
+                    {userId: "12312", profileImage: "../images/default-avatar-image.jpg", username: "first", fullName: "1231243124", },
+                    {userId: "Qsd342", profileImage: "../images/default-avatar-image.jpg", username: "second", fullName: "sadasdasd"}
+                ],
                 dateCreated: Date.now(),
                 birthdate: userData.birthdate,
                 phoneNumber: "",
                 profileImage: "",
                 posts: []
-            })
+            }
+            
+            await setDoc(doc(db, "users", user.user.uid), userDoc)
 
-            const currentDoc = await getDoc(doc(db, "users", userData.username));
-            dispatch(setActiveUser(currentDoc.data() as UserState));
+          //  const currentDoc = await getDoc(doc(db, "users", user.user.uid));
+            dispatch(setActiveUser(userDoc));
             navigate(RoutesTypes.DASHBOARD);
         }
         catch (error: any) {
-            setUserData(prevData => ({ ...prevData, emailOrPhoneNumber: "" }));
-            setUserData(prevData => ({ ...prevData, password: "" }));
+            //setUserData(prevData => ({ ...prevData, emailOrPhoneNumber: "" }));
+            //setUserData(prevData => ({ ...prevData, password: "" }));
+            setShouldRedirect(true);
             console.log(error);
         }
     }
 
     useEffect(() => {
-        if (currentPageId === 2) {
+        if (currentPageId === lastPageId) {
             handleSignUp();
         }
     }, [currentPageId])
 
     return (
-        <div className="h-screen w-screen flex justify-center items-center bg-[#FAFAFA]">
-            {(() => {
-                switch (currentPageId) {
-                    case 0: {
-                        return <SignUpOne {...{ setCurrentPageId, userData, setUserData }} />
+        shouldRedirect ?
+            <Navigate to={RoutesTypes.NOT_FOUND} /> :
+            <div className="h-screen w-screen flex justify-center items-center bg-[#FAFAFA]">
+                {(() => {
+                    switch (currentPageId) {
+                        case 0: {
+                            return <SignUpOne {...{ setCurrentPageId, userData, setUserData }} />
+                        }
+                        case 1: {
+                            return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
+                        }
                     }
-                    case 1: {
-                        return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
-                    }
-                }
-            })()}
-        </div>
+                })()}
+            </div>
     )
 }
 
