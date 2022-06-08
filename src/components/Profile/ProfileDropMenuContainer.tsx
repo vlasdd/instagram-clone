@@ -16,15 +16,10 @@ const ProfileDropMenuContainer: React.FC = () => {
         dispatch(removeActiveUser());
         navigate(RoutesTypes.LOGIN);
     }
-//w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative
+    //w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative
     //w-screen h-screen bg-[rgba(0,0,0,0.6)] fixed top-0 right-0 
     return (
-        <motion.div
-            className="w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md absolute z-50 left-[-168px] top-10"
-            initial={{ y: -50 }}
-            animate={{ y: 0 }}
-            exit={{ y: 50 }}
-        >
+        <>
             <ProfileDropMenuElement
                 image={
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -68,7 +63,7 @@ const ProfileDropMenuContainer: React.FC = () => {
                 callback={handleLogout}
             />
             <div className="w-4 h-4 absolute bg-white rotate-45 top-[-8px] right-8 "></div>
-        </motion.div>
+        </>
     )
 }
 

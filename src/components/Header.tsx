@@ -4,10 +4,10 @@ import RoutesTypes from "../constants/routes-types"
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { useNavigate } from "react-router-dom";
 import ProfileDropMenuContainer from "./profile/ProfileDropMenuContainer";
+import DropMenu from "./DropMenu";
 
 const Header: React.FC = () => {
     const user = useAppSelector(state => state.currentUser.user);
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -15,11 +15,6 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <div 
-                className={isDropMenuOpen ? "w-screen h-screen fixed" : ""}
-                onClick={() => setIsDropMenuOpen(false)}
-            >
-            </div>
             <header className="w-screen h-14 flex items-center justify-center border-b-2 border-gray-200 bg-white">
                 <div className="w-11/12 flex items-center justify-evenly">
                     <Link to={RoutesTypes.DASHBOARD}>
@@ -54,10 +49,7 @@ const Header: React.FC = () => {
                             <div className="relative flex items-center">
                                 <button
                                     className="h-8 w-8 cursor-pointer rounded-full"
-                                    onClick={(event) => {
-                                        setIsDropMenuOpen(prevVal => !prevVal)
-                                        event.stopPropagation();
-                                    }}
+                                    onClick={() => setIsDropMenuOpen(prevVal => !prevVal)}
                                 >
                                     <img
                                         src={user.profileImage.length ? user.profileImage : "../images/default-avatar-image.jpg"}
@@ -65,7 +57,14 @@ const Header: React.FC = () => {
                                     />
                                     {/* absolute left-[-168px] top-1*/}
                                 </button>
-                                {isDropMenuOpen && <ProfileDropMenuContainer />}
+                                {isDropMenuOpen &&
+                                    <DropMenu 
+                                        closeEvent={() => setIsDropMenuOpen(false)}
+                                        styles="w-56 left-[-168px] top-10"
+                                    >
+                                        <ProfileDropMenuContainer />
+                                    </DropMenu>
+                                }
                             </div>
                         </div> :
                         <div className="flex gap-2 h-12 items-center">
