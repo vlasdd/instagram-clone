@@ -47,7 +47,7 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
     }
 
     return (
-        <div className="w-4/5 sm:w-3/5 lg:w-1/3">
+        <div className="w-4/5 sm:w-1/2 lg:w-1/3">
             <div className="flex flex-col items-center w-full border bg-white">
                 <div className="flex justify-center w-full">
                     <img
@@ -105,7 +105,9 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                             </button>
                         }
                     </div>
-                    <p className="w-4/5 text-center text-gray-400 text-sm mb-4">People who use our service may have uploaded your contact information to Instagram</p>
+                    <p className="w-4/5 text-center text-gray-400 text-sm mb-4">
+                        People who use our service may have uploaded your contact information to Instagram
+                    </p>
                     <button
                         disabled={isInvalid}
                         type="button"

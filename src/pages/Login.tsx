@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase/firebase-config";
+import { auth, db } from "../firebase/firebaseConfig";
 import RoutesTypes from "../constants/routes-types";
 import { useAppDispatch } from "../redux/hooks";
-import { setActiveUser } from "../redux/features/user";
+import { setSignedUser } from "../redux/features/signedUser";
 import { doc, getDoc } from "firebase/firestore";
 import UserState from "../types/user-state-type";
 
@@ -25,7 +25,7 @@ const Login: React.FC = () => {
         try {
             const user = await signInWithEmailAndPassword(auth, email, password);
             const currentDoc = await getDoc(doc(db, "users", user.user.uid))
-            dispatch(setActiveUser(currentDoc.data() as UserState));
+            dispatch(setSignedUser(currentDoc.data() as UserState));
             navigate(RoutesTypes.DASHBOARD);
         } 
         catch (error: any) {

@@ -1,10 +1,7 @@
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom';
-import RoutesTypes from '../constants/routes-types';
-import { useAppDispatch } from '../redux/hooks';
-import UserSuggestionType from '../types/user-suggestion-type';
+import UserSuggestionType from '../../types/user-suggestion-type';
 import UserSuggestion from "./UserSuggestion";
-import { motion } from "framer-motion";
 
 type UsersListProps = {
     uid: string,
@@ -14,12 +11,8 @@ type UsersListProps = {
 
 const UsersListModal: React.FC<UsersListProps> = ({ uid, usersList, descriptionLine }) => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
 
-    const users = useMemo(() =>
-        usersList.map(data => <UserSuggestion {...data} key={data.userId} />),
-        [uid]
-    )
+    const users = usersList.map(data => <UserSuggestion {...data} key={data.userId} />)
 
     return (
         <>

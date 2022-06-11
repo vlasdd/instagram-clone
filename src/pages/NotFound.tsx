@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
 import RoutesTypes from "../constants/routes-types";
 import { useAppSelector } from "../redux/hooks";
 

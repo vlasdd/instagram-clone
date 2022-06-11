@@ -1,5 +1,5 @@
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase-config";
+import { db } from "./firebaseConfig";
 
 
 const isEmailAvailable = async (email: string): Promise<boolean> => {

@@ -1,31 +1,31 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, { lazy, Suspense } from "react";
+import { Route, Routes, useNavigate} from 'react-router-dom';
 import AccountsRoutes from "./constants/accounts-routes";
 import ProfileRoutes from "./constants/profile-routes";
 import RoutesTypes from "./constants/routes-types"
-import EditProfile from "./components/accounts/EditProfile";
+import EditProfile from "./components/Accounts/EditProfile";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { AnimatePresence } from "framer-motion";
-import UsersListModal from "./components/UsersListModal";
-import UserState from "./types/user-state-type";
-import { initialState as initialUser } from './redux/features/user';
+import UsersListModal from "./components/Profile/UsersListModal";
 import Modal from "./components/Modal";
+import Posts from "./components/Profile/Posts";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Accounts = lazy(() => import("./pages/Accounts"));
-const Profile = lazy(() => import("./pages/Profile"));
+const DefineProfile = lazy(() => import("./pages/DefineProfile"))
 
 const App: React.FC = () => {
   //const user = useAppSelector(state => state.currentUser.user);
-  const dispatch = useAppDispatch();
+  const userOnPage = useAppSelector(state => state.userOnPage.user);
+  //const dispatch = useAppDispatch();
 
-  const location = useLocation();
+ // const location = useLocation();
   const navigate = useNavigate(); 
   
-  const [globalUser, setGlobalUser] = useState<UserState>(initialUser.user)
+  //const [globalUser, setGlobalUser] = useState<UserState>(initialUser.user)
 
   /*useEffect(() => {
     if(location.pathname.split("/").some(text => text === ProfileRoutes.FOLLOWERS || text === ProfileRoutes.FOLLOWING)){
@@ -53,14 +53,11 @@ const App: React.FC = () => {
           />
           <Route
             path={`${RoutesTypes.DASHBOARD}:uid`}
-            element={<Profile
-              setGlobalUser={setGlobalUser}
-              globalUser={globalUser}
-            />}
+            element={<DefineProfile />}
           >
             <Route
               path={ProfileRoutes.POSTS}
-              element={<div>posts</div>}
+              element={<Posts posts={userOnPage.posts}/>}
             />
             <Route
               path={ProfileRoutes.SAVED}
@@ -73,11 +70,14 @@ const App: React.FC = () => {
             <Route
               path={ProfileRoutes.FOLLOWERS}
               element={
-                <Modal>
+                <Modal
+                  closeEvent={() => navigate(-1)}
+                  styles="h-96 top-[20%]"
+                >
                   <UsersListModal
-                    uid={globalUser.userId}
+                    uid={userOnPage.userId}
                     descriptionLine="Followers"
-                    usersList={globalUser.followers}
+                    usersList={userOnPage.followers}
                   />
                 </Modal>
               }
@@ -85,11 +85,14 @@ const App: React.FC = () => {
             <Route
               path={ProfileRoutes.FOLLOWING}
               element={
-                <Modal>
+                <Modal
+                  closeEvent={() => navigate(-1)}
+                  styles="h-96 top-[20%]"
+                >
                   <UsersListModal
-                    uid={globalUser.userId}
+                    uid={userOnPage.userId}
                     descriptionLine="Following"
-                    usersList={globalUser.following}
+                    usersList={userOnPage.following}
                   />
                 </Modal>
               }

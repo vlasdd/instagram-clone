@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducers from "./features/user";
+import signedUserReducers from "./features/signedUser";
+import userOnPageReducers from "./features/userOnPage";
 
 const store = configureStore({
   reducer: {
-    currentUser: userReducers,
+    signedUser: signedUserReducers,
+    userOnPage: userOnPageReducers
   }
 })
 

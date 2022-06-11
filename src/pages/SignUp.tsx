@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import SignUpOne from "../components/sign-up/SignUpOne";
-import SignUpTwo from "../components/sign-up/SignUpTwo";
+import SignUpOne from "../components/SignUp/SignUpOne";
+import SignUpTwo from "../components/SignUp/SignUpTwo";
 import BirthdateState from "../types/birthdate-type";
 import UserData from "../types/user-data-type";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase/firebase-config";
+import { auth, db } from "../firebase/firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore"; 
 import { useAppDispatch } from "../redux/hooks";
-import { setActiveUser } from "../redux/features/user";
+import { setSignedUser } from "../redux/features/signedUser";
 import UserState from "../types/user-state-type";
 import { Navigate, useNavigate } from "react-router-dom";
 import RoutesTypes from "../constants/routes-types";
@@ -45,16 +45,16 @@ const SignUp: React.FC = () => {
                 username: userData.username.toLowerCase(),
                 fullName: userData.fullName,
                 emailAddress: userData.emailOrPhoneNumber.toLowerCase(),
-                /*following: [],
-                followers: [],*/
-                following: [
+                following: [],
+                followers: [],
+                /*following: [
                     {userId: "12312", profileImage: "../images/default-avatar-image.jpg", username: "first", fullName: "1231243124"},
                     {userId: "Qsd342", profileImage: "../images/default-avatar-image.jpg", username: "second", fullName: "sadasdasd"}
                 ],
                 followers: [
                     {userId: "12312", profileImage: "../images/default-avatar-image.jpg", username: "first", fullName: "1231243124", },
                     {userId: "Qsd342", profileImage: "../images/default-avatar-image.jpg", username: "second", fullName: "sadasdasd"}
-                ],
+                ],*/
                 dateCreated: Date.now(),
                 birthdate: userData.birthdate,
                 phoneNumber: "",
@@ -65,7 +65,7 @@ const SignUp: React.FC = () => {
             await setDoc(doc(db, "users", user.user.uid), userDoc)
 
           //  const currentDoc = await getDoc(doc(db, "users", user.user.uid));
-            dispatch(setActiveUser(userDoc));
+            dispatch(setSignedUser(userDoc));
             navigate(RoutesTypes.DASHBOARD);
         }
         catch (error: any) {

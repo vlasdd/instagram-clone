@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 
 type DropMenuProps = {
   children: React.ReactNode;
-  closeEvent: () => void
-  styles: string
+  closeEvent: (() => void) | ((event: any) => void);
+  styles: string;
 }
 
 const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles }) => {
@@ -15,7 +15,7 @@ const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles }) => 
         onClick={closeEvent}
       ></div>
       <motion.div
-        className={`bg-white flex items-center rounded-md drop-shadow-md absolute flex-col ${styles}`}
+        className={`bg-white flex items-center rounded-lg drop-shadow-md absolute flex-col ${styles}`}
         initial={{ y: -50 }}
         animate={{ y: 0 }}
         exit={{ y: 50 }}

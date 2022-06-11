@@ -2,18 +2,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileRoutes from '../../constants/profile-routes';
 import RoutesTypes from '../../constants/routes-types';
-import { removeActiveUser } from '../../redux/features/user';
+import { removeSignedUser } from '../../redux/features/signedUser';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import ProfileDropMenuElement from './ProfileDropMenuElement';
 import { motion } from "framer-motion";
 
 const ProfileDropMenuContainer: React.FC = () => {
     const dispatch = useAppDispatch();
-    const user = useAppSelector(state => state.currentUser.user);
+    const user = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        dispatch(removeActiveUser());
+        dispatch(removeSignedUser());
         navigate(RoutesTypes.LOGIN);
     }
     //w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative
