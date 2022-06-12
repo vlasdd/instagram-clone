@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ProfileRoutes from '../../constants/profile-routes';
 
-const ProfileNavBar: React.FC = () => {
+const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -41,18 +41,21 @@ const ProfileNavBar: React.FC = () => {
                 </svg>
                 <p>POSTS</p>
             </button>
-            <button
-                onClick={() => {
-                    navigate(ProfileRoutes.SAVED);
-                    setCurrentTab(1);
-                }}
-                className={`h-12 flex items-center text-gray-400 gap-1  ${currentTab === 1 && "border-t border-t-gray-900 text-black"}`}
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                </svg>
-                <p>SAVED</p>
-            </button>
+            {isUsersPage ?
+                <button
+                    onClick={() => {
+                        navigate(ProfileRoutes.SAVED);
+                        setCurrentTab(1);
+                    }}
+                    className={`h-12 flex items-center text-gray-400 gap-1  ${currentTab === 1 && "border-t border-t-gray-900 text-black"}`}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
+                    <p>SAVED</p>
+                </button> :
+                null
+            }
             <button
                 onClick={() => {
                     navigate(ProfileRoutes.TAGGED);
@@ -66,7 +69,7 @@ const ProfileNavBar: React.FC = () => {
                 <p>TAGGED</p>
             </button>
         </div>
-  )
+    )
 }
 
 export default ProfileNavBar

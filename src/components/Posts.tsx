@@ -1,5 +1,5 @@
 import React from 'react'
-import PostType from '../../types/post-type'
+import PostType from '../types/post-type'
 
 const Posts: React.FC<{ posts: PostType[] }> = ({ posts }) => {
     return (

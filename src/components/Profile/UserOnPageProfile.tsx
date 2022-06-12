@@ -9,7 +9,9 @@ import useFollowers from '../../helpers/useFollowers';
 import { setUserOnPage } from '../../redux/features/userOnPage';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import UserState from '../../types/user-state-type';
+import Modal from '../Modal';
 import ProfileNavBar from './ProfileNavBar';
+import UnfollowModal from './UnfollowModal';
 
 const UserOnPageProfile: React.FC = () => {
     const userOnPage = useAppSelector(state => state.userOnPage.user);
@@ -19,6 +21,7 @@ const UserOnPageProfile: React.FC = () => {
     const navigate = useNavigate();
 
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
+    const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
 
     const { addToFollowing, removeFromFollowing } = useFollowers({ 
         profileImage: userOnPage.profileImage, 
@@ -63,7 +66,7 @@ const UserOnPageProfile: React.FC = () => {
                                         className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
                                         onClick={(event) => {
                                             event.stopPropagation();
-                                            removeFromFollowing();
+                                            setIsUnfollowModalOpen(true);
                                         }}
                                     >
                                         Following
@@ -115,7 +118,24 @@ const UserOnPageProfile: React.FC = () => {
                         <div className="flex"></div>
                     </div>
                 </div>
-                <ProfileNavBar />
+                {isUnfollowModalOpen ?
+                    <Modal
+                        closeEvent={() => setIsUnfollowModalOpen(false)}
+                        styles="h-72 top-[26.5%]"
+                    >
+                        <UnfollowModal
+                            unfollowEvent={() => {
+                                setIsUnfollowModalOpen(false)
+                                removeFromFollowing()
+                            }}
+                            username={userOnPage.username}
+                            profileImage={userOnPage.profileImage}
+                            closeEvent={() => setIsUnfollowModalOpen(false)}
+                        />
+                    </Modal> :
+                    null
+                }
+                <ProfileNavBar isUsersPage={false}/>
                 <Outlet />
             </div>
     )

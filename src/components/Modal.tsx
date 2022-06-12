@@ -11,7 +11,10 @@ const Modal: React.FC<ModalProps> = ({ children, closeEvent, styles }) => {
     return (
         <div
             className="w-screen h-screen bg-[rgba(0,0,0,0.6)] fixed top-0 left-0 flex items-center justify-center"
-            onClick={closeEvent}
+            onClick={(event) => {
+                event.stopPropagation()
+                closeEvent()
+            }}
         >
             <motion.div
                 className={`w-64 sm:w-96 absolute flex flex-col bg-white rounded-xl z-50 ${styles}`}

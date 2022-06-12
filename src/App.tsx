@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { AnimatePresence } from "framer-motion";
 import UsersListModal from "./components/Profile/UsersListModal";
 import Modal from "./components/Modal";
-import Posts from "./components/Profile/Posts";
+import Posts from "./components/Posts";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));

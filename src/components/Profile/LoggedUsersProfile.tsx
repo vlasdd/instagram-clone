@@ -49,7 +49,7 @@ const LoggedUsersProfile: React.FC = () => {
                         <img
                             src={signedUser.profileImage.length ? signedUser.profileImage : "../images/default-avatar-gray.jpg"}
                             className="rounded-full w-[170px] h-[170px] object-cover cursor-pointer"//w-full sm:w-4/5 max-w-[170px]
-                            onClick={signedUser.userId === uid ? () => setIsImageModalOpen(true) : undefined}
+                            onClick={() => setIsImageModalOpen(true)}
                         />
                     </div>
                     <div className="flex flex-col w-5/6 sm:w-3/5 py-4 gap-6">
@@ -110,7 +110,7 @@ const LoggedUsersProfile: React.FC = () => {
                         />
                     </Modal>
                 }
-                <ProfileNavBar />
+                <ProfileNavBar isUsersPage={true}/>
                 <Outlet />
             </div>
     )

@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import RoutesTypes from '../../constants/routes-types';
 import useFollowers from '../../helpers/useFollowers';
 import { useAppSelector } from '../../redux/hooks';
 import UserSuggestionType from '../../types/user-suggestion-type';
+import Modal from '../Modal';
+import UnfollowModal from './UnfollowModal';
 
 const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, fullName, userId }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
     const { addToFollowing, removeFromFollowing } = useFollowers({ profileImage, username, fullName, userId })
+    const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
 
     return (
         <button
@@ -21,7 +24,7 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                     src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}
                     className="h-11 w-11 rounded-full object-cover"
                 />
-                <div className="flex flex-col ">
+                <div className="flex flex-col items-start">
                     <p className="font-medium text-sm tracking-wide whitespace-nowrap">{username}</p>
                     <p className="text-gray-400 text-sm whitespace-nowrap">{fullName}</p>
                 </div>
@@ -33,7 +36,7 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                         className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
                         onClick={(event) => {
                             event.stopPropagation();
-                            removeFromFollowing();
+                            setIsUnfollowModalOpen(true);
                         }}
                     >
                         Following
@@ -47,6 +50,23 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                     >
                         Follow
                     </button>
+            }
+            {isUnfollowModalOpen ?
+                <Modal
+                    closeEvent={() => setIsUnfollowModalOpen(false)}
+                    styles="h-72 top-[26.5%]"
+                >
+                    <UnfollowModal
+                        unfollowEvent={() => {
+                            setIsUnfollowModalOpen(false)
+                            removeFromFollowing()
+                        }}
+                        username={username}
+                        profileImage={profileImage}
+                        closeEvent={() => setIsUnfollowModalOpen(false)}
+                    />
+                </Modal> :
+                null
             }
         </button>
     )
