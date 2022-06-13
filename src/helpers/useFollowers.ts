@@ -1,17 +1,17 @@
-import React from 'react';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase/firebaseConfig';
 import { setSignedUser } from '../redux/features/signedUser';
-import { setUserOnPage } from '../redux/features/userOnPage';
+import userOnPage, { setUserOnPage } from '../redux/features/userOnPage';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import UserState from '../types/user-state-type';
 import UserSuggestionType from '../types/user-suggestion-type';
 
 const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggestionType) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
-    const { uid } = useParams();
+    const userOnPage = useAppSelector(state => state.userOnPage.user);
     const dispatch = useAppDispatch();
+    const { uid } = useParams();
 
     const removeFromFollowing = async () => {
         const filteredFollowing = loggedUser.following.filter(data => data.username !== username)
@@ -33,7 +33,9 @@ const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggesti
             followers: modifiedFollowers
         })
 
-        dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
+        if (userId === userOnPage.userId) {
+            dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
+        }
     }
 
     const addToFollowing = async () => {
@@ -64,7 +66,9 @@ const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggesti
             followers: modifiedFollowers
         })
 
-        dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
+        if (userId === userOnPage.userId) {
+            dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
+        }
     }
 
     return { addToFollowing, removeFromFollowing };

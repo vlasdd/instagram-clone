@@ -53,7 +53,7 @@ const UserOnPageProfile: React.FC = () => {
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
                     <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">{/*w-2/5 max-w-xs h-full flex justify-center*/}
                         <img
-                            src={userOnPage .profileImage.length ? userOnPage .profileImage : "../images/default-avatar-gray.jpg"}
+                            src={userOnPage.profileImage.length ? userOnPage.profileImage : "../images/default-avatar-gray.jpg"}
                             className="rounded-full w-[170px] h-[170px] object-cover"//w-full sm:w-4/5 max-w-[170px]
                         />
                     </div>
@@ -61,25 +61,27 @@ const UserOnPageProfile: React.FC = () => {
                         <div className="flex gap-4">
                             <p className="text-3xl font-extralight">{userOnPage.username}</p>
                             <div className="flex items-center gap-4">
-                                {loggedUser.following.some(data => data.username === userOnPage.username) ?
-                                    <button
-                                        className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
-                                        onClick={(event) => {
-                                            event.stopPropagation();
-                                            setIsUnfollowModalOpen(true);
-                                        }}
-                                    >
-                                        Following
-                                    </button> :
-                                    <button
-                                        className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
-                                        onClick={(event) => {
-                                            event.stopPropagation();
-                                            addToFollowing();
-                                        }}
-                                    >
-                                        Follow
-                                    </button>
+                                {!loggedUser.username.length ?
+                                    null :
+                                    loggedUser.following.some(data => data.username === userOnPage.username) ?
+                                        <button
+                                            className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                                setIsUnfollowModalOpen(true);
+                                            }}
+                                        >
+                                            Following
+                                        </button> :
+                                        <button
+                                            className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                                addToFollowing();
+                                            }}
+                                        >
+                                            Follow
+                                        </button>
                                 }
                                 <button>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useNavigate} from 'react-router-dom';
 import AccountsRoutes from "./constants/accounts-routes";
 import ProfileRoutes from "./constants/profile-routes";
@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import UsersListModal from "./components/Profile/UsersListModal";
 import Modal from "./components/Modal";
 import Posts from "./components/Posts";
+import { setSignedUser } from "./redux/features/signedUser";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,20 +19,20 @@ const Accounts = lazy(() => import("./pages/Accounts"));
 const DefineProfile = lazy(() => import("./pages/DefineProfile"))
 
 const App: React.FC = () => {
-  //const user = useAppSelector(state => state.currentUser.user);
   const userOnPage = useAppSelector(state => state.userOnPage.user);
-  //const dispatch = useAppDispatch();
-
- // const location = useLocation();
+  const loggedUser = useAppSelector(state => state.signedUser.user);
   const navigate = useNavigate(); 
-  
-  //const [globalUser, setGlobalUser] = useState<UserState>(initialUser.user)
+  const dispatch = useAppDispatch();
 
-  /*useEffect(() => {
-    if(location.pathname.split("/").some(text => text === ProfileRoutes.FOLLOWERS || text === ProfileRoutes.FOLLOWING)){
-      dispatch(setIsModalOpen(true));
+  useEffect(() => {
+    if(localStorage.getItem("signedUser")){
+      dispatch(setSignedUser(JSON.parse(localStorage.getItem("signedUser") as string)))
     }
-  }, [])*/
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("signedUser", JSON.stringify(loggedUser))
+  }, [loggedUser])
 
   return (
     <AnimatePresence>

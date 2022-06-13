@@ -7,9 +7,9 @@ type UnfollowModalProps = {
     closeEvent: () => void
 }
 
-const UnfollowModal:React.FC<UnfollowModalProps> = ({ unfollowEvent, username, profileImage, closeEvent }) => {
-  return (
-    <div className="h-full w-full flex flex-col items-center">
+const UnfollowModal: React.FC<UnfollowModalProps> = ({ unfollowEvent, username, profileImage, closeEvent }) => {
+    return (
+        <div className="h-full w-full flex flex-col items-center">
             <div className="w-full h-[100px] flex mt-6 mb-4 items-start justify-center">
                 <img
                     src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}

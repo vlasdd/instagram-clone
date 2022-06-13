@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import RoutesTypes from '../../constants/routes-types';
 import useFollowers from '../../helpers/useFollowers';
 import { useAppSelector } from '../../redux/hooks';
