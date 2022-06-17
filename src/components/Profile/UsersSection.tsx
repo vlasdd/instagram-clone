@@ -5,7 +5,7 @@ import RoutesTypes from '../../constants/routes-types';
 import { db } from '../../firebase/firebaseConfig';
 import { useAppSelector } from '../../redux/hooks'
 import Text from '../../svgs/Text';
-import ChatLink from './ChatLink';
+import ChatLink from '../direct/ChatLink';
 import ChatState from '../../types/chat-state-type';
 
 const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {

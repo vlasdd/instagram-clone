@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 import NewMessageModal from '../components/direct/NewMessageModal'
 import NoChatSelected from '../components/direct/NoChatSelected'
-import UsersSection from '../components/direct/UsersSection'
+import UsersSection from '../components/profile/UsersSection'
 import Header from '../components/header/Header'
 import Modal from '../components/Modal'
 
