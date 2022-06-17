@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import RoutesTypes from "../../constants/routes-types"
 import isEmailAvailable from '../../firebase/isEmailAvailable';
 import isUsernameAvailable from "../../firebase/isUsernameAvailable";

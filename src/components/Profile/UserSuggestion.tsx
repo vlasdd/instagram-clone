@@ -11,15 +11,15 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
-    const { addToFollowing, removeFromFollowing } = useFollowers({ profileImage, username, fullName, userId })
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
+    const { addToFollowing, removeFromFollowing } = useFollowers({ profileImage, username, fullName, userId })
 
     return (
-        <button
-            className="flex w-full h-13 mb-1 px-2 justify-between items-center"
-            onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
-        >
-            <div className="w-full h-full py-[0.5px] gap-2 flex items-center">
+        <div className="flex w-full h-13 mb-1 px-2 justify-between items-center my-[4px]">
+            <button 
+                className="w-full h-full py-[0.5px] gap-2 flex items-center"
+                onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
+            >
                 <img
                     src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}
                     className="h-11 w-11 rounded-full object-cover"
@@ -28,10 +28,10 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                     <p className="font-medium text-sm tracking-wide whitespace-nowrap">{username}</p>
                     <p className="text-gray-400 text-sm whitespace-nowrap">{fullName}</p>
                 </div>
-            </div>
-            {userId === loggedUser.userId ?
+            </button>
+            {userId === loggedUser.userId || !loggedUser.userId.length ?
                 null :
-                loggedUser.following.some(data => data.username === username) ?
+                loggedUser.following.some(data => data.userId === userId) ?
                     <button
                         className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
                         onClick={(event) => {
@@ -68,7 +68,7 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                 </Modal> :
                 null
             }
-        </button>
+        </div>
     )
 }
 

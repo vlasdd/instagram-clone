@@ -2,7 +2,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase/firebaseConfig';
 import { setSignedUser } from '../redux/features/signedUser';
-import userOnPage, { setUserOnPage } from '../redux/features/userOnPage';
+import { setUserOnPage } from '../redux/features/userOnPage';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import UserState from '../types/user-state-type';
 import UserSuggestionType from '../types/user-suggestion-type';
@@ -14,7 +14,7 @@ const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggesti
     const { uid } = useParams();
 
     const removeFromFollowing = async () => {
-        const filteredFollowing = loggedUser.following.filter(data => data.username !== username)
+        const filteredFollowing = loggedUser.following.filter(data => data.userId !== userId)
 
         await updateDoc(doc(db, "users", loggedUser.userId), {
             following: filteredFollowing
@@ -28,7 +28,7 @@ const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggesti
 
         const userToUpdate = await getDoc(doc(db, "users", userId));
 
-        const modifiedFollowers = (userToUpdate.data() as UserState).followers.filter(data => data.username !== loggedUser.username);
+        const modifiedFollowers = (userToUpdate.data() as UserState).followers.filter(data => data.userId !== loggedUser.userId);
         await updateDoc(doc(db, "users", userId), {
             followers: modifiedFollowers
         })

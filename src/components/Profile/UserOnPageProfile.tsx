@@ -1,13 +1,13 @@
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
-import AccountsRoutes from '../../constants/accounts-routes';
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import ProfileRoutes from '../../constants/profile-routes';
 import RoutesTypes from '../../constants/routes-types';
 import { db } from '../../firebase/firebaseConfig';
 import useFollowers from '../../helpers/useFollowers';
 import { setUserOnPage } from '../../redux/features/userOnPage';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import Additional from '../../svgs/Additional';
 import UserState from '../../types/user-state-type';
 import Modal from '../Modal';
 import ProfileNavBar from './ProfileNavBar';
@@ -31,7 +31,6 @@ const UserOnPageProfile: React.FC = () => {
     })
 
     useEffect(() => {
-        console.log("use effect logged user page")
         const getUser = async () => {
             const loggedUser = await getDoc(doc(db, "users", uid as string));
 
@@ -51,10 +50,10 @@ const UserOnPageProfile: React.FC = () => {
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
             <div className="h-[calc(100vh-56px)] w-screen flex flex-col items-center back">
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
-                    <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">{/*w-2/5 max-w-xs h-full flex justify-center*/}
+                    <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">
                         <img
                             src={userOnPage.profileImage.length ? userOnPage.profileImage : "../images/default-avatar-gray.jpg"}
-                            className="rounded-full w-[170px] h-[170px] object-cover"//w-full sm:w-4/5 max-w-[170px]
+                            className="rounded-full w-[170px] h-[170px] object-cover"
                         />
                     </div>
                     <div className="flex flex-col w-5/6 sm:w-3/5 py-4 gap-6">
@@ -63,7 +62,7 @@ const UserOnPageProfile: React.FC = () => {
                             <div className="flex items-center gap-4">
                                 {!loggedUser.username.length ?
                                     null :
-                                    loggedUser.following.some(data => data.username === userOnPage.username) ?
+                                    loggedUser.following.some(data => data.userId === userOnPage.userId) ?
                                         <button
                                             className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
                                             onClick={(event) => {
@@ -84,9 +83,7 @@ const UserOnPageProfile: React.FC = () => {
                                         </button>
                                 }
                                 <button>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-                                    </svg>
+                                    <Additional />
                                 </button>
                             </div>
                         </div>

@@ -14,7 +14,7 @@ export const initialState: { user: UserState } = {
         birthdate:  {} as BirthdateState,
         phoneNumber: "",
         profileImage: "",
-        posts: []
+        posts: [],
     }
 }
 
@@ -26,7 +26,7 @@ const signedUserSlice = createSlice({
             state.user = action.payload
         },
         removeSignedUser: (state) => {
-            state = initialState
+            state.user = initialState.user
         }
     }
 })

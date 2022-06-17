@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import SignUpOne from "../components/SignUp/SignUpOne";
-import SignUpTwo from "../components/SignUp/SignUpTwo";
+import SignUpOne from "../components/sign-up/SignUpOne";
+import SignUpTwo from "../components/sign-up/SignUpTwo";
 import BirthdateState from "../types/birthdate-type";
 import UserData from "../types/user-data-type";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/firebaseConfig";
-import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore"; 
 import { useAppDispatch } from "../redux/hooks";
 import { setSignedUser } from "../redux/features/signedUser";
 import UserState from "../types/user-state-type";
@@ -29,14 +29,6 @@ const SignUp: React.FC = () => {
     })
 
     const handleSignUp = async () => {
-       // event.preventDefault();
-
-        /*const isAvailable = await isUsernameAvailable(userData.username)
-        if (!isAvailable) {
-            setError("This username is not available");
-            return;
-        }*/
-
         try {
             const user = await createUserWithEmailAndPassword(auth, userData.emailOrPhoneNumber, userData.password);
 
@@ -47,15 +39,7 @@ const SignUp: React.FC = () => {
                 emailAddress: userData.emailOrPhoneNumber.toLowerCase(),
                 following: [],
                 followers: [],
-                /*following: [
-                    {userId: "12312", profileImage: "../images/default-avatar-image.jpg", username: "first", fullName: "1231243124"},
-                    {userId: "Qsd342", profileImage: "../images/default-avatar-image.jpg", username: "second", fullName: "sadasdasd"}
-                ],
-                followers: [
-                    {userId: "12312", profileImage: "../images/default-avatar-image.jpg", username: "first", fullName: "1231243124", },
-                    {userId: "Qsd342", profileImage: "../images/default-avatar-image.jpg", username: "second", fullName: "sadasdasd"}
-                ],*/
-                dateCreated: Date.now(),
+                dateCreated: new Date().getTime(),
                 birthdate: userData.birthdate,
                 phoneNumber: "",
                 profileImage: "",
@@ -64,13 +48,10 @@ const SignUp: React.FC = () => {
             
             await setDoc(doc(db, "users", user.user.uid), userDoc)
 
-          //  const currentDoc = await getDoc(doc(db, "users", user.user.uid));
             dispatch(setSignedUser(userDoc));
             navigate(RoutesTypes.DASHBOARD);
         }
         catch (error: any) {
-            //setUserData(prevData => ({ ...prevData, emailOrPhoneNumber: "" }));
-            //setUserData(prevData => ({ ...prevData, password: "" }));
             setShouldRedirect(true);
             console.log(error);
         }

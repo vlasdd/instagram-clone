@@ -3,36 +3,41 @@ import { Route, Routes, useNavigate} from 'react-router-dom';
 import AccountsRoutes from "./constants/accounts-routes";
 import ProfileRoutes from "./constants/profile-routes";
 import RoutesTypes from "./constants/routes-types"
-import EditProfile from "./components/Accounts/EditProfile";
+import EditProfile from "./components/accounts/EditProfile";
 import { useAppDispatch, useAppSelector } from "./redux/hooks";
 import { AnimatePresence } from "framer-motion";
-import UsersListModal from "./components/Profile/UsersListModal";
+import UsersListModal from "./components/profile/UsersListModal";
 import Modal from "./components/Modal";
 import Posts from "./components/Posts";
 import { setSignedUser } from "./redux/features/signedUser";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./firebase/firebaseConfig";
+import UserState from "./types/user-state-type";
+import { doc, getDoc } from "firebase/firestore";
+import PrivateRoute from "./helpers/PrivateRoute";
+import ChatRoom from "./components/direct/ChatRoom";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Login = lazy(() => import("./pages/Login"));
 const SignUp = lazy(() => import("./pages/SignUp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Accounts = lazy(() => import("./pages/Accounts"));
-const DefineProfile = lazy(() => import("./pages/DefineProfile"))
+const DefineProfile = lazy(() => import("./pages/DefineProfile"));
+const Direct = lazy(() => import("./pages/Direct"));
 
 const App: React.FC = () => {
   const userOnPage = useAppSelector(state => state.userOnPage.user);
-  const loggedUser = useAppSelector(state => state.signedUser.user);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if(localStorage.getItem("signedUser")){
-      dispatch(setSignedUser(JSON.parse(localStorage.getItem("signedUser") as string)))
-    }
+    onAuthStateChanged(auth, async (data) => {
+      if (data) {
+        const user = await getDoc(doc(db, "users", data.uid));
+        dispatch(setSignedUser(user.data() as UserState))
+      }
+    })
   }, [])
-
-  useEffect(() => {
-    localStorage.setItem("signedUser", JSON.stringify(loggedUser))
-  }, [loggedUser])
 
   return (
     <AnimatePresence>
@@ -46,11 +51,19 @@ const App: React.FC = () => {
           />
           <Route
             path={RoutesTypes.LOGIN}
-            element={<Login />}
+            element={
+              <PrivateRoute>
+                <Login />
+              </PrivateRoute>
+            }
           />
           <Route
             path={RoutesTypes.SIGN_UP}
-            element={<SignUp />}
+            element={
+              <PrivateRoute>
+                <SignUp />
+              </PrivateRoute>
+            }
           />
           <Route
             path={`${RoutesTypes.DASHBOARD}:uid`}
@@ -58,7 +71,7 @@ const App: React.FC = () => {
           >
             <Route
               path={ProfileRoutes.POSTS}
-              element={<Posts posts={userOnPage.posts}/>}
+              element={<Posts posts={userOnPage.posts} />}
             />
             <Route
               path={ProfileRoutes.SAVED}
@@ -106,6 +119,15 @@ const App: React.FC = () => {
             <Route
               path={AccountsRoutes.EDIT_PROFILE}
               element={<EditProfile />}
+            />
+          </Route>
+          <Route
+            path={RoutesTypes.DIRECT}
+            element={<Direct />}
+          >
+            <Route
+              path={`${RoutesTypes.DIRECT}:chatId`}
+              element={<ChatRoom />}
             />
           </Route>
           <Route

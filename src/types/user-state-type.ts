@@ -1,12 +1,11 @@
 import BirthdateState from "./birthdate-type";
 import PostType from "./post-type";
-import UserSuggestion from "./user-suggestion-type";
 
 type UserState = {
     dateCreated: number,
     emailAddress: string,
-    following: UserSuggestion[],
-    followers: UserSuggestion[],
+    following: {userId: string}[],
+    followers: {userId: string}[],
     fullName: string,
     userId: string,
     username: string,

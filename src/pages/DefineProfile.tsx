@@ -1,9 +1,9 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from '../redux/hooks';
-import Header from '../components/Header/Header';
-import LoggedUsersProfile from '../components/Profile/LoggedUsersProfile';
-import UserOnPageProfile from '../components/Profile/UserOnPageProfile';
+import Header from '../components/header/Header';
+import LoggedUsersProfile from '../components/profile/LoggedUsersProfile';
+import UserOnPageProfile from '../components/profile/UserOnPageProfile';
 
 const DefineProfile: React.FC = () => {
     const { uid } = useParams();
