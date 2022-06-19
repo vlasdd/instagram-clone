@@ -42,18 +42,19 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
                 <Posts />
                 <p>POSTS</p>
             </button>
-            {isUsersPage ?
-                <button
-                    onClick={() => {
-                        navigate(ProfileRoutes.SAVED);
-                        setCurrentTab(1);
-                    }}
-                    className={`h-12 flex items-center text-gray-400 gap-1  ${currentTab === 1 && "border-t border-t-gray-900 text-black"}`}
-                >
-                    <Saved styles="w-4 h-4"/>
-                    <p>SAVED</p>
-                </button> :
-                null
+            {
+                isUsersPage ?
+                    <button
+                        onClick={() => {
+                            navigate(ProfileRoutes.SAVED);
+                            setCurrentTab(1);
+                        }}
+                        className={`h-12 flex items-center text-gray-400 gap-1  ${currentTab === 1 && "border-t border-t-gray-900 text-black"}`}
+                    >
+                        <Saved styles="w-4 h-4" />
+                        <p>SAVED</p>
+                    </button> :
+                    null
             }
             <button
                 onClick={() => {
@@ -62,7 +63,7 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
                 }}
                 className={`h-12 flex items-center text-gray-400 gap-1 ${currentTab === 2 && "border-t border-t-gray-900 text-black"}`}
             >
-                <Profile styles="w-4 h-4"/>
+                <Profile styles="w-4 h-4" />
                 <p>TAGGED</p>
             </button>
         </div>

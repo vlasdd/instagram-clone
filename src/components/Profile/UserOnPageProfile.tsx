@@ -48,7 +48,7 @@ const UserOnPageProfile: React.FC = () => {
     return (
         shouldRedirect ?
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
-            <div className="h-[calc(100vh-56px)] w-screen flex flex-col items-center back">
+            <div className="h-[calc(100vh-60px)] w-screen flex flex-col items-center back">
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
                     <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">
                         <img
@@ -60,27 +60,28 @@ const UserOnPageProfile: React.FC = () => {
                         <div className="flex gap-4">
                             <p className="text-3xl font-extralight">{userOnPage.username}</p>
                             <div className="flex items-center gap-4">
-                                {!loggedUser.username.length ?
-                                    null :
-                                    loggedUser.following.some(data => data.userId === userOnPage.userId) ?
-                                        <button
-                                            className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
-                                            onClick={(event) => {
-                                                event.stopPropagation();
-                                                setIsUnfollowModalOpen(true);
-                                            }}
-                                        >
-                                            Following
-                                        </button> :
-                                        <button
-                                            className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
-                                            onClick={(event) => {
-                                                event.stopPropagation();
-                                                addToFollowing();
-                                            }}
-                                        >
-                                            Follow
-                                        </button>
+                                {
+                                    !loggedUser.username.length ?
+                                        null :
+                                        loggedUser.following.some(data => data.userId === userOnPage.userId) ?
+                                            <button
+                                                className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    setIsUnfollowModalOpen(true);
+                                                }}
+                                            >
+                                                Following
+                                            </button> :
+                                            <button
+                                                className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+                                                    addToFollowing();
+                                                }}
+                                            >
+                                                Follow
+                                            </button>
                                 }
                                 <button>
                                     <Additional />
@@ -99,8 +100,8 @@ const UserOnPageProfile: React.FC = () => {
                                 }}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
-                                <p className="font-medium">{userOnPage .followers.length}</p>
-                                <p>{`follower${userOnPage .followers.length === 1 ? "" : "s"}`}</p>
+                                <p className="font-medium">{userOnPage.followers.length}</p>
+                                <p>{`follower${userOnPage.followers.length === 1 ? "" : "s"}`}</p>
                             </button>
                             <button
                                 onClick={(event) => {
@@ -109,7 +110,7 @@ const UserOnPageProfile: React.FC = () => {
                                 }}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
-                                <p className="font-medium">{userOnPage .following.length}</p>
+                                <p className="font-medium">{userOnPage.following.length}</p>
                                 <p>following</p>
                             </button>
                         </div>
@@ -117,24 +118,25 @@ const UserOnPageProfile: React.FC = () => {
                         <div className="flex"></div>
                     </div>
                 </div>
-                {isUnfollowModalOpen ?
-                    <Modal
-                        closeEvent={() => setIsUnfollowModalOpen(false)}
-                        styles="h-72 top-[26.5%]"
-                    >
-                        <UnfollowModal
-                            unfollowEvent={() => {
-                                setIsUnfollowModalOpen(false)
-                                removeFromFollowing()
-                            }}
-                            username={userOnPage.username}
-                            profileImage={userOnPage.profileImage}
+                {
+                    isUnfollowModalOpen ?
+                        <Modal
                             closeEvent={() => setIsUnfollowModalOpen(false)}
-                        />
-                    </Modal> :
-                    null
+                            styles="h-72 top-[26.5%]"
+                        >
+                            <UnfollowModal
+                                unfollowEvent={() => {
+                                    setIsUnfollowModalOpen(false)
+                                    removeFromFollowing()
+                                }}
+                                username={userOnPage.username}
+                                profileImage={userOnPage.profileImage}
+                                closeEvent={() => setIsUnfollowModalOpen(false)}
+                            />
+                        </Modal> :
+                        null
                 }
-                <ProfileNavBar isUsersPage={false}/>
+                <ProfileNavBar isUsersPage={false} />
                 <Outlet />
             </div>
     )

@@ -42,7 +42,7 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage }) => {
 
     return (
         <button
-            className={`flex h-20 mb-1 px-2 pr-6 items-center justify-center py-1 ${chatParam === chatId && "back"}`}
+            className={`flex h-20 px-2 pr-6 items-center justify-center py-1 ${chatParam === chatId && "back"}`}
             onClick={() => navigate(RoutesTypes.DIRECT + "/" + chatId)}
         >
             <div className="w-full h-16 py-[0.5px] gap-4 flex items-center px-3">

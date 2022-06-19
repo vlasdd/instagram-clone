@@ -29,44 +29,46 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                     <p className="text-gray-400 text-sm whitespace-nowrap">{fullName}</p>
                 </div>
             </button>
-            {userId === loggedUser.userId || !loggedUser.userId.length ?
-                null :
-                loggedUser.following.some(data => data.userId === userId) ?
-                    <button
-                        className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            setIsUnfollowModalOpen(true);
-                        }}
-                    >
-                        Following
-                    </button> :
-                    <button
-                        className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            addToFollowing();
-                        }}
-                    >
-                        Follow
-                    </button>
+            {
+                userId === loggedUser.userId || !loggedUser.userId.length ?
+                    null :
+                    loggedUser.following.some(data => data.userId === userId) ?
+                        <button
+                            className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                setIsUnfollowModalOpen(true);
+                            }}
+                        >
+                            Following
+                        </button> :
+                        <button
+                            className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                addToFollowing();
+                            }}
+                        >
+                            Follow
+                        </button>
             }
-            {isUnfollowModalOpen ?
-                <Modal
-                    closeEvent={() => setIsUnfollowModalOpen(false)}
-                    styles="h-72 top-[26.5%]"
-                >
-                    <UnfollowModal
-                        unfollowEvent={() => {
-                            setIsUnfollowModalOpen(false)
-                            removeFromFollowing()
-                        }}
-                        username={username}
-                        profileImage={profileImage}
+            {
+                isUnfollowModalOpen ?
+                    <Modal
                         closeEvent={() => setIsUnfollowModalOpen(false)}
-                    />
-                </Modal> :
-                null
+                        styles="h-72 top-[26.5%]"
+                    >
+                        <UnfollowModal
+                            unfollowEvent={() => {
+                                setIsUnfollowModalOpen(false)
+                                removeFromFollowing()
+                            }}
+                            username={username}
+                            profileImage={profileImage}
+                            closeEvent={() => setIsUnfollowModalOpen(false)}
+                        />
+                    </Modal> :
+                    null
             }
         </div>
     )

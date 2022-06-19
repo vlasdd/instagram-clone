@@ -8,6 +8,7 @@ type ChatState = {
         text: string,
         userId: string,
     },
+    lastEdited: number,
 }
 
 export default ChatState;

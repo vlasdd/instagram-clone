@@ -5,7 +5,7 @@ import RoutesTypes from '../../constants/routes-types';
 import { db } from '../../firebase/firebaseConfig';
 import { useAppSelector } from '../../redux/hooks'
 import Text from '../../svgs/Text';
-import ChatLink from '../direct/ChatLink';
+import ChatLink from './ChatLink';
 import ChatState from '../../types/chat-state-type';
 
 const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
@@ -27,14 +27,17 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
                 .map(doc => doc.data())
                 .concat(querySnapshot2.docs.map(doc => doc.data()))
                 
-            setChats(querySnapshot.map(doc => {
+            const chatsObjs = querySnapshot.map(doc => {
                 return ({
                     firstUserId: doc.firstUserId,
                     secondUserId: doc.secondUserId, 
                     messages: doc.messsages,
-                    lastMessage: doc.lastMessage
+                    lastMessage: doc.lastMessage,
+                    lastEdited: doc.lastEdited
                 })
-            }))
+            })
+
+            setChats(chatsObjs.sort((a, b) => b.lastEdited - a.lastEdited))
         }
 
         onSnapshot(query(collection(db, "chats"), where("firstUserId", "==", loggedUser.userId)), async () => {
@@ -48,28 +51,36 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
         })
     }, [loggedUser.userId, chatId])
 
+    console.log(chats)
+
     return (
-        <div className="w-[520px] h-full border-r flex flex-col">
-            <div className="flex justify-end items-center h-16 border-b gap-[95px] pr-4">
-                <button 
-                    className="font-medium"
-                    onClick={() => navigate(RoutesTypes.DIRECT)}
+        <div className="w-full sm:w-[520px] h-full border-r flex flex-col">
+            <div className="flex justify-end items-center h-[60px] border-b pr-4">
+                <div
+                    className="w-full flex justify-center pl-4"
                 >
-                    <p>@{loggedUser.username}</p>
-                </button>
+                    <button
+                        className="font-medium"
+                        onClick={() => navigate(RoutesTypes.DIRECT)}
+                    >
+                        <p>@{loggedUser.username}</p>
+                    </button>
+                </div>
                 <button
                     onClick={openModal}
                 >
                     <Text />
                 </button>
             </div>
-            <div className="flex flex-col w-full h-full overflow-hidden overflow-y-auto mt-2">
-                {chats.map(chat => <ChatLink 
-                    chatId={chat.firstUserId + "-" + chat.secondUserId}
-                    userId={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
-                    lastMessage={chat.lastMessage}
-                    key={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
-                />)}
+            <div className="flex flex-col w-full h-[calc(100%-60px)] overflow-hidden overflow-y-auto">
+                {
+                    chats.map(chat => <ChatLink
+                        chatId={chat.firstUserId + "-" + chat.secondUserId}
+                        userId={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
+                        lastMessage={chat.lastMessage}
+                        key={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
+                    />)
+                }
             </div>
         </div>
     )

@@ -30,12 +30,13 @@ const UserToWriteTo: React.FC<IUserToWriteToProps> = ({
                     <p className="text-gray-400 text-sm tracking-[0px] whitespace-nowrap">{fullName}</p>
                 </div>
             </div>
-            {isUserInList ?
-                <div className="w-6 h-6 rounded-full bg-blue-500">
-                    <div className="h-[2px] w-[7px] bg-white mt-3 ml-1 rotate-[45deg]"></div>
-                    <div className="h-[2px] w-3 bg-white mt-[-3px] ml-2 rotate-[-45deg]"></div>
-                </div> :
-                <div className="w-6 h-6 rounded-full border-2 border-black"></div>
+            {
+                isUserInList ?
+                    <div className="w-6 h-6 rounded-full bg-blue-500">
+                        <div className="h-[2px] w-[7px] bg-white mt-3 ml-1 rotate-[45deg]"></div>
+                        <div className="h-[2px] w-3 bg-white mt-[-3px] ml-2 rotate-[-45deg]"></div>
+                    </div> :
+                    <div className="w-6 h-6 rounded-full border-2 border-black"></div>
             }
         </button>
     )

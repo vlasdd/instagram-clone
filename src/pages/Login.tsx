@@ -76,16 +76,17 @@ const Login: React.FC = () => {
                                     value={password}
                                     onChange={(event) => setPassword(event.target.value)}
                                 />
-                                {password.length !== 0 &&
+                                {
+                                    password.length !== 0 &&
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(prevVal => !prevVal)}
                                         className="w-1/5 h-1/2 text-sm bg-red font-medium rounded"
-                                >
-                                    {showPassword ? "Hide" : "Show"}
-                                </button>
-                            }
-                        </div>
+                                    >
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>
+                                }
+                            </div>
                             <button
                                 disabled={isInvalid}
                                 type="submit"

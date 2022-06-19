@@ -75,14 +75,15 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
             >
                 Manage Sync Settings
             </button>
-            {currentUser.profileImage.length ?
-                <button
-                    className="w-full h-12 border-t-2 flex items-center justify-center text-rose-600 font-bold text-sm"
-                    onClick={deleteImage}
-                >
-                    Remove Current Photo
-                </button> :
-                undefined
+            {
+                currentUser.profileImage.length ?
+                    <button
+                        className="w-full h-12 border-t-2 flex items-center justify-center text-rose-600 font-bold text-sm"
+                        onClick={deleteImage}
+                    >
+                        Remove Current Photo
+                    </button> :
+                    undefined
             }
             <button
                 className="w-full h-12 border-t-2 flex items-center justify-center text-sm"

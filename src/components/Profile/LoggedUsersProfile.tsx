@@ -43,7 +43,7 @@ const LoggedUsersProfile: React.FC = () => {
     return (
         shouldRedirect ?
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
-            <div className="h-[calc(100vh-56px)] w-screen flex flex-col items-center back">
+            <div className="h-[calc(100vh-60px)] w-screen flex flex-col items-center back">
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
                     <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">{/*w-2/5 max-w-xs h-full flex justify-center*/}
                         <img
@@ -97,17 +97,19 @@ const LoggedUsersProfile: React.FC = () => {
                         <div className="flex"></div>
                     </div>
                 </div>
-                {isImageModalOpen &&
-                    <Modal
-                        closeEvent={() => setIsImageModalOpen(false)}
-                        styles={`top-[35%] ${signedUser.profileImage.length ? "h-72" : "h-60"}`}
-                    >
-                        <ChangeImageModal
+                {
+                    isImageModalOpen ?
+                        <Modal
                             closeEvent={() => setIsImageModalOpen(false)}
-                        />
-                    </Modal>
+                            styles={`top-[35%] ${signedUser.profileImage.length ? "h-72" : "h-60"}`}
+                        >
+                            <ChangeImageModal
+                                closeEvent={() => setIsImageModalOpen(false)}
+                            />
+                        </Modal> :
+                        null
                 }
-                <ProfileNavBar isUsersPage={true}/>
+                <ProfileNavBar isUsersPage={true} />
                 <Outlet />
             </div>
     )

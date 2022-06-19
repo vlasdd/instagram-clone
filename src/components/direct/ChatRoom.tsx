@@ -43,7 +43,7 @@ const ChatRoom: React.FC = () => {
         }
 
         getUserAndMessages();
-    }, [chatId])
+    }, [chatId, loggedUser])
 
     const sendMessage = async () => {
         let imageUrl = "";
@@ -55,7 +55,10 @@ const ChatRoom: React.FC = () => {
 
         const newMessage = {
             text: wordEntering,
-            from: loggedUser, 
+            from: {
+                userId: loggedUser.userId,
+                profileImage: loggedUser.profileImage,
+            },
             createdAt: Timestamp.fromDate(new Date()),
             media: imageUrl
         }
@@ -65,7 +68,8 @@ const ChatRoom: React.FC = () => {
             lastMessage: {
                 text: newMessage.text,
                 userId: loggedUser.userId
-            }
+            },
+            lastEdited: new Date().getTime() / 1000
         })
 
         setImageUpload(null);
@@ -80,7 +84,7 @@ const ChatRoom: React.FC = () => {
 
     return (
         <div className="w-full h-full flex flex-col justify-between items-center">
-            <div className="flex justify-between items-center h-[57.5px] border-b pl-8 pr-6 w-full">
+            <div className="flex justify-between items-center border-b h-[60px] pl-8 pr-6 w-full">
                 <button
                     className="flex gap-4"
                     onClick={() => navigate(RoutesTypes.DASHBOARD + secondUser.userId)}
@@ -95,8 +99,8 @@ const ChatRoom: React.FC = () => {
                     <Info />
                 </button>
             </div>
-            <div className="flex flex-col w-full items-center">
-                <div className="max-h-[475px] overflow-hidden overflow-y-auto w-full no-bar flex items-center flex-col gap-3 mb-4">
+            <div className="flex h-[calc(100%-60px)] flex-col justify-end w-full items-center">
+                <div className="max-h-[calc(100%-45px-25px)] py-3 overflow-hidden overflow-y-auto w-full no-bar flex flex-col items-center gap-3">
                     {messagesToRender}
                 </div>
                 <MessageForm

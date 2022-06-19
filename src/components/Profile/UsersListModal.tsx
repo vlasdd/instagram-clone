@@ -47,11 +47,12 @@ const UsersListModal: React.FC<UsersListProps> = ({ uid, usersList, descriptionL
                     />
                 </button>
             </div>
-            {users.length === 0 ?
-                <div className="text-center mt-2">No Users Found</div> :
-                <div>
-                    {users}
-                </div>
+            {
+                users.length === 0 ?
+                    <div className="text-center mt-2">No Users Found</div> :
+                    <div>
+                        {users}
+                    </div>
             }
         </>
     )

@@ -12,9 +12,11 @@ const DefineProfile: React.FC = () => {
     return (
         <>
             <Header />
-            {signedUser.userId === uid ?
-                <LoggedUsersProfile /> :
-                <UserOnPageProfile />}
+            {
+                signedUser.userId === uid ?
+                    <LoggedUsersProfile /> :
+                    <UserOnPageProfile />
+            }
         </>
     )
 }

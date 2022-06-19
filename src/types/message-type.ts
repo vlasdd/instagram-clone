@@ -1,9 +1,11 @@
 import { Timestamp } from "firebase/firestore";
-import UserState from "./user-state-type";
 
 type MessageType = {
     text: string,
-    from: UserState,
+    from: {
+        userId: string,
+        profileImage: string
+    }
     createdAt: Timestamp,
     media: string,
 }

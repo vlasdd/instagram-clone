@@ -63,7 +63,8 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) =
       lastMessage: {
         text: "",
         userId: "",
-      }
+      },
+      lastEdited: new Date().getTime() / 1000
     });
 
     closeEvent();
@@ -93,27 +94,29 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) =
       <div className="w-full max-h-[175px] flex border-b p-3 items-start gap-5">
         <p className="font-medium mt-[6px]">To:</p>
         <div className="w-full h-full flex flex-col items-start gap-2 overflow-hidden overflow-y-auto">
-          {chosenUsers.map(chosenUser => (
-            <div 
-              className="bg-blue-100 flex rounded p-2"
-              key={chosenUser.userId}
-            >
-              <button 
-                className="flex gap-1"
-                onClick={() => {
-                  setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== chosenUser.username))
-                  if (inputRef.current !== null) {
-                    inputRef.current.focus();
-                  }
-                }}
+          {
+            chosenUsers.map(chosenUser => (
+              <div
+                className="bg-blue-100 flex rounded p-2"
+                key={chosenUser.userId}
               >
-                <p className="text-cyan-500 text-sm ">{chosenUser.username}</p>
-                <Close 
-                  styles="w-5 h-5 text-cyan-500"
-                />
-              </button>
-            </div>
-          ))}
+                <button
+                  className="flex gap-1"
+                  onClick={() => {
+                    setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== chosenUser.username))
+                    if (inputRef.current !== null) {
+                      inputRef.current.focus();
+                    }
+                  }}
+                >
+                  <p className="text-cyan-500 text-sm ">{chosenUser.username}</p>
+                  <Close
+                    styles="w-5 h-5 text-cyan-500"
+                  />
+                </button>
+              </div>
+            ))
+          }
           <input
             className="w-full p-2 rounded-lg placeholder:font-light placeholder:text-gray-400 placeholder:text-sm relative text-sm"
             type="text"
@@ -125,29 +128,30 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) =
         </div>
       </div>
       <div className="flex flex-col overflow-hidden overflow-y-auto">
-        {!filteredUsers.length ?
-          <p className="font-medium text-sm pl-3 mt-2">Suggested</p> :
-          filteredUsers.map(doc => <UserToWriteTo
-            addUserToList={() => {
-              setChosenUsers(prevUsers => [...prevUsers, doc]);
-              setWordEntering("");
-              if (inputRef.current !== null) {
-                inputRef.current.focus();
-              }
-            }}
-            removeUserFromList={() => {
-              setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== doc.username))
-              if (inputRef.current !== null) {
-                inputRef.current.focus();
-              }
-            }}
-            isUserInList={chosenUsers.some(user => user.username === doc.username)}
-            profileImage={doc.profileImage}
-            username={doc.username}
-            fullName={doc.fullName}
-            userId={doc.userId}
-            key={doc.userId}
-          />)
+        {
+          !filteredUsers.length ?
+            <p className="font-medium text-sm pl-3 mt-2">Suggested</p> :
+            filteredUsers.map(doc => <UserToWriteTo
+              addUserToList={() => {
+                setChosenUsers(prevUsers => [...prevUsers, doc]);
+                setWordEntering("");
+                if (inputRef.current !== null) {
+                  inputRef.current.focus();
+                }
+              }}
+              removeUserFromList={() => {
+                setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== doc.username))
+                if (inputRef.current !== null) {
+                  inputRef.current.focus();
+                }
+              }}
+              isUserInList={chosenUsers.some(user => user.username === doc.username)}
+              profileImage={doc.profileImage}
+              username={doc.username}
+              fullName={doc.fullName}
+              userId={doc.userId}
+              key={doc.userId}
+            />)
         }
       </div>
     </>

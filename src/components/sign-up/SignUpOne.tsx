@@ -95,7 +95,8 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                             onChange={(event) => setUserData(prevData => ({ ...prevData, password: event.target.value }))}
                             autoComplete="on"
                         />
-                        {userData.password.length !== 0 &&
+                        {
+                            userData.password.length !== 0 &&
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(prevVal => !prevVal)}

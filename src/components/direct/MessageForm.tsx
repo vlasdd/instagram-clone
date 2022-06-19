@@ -13,9 +13,13 @@ type MessageFormProps = {
 
 const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering, sendMessage, setImageUpload, imageUpload }) => {
     return (
-        <div className="flex justify-between items-center mb-6 rounded-full border h-[45px] w-11/12 sm:w-5/6 xl:w-3/4 px-4 gap-4">
-            <button>
-                <Smile />
+        <div className="flex justify-between items-center mb-[18px] rounded-full border h-[45px] w-3/4 sm:w-5/6 xl:w-3/4 px-4 gap-4">
+            <button
+                onClick={() => {
+                    setWordEntering(prevText => prevText + "❤️");
+                }}
+            >
+                <Heart />
             </button>
             <input
                 type="text"
@@ -24,37 +28,38 @@ const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering
                 value={wordEntering}
                 onChange={event => setWordEntering(event.target.value)}
                 onKeyDown={event => {
-                    if(event.key === "Enter"){
+                    if (event.key === "Enter") {
                         sendMessage();
                     }
                 }}
             />
-            {(wordEntering.length && wordEntering.split("").some(letter => letter !== " ") || imageUpload) ?
-                <button
-                    className="font-semibold text-blue-500"
-                    onClick={sendMessage}
-                >
-                    <p>Send</p>
-                </button> :
-                <div className="flex gap-2">
-                    <label htmlFor='img'>
-                        <Photograph />
-                    </label>
-                    <input 
-                        type="file"
-                        id="img"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(event) => {
-                            if(event.target.files){
-                                setImageUpload(event.target.files[0])
-                            }
-                        }}
-                    />
-                    <button>
-                        <Heart />
-                    </button>
-                </div>
+            {
+                (wordEntering.length && wordEntering.split("").some(letter => letter !== " ") || imageUpload) ?
+                    <button
+                        className="font-semibold text-blue-500"
+                        onClick={sendMessage}
+                    >
+                        <p>Send</p>
+                    </button> :
+                    <div className="flex gap-2">
+                        <label 
+                            htmlFor='img'
+                            className='cursor-pointer'
+                        >
+                            <Photograph />
+                        </label>
+                        <input
+                            type="file"
+                            id="img"
+                            accept="image/*"
+                            className="hidden "
+                            onChange={(event) => {
+                                if (event.target.files) {
+                                    setImageUpload(event.target.files[0])
+                                }
+                            }}
+                        />
+                    </div>
             }
         </div>
     )

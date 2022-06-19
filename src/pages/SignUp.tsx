@@ -67,16 +67,18 @@ const SignUp: React.FC = () => {
         shouldRedirect ?
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
             <div className="h-screen w-screen flex justify-center items-center bg-[#FAFAFA]">
-                {(() => {
-                    switch (currentPageId) {
-                        case 0: {
-                            return <SignUpOne {...{ setCurrentPageId, userData, setUserData }} />
+                {
+                    (() => {
+                        switch (currentPageId) {
+                            case 0: {
+                                return <SignUpOne {...{ setCurrentPageId, userData, setUserData }} />
+                            }
+                            case 1: {
+                                return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
+                            }
                         }
-                        case 1: {
-                            return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
-                        }
-                    }
-                })()}
+                    })()
+                }
             </div>
     )
 }
