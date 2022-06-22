@@ -17,7 +17,7 @@ const Modal: React.FC<ModalProps> = ({ children, closeEvent, styles }) => {
             }}
         >
             <motion.div
-                className={`w-64 sm:w-96 absolute flex flex-col bg-white rounded-xl z-50 ${styles}`}
+                className={`${styles.includes("w-") ? "" : "w-64 sm:w-96"} absolute flex flex-col bg-white rounded-xl z-50 ${styles}`}
                 initial={{ scale: 1.2 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.12 }}

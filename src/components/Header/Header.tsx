@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import RoutesTypes from "../../constants/routes-types"
 import { useAppSelector } from "../../redux/hooks";
@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom";
 import ProfileDropMenuContainer from "./ProfileDropMenuContainer";
 import DropMenu from "../DropMenu";
 import UsersSearchDropMenu from "./UsersSearchDropMenu";
-import Search from "../../svgs/Search";
 import Home from "../../svgs/Home";
 import Direct from "../../svgs/Direct";
 import useWindowWidth from "../../helpers/useWindowWidth";
 import SearchBar from "./SearchBar";
+import NewPost from "../../svgs/NewPost";
+import Modal from "../Modal";
+import NewPostModal from "./NewPostModal";
 
-enum DropMenuTypes{
+enum MenuTypes{
     NONE = "",
     PROFILE = "profile",
-    ACTIONS = "actions",
     SEARCH = "search",
+    NEW_POST = "newPost",
 }
 
 const Header: React.FC = () => {
@@ -24,12 +26,11 @@ const Header: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-
-    const [currentDropMenu, setCurrentDropMenu] = useState<string>(DropMenuTypes.NONE);
+    const [currentMenu, setCurrentMenu] = useState<string>(MenuTypes.NONE);
     const [wordEntering, setWordEntering] = useState<string>("");
 
     useEffect(() => {
-        setCurrentDropMenu(DropMenuTypes.NONE);
+        setCurrentMenu(MenuTypes.NONE);
     }, [location])
 
     const innerWidth = useWindowWidth();
@@ -47,22 +48,18 @@ const Header: React.FC = () => {
                     {innerWidth > 640 ?
                         <div
                             className="w-64 h-9 relative"
-                            onClick={() => {
-                                //if (currentDropMenu === DropMenuTypes.NONE) {
-                                setCurrentDropMenu(DropMenuTypes.SEARCH);
-                                //}
-                            }}
+                            onClick={() => setCurrentMenu(MenuTypes.SEARCH)}
                         >
                             <SearchBar
                                 wordEntering={wordEntering}
                                 setWordEntering={setWordEntering}
                             />
                             {
-                                currentDropMenu === DropMenuTypes.SEARCH &&
+                                currentMenu === MenuTypes.SEARCH &&
                                 <DropMenu
                                     closeEvent={event => {
                                         event.stopPropagation();
-                                        setCurrentDropMenu(DropMenuTypes.NONE)
+                                        setCurrentMenu(MenuTypes.NONE)
                                     }}
                                     styles="w-[375px] top-12 left-[-65px] h-96"
                                 >
@@ -76,20 +73,27 @@ const Header: React.FC = () => {
                     }
                     {
                         user.userId.length ?
-                            <div className="flex gap-3">
+                            <div className="flex gap-4">
                                 <button onClick={() => navigate(RoutesTypes.DASHBOARD)}>
                                     <Home />
                                 </button>
                                 <button
-                                    className="pb-1"
+                                    className="pb-1 mr-[-3px]"
                                     onClick={() => navigate(RoutesTypes.DIRECT)}
                                 >
                                     <Direct />
                                 </button>
+                                <button
+                                    onClick={() => setCurrentMenu(MenuTypes.NEW_POST)}
+                                >
+                                    <NewPost
+                                        isOpen={currentMenu === MenuTypes.NEW_POST}
+                                    />
+                                </button>
                                 <div className="relative flex items-center">
                                     <button
                                         className="h-7 w-7 cursor-pointer rounded-full"
-                                        onClick={() => { setCurrentDropMenu(DropMenuTypes.PROFILE); console.log("profile clicked") }}
+                                        onClick={() => { setCurrentMenu(MenuTypes.PROFILE); console.log("profile clicked") }}
                                     >
                                         <img
                                             src={user.profileImage.length ? user.profileImage : "../images/default-avatar-image.jpg"}
@@ -97,13 +101,33 @@ const Header: React.FC = () => {
                                         />
                                     </button>
                                     {
-                                        currentDropMenu === DropMenuTypes.PROFILE &&
-                                        <DropMenu
-                                            closeEvent={() => setCurrentDropMenu(DropMenuTypes.NONE)}
-                                            styles="w-56 left-[-168px] top-11"
-                                        >
-                                            <ProfileDropMenuContainer />
-                                        </DropMenu>
+                                        (() => {
+                                            switch (currentMenu) {
+                                                case MenuTypes.PROFILE: {
+                                                    return (
+                                                        <DropMenu
+                                                            closeEvent={() => setCurrentMenu(MenuTypes.NONE)}
+                                                            styles="w-56 left-[-168px] top-11"
+                                                        >
+                                                            <ProfileDropMenuContainer />
+                                                        </DropMenu>
+                                                    )
+                                                }
+                                                case MenuTypes.NEW_POST: {
+                                                    return (
+                                                        <Modal
+                                                            closeEvent={() => setCurrentMenu(MenuTypes.NONE)}
+                                                            styles="h-[450px] top-[15%] w-"
+                                                        >
+                                                            <NewPostModal />
+                                                        </Modal>
+                                                    )
+                                                }
+                                                default: {
+                                                    return null;
+                                                }
+                                            }
+                                        })()
                                     }
                                 </div>
                             </div> :

@@ -5,7 +5,7 @@ import useFollowers from '../../helpers/useFollowers';
 import { useAppSelector } from '../../redux/hooks';
 import UserSuggestionType from '../../types/user-suggestion-type';
 import Modal from '../Modal';
-import UnfollowModal from './UnfollowModal';
+import AreYouSureModal from '../AreYouSureModal';
 
 const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, fullName, userId }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -58,14 +58,15 @@ const UserSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, 
                         closeEvent={() => setIsUnfollowModalOpen(false)}
                         styles="h-72 top-[26.5%]"
                     >
-                        <UnfollowModal
-                            unfollowEvent={() => {
+                        <AreYouSureModal
+                            areYouSureEvent={() => {
                                 setIsUnfollowModalOpen(false)
                                 removeFromFollowing()
                             }}
-                            username={username}
                             profileImage={profileImage}
                             closeEvent={() => setIsUnfollowModalOpen(false)}
+                            questionText={`Unfollow ${username}`}
+                            buttonText="Unfollow"
                         />
                     </Modal> :
                     null

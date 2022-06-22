@@ -15,7 +15,7 @@ const Message: React.FC<IMessageProps> = ({ text, from, createdAt, loggedUserId,
     useEffect(() => {
         if (scrollRef.current) {
             console.log("render")
-            scrollRef.current.scrollIntoView({"behavior": "smooth"})
+            scrollRef.current.scrollIntoView({"behavior": "auto"})
         }
     }, [])
 

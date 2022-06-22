@@ -5,6 +5,7 @@ import { updateDoc, doc } from "firebase/firestore";
 import { db, storage } from '../../firebase/firebaseConfig';
 import { v4 } from "uuid";
 import { setSignedUser } from '../../redux/features/signedUser';
+import UserState from '../../types/user-state-type';
 
 type ChangeImageModalProps = {
     closeEvent: () => void
@@ -20,10 +21,10 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
         }
         const imageUpload = event.target.files[0];
 
-        if (currentUser.profileImage !== "") {
+        /*if (currentUser.profileImage !== "") {
             const deleteImageRef = ref(storage, currentUser.profileImage);
             await deleteObject(deleteImageRef);
-        }
+        }*/
 
         const imageRef = ref(storage, `Images/${imageUpload.name + v4()}`)
         await uploadBytes(imageRef, imageUpload)
@@ -37,15 +38,15 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
         closeEvent()
     }
 
-    async function deleteImage(){
-        const imageRef = ref(storage, currentUser.profileImage);
-        await deleteObject(imageRef);
+    async function deleteImage(currentUser: UserState) {
+        //const imageRef = ref(storage, currentUser.profileImage);
+        //await deleteObject(imageRef);
 
         await updateDoc(doc(db, "users", currentUser.userId), {
             profileImage: ""
         });
 
-        dispatch(setSignedUser({...currentUser, profileImage: ""}));
+        dispatch(setSignedUser({ ...currentUser, profileImage: "" }));
         closeEvent();
     }
 
@@ -68,7 +69,7 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
                     className="hidden"
                     onChange={(event) => uploadImage(event)}
                 />
-                <p className="text-teal-500 font-bold text-sm">Upload Photo</p>
+                <p className="text-teal-500 font-medium text-sm">Upload Photo</p>
             </label>
             <button
                 className="w-full h-12 border-t-2 flex items-center justify-center text-sm"
@@ -78,8 +79,8 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
             {
                 currentUser.profileImage.length ?
                     <button
-                        className="w-full h-12 border-t-2 flex items-center justify-center text-rose-600 font-bold text-sm"
-                        onClick={deleteImage}
+                        className="w-full h-12 border-t-2 flex items-center justify-center text-rose-600 font-medium text-sm"
+                        onClick={() => deleteImage(currentUser)}
                     >
                         Remove Current Photo
                     </button> :

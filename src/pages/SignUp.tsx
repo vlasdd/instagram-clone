@@ -76,6 +76,9 @@ const SignUp: React.FC = () => {
                             case 1: {
                                 return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
                             }
+                            default: {
+                                return null;
+                            }
                         }
                     })()
                 }

@@ -1,8 +1,42 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
 import BirthdateState from "../../types/birthdate-type";
 import UserState from "../../types/user-state-type";
 
-export const initialState: { user: UserState } = {
+type InitialStateType = {
+    user: UserState,
+    error: any,
+    status: null | string,
+}
+
+export const fetchUserOnPage = createAsyncThunk(
+    "userOnPage/fetchUserOnPage",
+    async (uid: string, {rejectWithValue, dispatch}) => {
+        try {
+            const loggedUser = await getDoc(doc(db, "users", uid));
+
+            if(!loggedUser.data()){
+                throw new Error("No users registered with this ID");
+            }
+
+            dispatch(setUserOnPage(loggedUser.data() as UserState))
+        } 
+        catch (error) {
+            if(error instanceof Error){
+                return rejectWithValue(error.message)
+            }
+            else{
+                return rejectWithValue("Unknown error")
+            }
+        }
+
+    }
+)
+
+export const initialState: InitialStateType = {
+    status: null,
+    error: null,
     user: {
         dateCreated: 0,
         emailAddress: "",
@@ -27,9 +61,27 @@ const userOnPageSlice = createSlice({
         },
         removeUserOnPage: (state) => {
             state = initialState
+        },
+        clearErrors: (state) => {
+            state.error = null;
+            state.status = null;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchUserOnPage.pending, (state) => {
+            state.error = null;
+            state.status = "loading";
+        })
+        builder.addCase(fetchUserOnPage.fulfilled, (state) => {
+            state.error = null;
+            state.status = "resolved";
+        })
+        builder.addCase(fetchUserOnPage.rejected, (state, action) => {
+            state.error = action.payload;
+            state.status = "rejected";
+        })
     }
 })
-
+ 
 export default userOnPageSlice.reducer
-export const { setUserOnPage, removeUserOnPage } = userOnPageSlice.actions;
+export const { setUserOnPage, removeUserOnPage, clearErrors } = userOnPageSlice.actions;

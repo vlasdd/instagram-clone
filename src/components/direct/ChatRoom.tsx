@@ -1,5 +1,5 @@
 import { doc, getDoc, onSnapshot, Timestamp, updateDoc } from 'firebase/firestore';
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from '../../firebase/firebaseConfig';
 import { useAppSelector } from '../../redux/hooks';
@@ -8,12 +8,12 @@ import UserState from '../../types/user-state-type';
 import { initialState as initialUser } from "../../redux/features/signedUser";
 import Info from '../../svgs/Info';
 import MessageType from '../../types/message-type';
-import Message from './Message';
-import { nanoid } from '@reduxjs/toolkit';
 import MessageForm from './MessageForm';
 import RoutesTypes from '../../constants/routes-types';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
+import RoomMessages from './RoomMessages';
+import RoomInfo from './RoomInfo';
 
 const ChatRoom: React.FC = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -24,6 +24,7 @@ const ChatRoom: React.FC = () => {
     const [wordEntering, setWordEntering] = useState<string>("");
     const [imageUpload, setImageUpload] = useState<File | null>(null);
     const [messages, setMessages] = useState<MessageType[]>([]);
+    const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const getUserAndMessages = async () => {
@@ -76,41 +77,54 @@ const ChatRoom: React.FC = () => {
         setWordEntering("");
     }
 
-    const messagesToRender = useMemo(() => messages.map(message => <Message
-        {...message}
-        loggedUserId={loggedUser.userId}
-        key={nanoid()}
-    />), [messages])
-
     return (
-        <div className="w-full h-full flex flex-col justify-between items-center">
+        <div className="w-full h-full flex flex-col items-center">
             <div className="flex justify-between items-center border-b h-[60px] pl-8 pr-6 w-full">
+                {
+                    isInfoOpen ?
+                        <p className="font-medium whitespace-nowrap ml-[45%]">Details</p> :
+                        <button
+                            className="flex gap-4"
+                            onClick={() => navigate(RoutesTypes.DASHBOARD + secondUser.userId)}
+                        >
+                            <img
+                                src={secondUser.profileImage.length ? secondUser.profileImage : "../images/default-avatar-gray.jpg"}
+                                className="h-6 w-6 rounded-full object-cover"
+                            />
+                            <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>
+                        </button>
+                }
                 <button
-                    className="flex gap-4"
-                    onClick={() => navigate(RoutesTypes.DASHBOARD + secondUser.userId)}
+                    onClick={() => setIsInfoOpen(prevVal => !prevVal)}
                 >
-                    <img
-                        src={secondUser.profileImage.length ? secondUser.profileImage : "../images/default-avatar-gray.jpg"}
-                        className="h-6 w-6 rounded-full object-cover"
+                    <Info
+                        isOpen={isInfoOpen}
                     />
-                    <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>
-                </button>
-                <button>
-                    <Info />
                 </button>
             </div>
-            <div className="flex h-[calc(100%-60px)] flex-col justify-end w-full items-center">
-                <div className="max-h-[calc(100%-45px-25px)] py-3 overflow-hidden overflow-y-auto w-full no-bar flex flex-col items-center gap-3">
-                    {messagesToRender}
-                </div>
-                <MessageForm
-                    wordEntering={wordEntering}
-                    setWordEntering={setWordEntering}
-                    sendMessage={sendMessage}
-                    setImageUpload={setImageUpload}
-                    imageUpload={imageUpload}
-                />
-            </div>
+            {
+                isInfoOpen ?
+                    <RoomInfo
+                        userId={secondUser.userId}
+                        username={secondUser.username}
+                        fullName={secondUser.fullName}
+                        profileImage={secondUser.profileImage}
+                        chatId={chatId as string}
+                    /> :
+                    <div className="flex h-[calc(100%-60px)] flex-col justify-end w-full items-center">
+                        <RoomMessages
+                            messages={messages}
+                            loggedUserId={loggedUser.userId}
+                        />
+                        <MessageForm
+                            wordEntering={wordEntering}
+                            setWordEntering={setWordEntering}
+                            sendMessage={sendMessage}
+                            setImageUpload={setImageUpload}
+                            imageUpload={imageUpload}
+                        />
+                    </div>
+            }
         </div>
     )
 }

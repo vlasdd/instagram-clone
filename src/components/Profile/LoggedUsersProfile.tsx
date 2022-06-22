@@ -1,21 +1,17 @@
-import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import AccountsRoutes from '../../constants/accounts-routes';
 import ProfileRoutes from '../../constants/profile-routes';
 import RoutesTypes from '../../constants/routes-types';
-import { db } from '../../firebase/firebaseConfig';
-import { setSignedUser } from '../../redux/features/signedUser';
-import { setUserOnPage } from '../../redux/features/userOnPage';
+import { clearErrors, fetchSignedUser, setSignedUser } from '../../redux/features/signedUser';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Settings from '../../svgs/Settings';
-import UserState from '../../types/user-state-type';
 import Modal from '../Modal';
 import ChangeImageModal from './ChangeImageModal';
 import ProfileNavBar from './ProfileNavBar';
 
 const LoggedUsersProfile: React.FC = () => {
-    const signedUser = useAppSelector(state => state.signedUser.user);
+    const {user: signedUser, status } = useAppSelector(state => state.signedUser);
     const dispatch = useAppDispatch();
 
     const { uid } = useParams();
@@ -25,20 +21,15 @@ const LoggedUsersProfile: React.FC = () => {
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        const getUser = async () => {
-            const loggedUser = await getDoc(doc(db, "users", uid as string));
-
-            if (!loggedUser.data()) {
-                setShouldRedirect(true);
-                return;
-            }
-
-            dispatch(setUserOnPage(loggedUser.data() as UserState))
-            dispatch(setSignedUser(loggedUser.data() as UserState));
-        }
-
-        getUser();
+        dispatch(fetchSignedUser(uid as string))
     }, [uid])
+
+    useEffect(() => {
+        if (status === "rejected") {
+            dispatch(clearErrors());
+            setShouldRedirect(true);
+        }
+    }, [status])
 
     return (
         shouldRedirect ?

@@ -1,22 +1,20 @@
-import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import ProfileRoutes from '../../constants/profile-routes';
 import RoutesTypes from '../../constants/routes-types';
-import { db } from '../../firebase/firebaseConfig';
 import useFollowers from '../../helpers/useFollowers';
-import { setUserOnPage } from '../../redux/features/userOnPage';
+import { clearErrors, fetchUserOnPage } from '../../redux/features/userOnPage';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Additional from '../../svgs/Additional';
-import UserState from '../../types/user-state-type';
 import Modal from '../Modal';
 import ProfileNavBar from './ProfileNavBar';
-import UnfollowModal from './UnfollowModal';
+import AreYouSureModal from '../AreYouSureModal';
 
 const UserOnPageProfile: React.FC = () => {
-    const userOnPage = useAppSelector(state => state.userOnPage.user);
+    const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
+
     const { uid } = useParams();
     const navigate = useNavigate();
 
@@ -31,19 +29,15 @@ const UserOnPageProfile: React.FC = () => {
     })
 
     useEffect(() => {
-        const getUser = async () => {
-            const loggedUser = await getDoc(doc(db, "users", uid as string));
-
-            if (!loggedUser.data()) {
-                setShouldRedirect(true);
-                return;
-            }
-
-            dispatch(setUserOnPage(loggedUser.data() as UserState))
-        }
-
-        getUser();
+        dispatch(fetchUserOnPage(uid as string))
     }, [uid])
+
+    useEffect(() => {
+        if (status === "rejected") {
+            dispatch(clearErrors());
+            setShouldRedirect(true);
+        }
+    }, [status])
 
     return (
         shouldRedirect ?
@@ -124,14 +118,15 @@ const UserOnPageProfile: React.FC = () => {
                             closeEvent={() => setIsUnfollowModalOpen(false)}
                             styles="h-72 top-[26.5%]"
                         >
-                            <UnfollowModal
-                                unfollowEvent={() => {
+                            <AreYouSureModal
+                                areYouSureEvent={() => {
                                     setIsUnfollowModalOpen(false)
                                     removeFromFollowing()
                                 }}
-                                username={userOnPage.username}
                                 profileImage={userOnPage.profileImage}
                                 closeEvent={() => setIsUnfollowModalOpen(false)}
+                                questionText={`Unfollow ${userOnPage}`}
+                                buttonText="Unfollow"
                             />
                         </Modal> :
                         null
