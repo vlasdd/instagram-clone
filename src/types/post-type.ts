@@ -1,11 +1,10 @@
 import CommentsType from "./comments-type"
 
 type PostType = {
-    postImage: string[],
-    likes: number,
+    postId: string
+    postImage: string,
+    likes: string[],
     comments: CommentsType[],
-    profileImage: string,
-    username: string,
 }
 
 export default PostType

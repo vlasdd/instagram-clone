@@ -3,16 +3,16 @@ import { Link, useLocation } from "react-router-dom";
 import RoutesTypes from "../../constants/routes-types"
 import { useAppSelector } from "../../redux/hooks";
 import { useNavigate } from "react-router-dom";
-import ProfileDropMenuContainer from "./ProfileDropMenuContainer";
-import DropMenu from "../DropMenu";
-import UsersSearchDropMenu from "./UsersSearchDropMenu";
+import ProfileDropMenuContainer from "./components/ProfileDropMenuContainer";
+import DropMenu from "../other/DropMenu";
+import UsersSearchDropMenu from "./components/UsersSearchDropMenu";
 import Home from "../../svgs/Home";
 import Direct from "../../svgs/Direct";
 import useWindowWidth from "../../helpers/useWindowWidth";
-import SearchBar from "./SearchBar";
+import SearchBar from "./components/SearchBar";
 import NewPost from "../../svgs/NewPost";
-import Modal from "../Modal";
-import NewPostModal from "./NewPostModal";
+import Modal from "../modal/Modal";
+import NewPostModal from "./components/new-post-modal/NewPostModal";
 
 enum MenuTypes{
     NONE = "",
@@ -117,9 +117,12 @@ const Header: React.FC = () => {
                                                     return (
                                                         <Modal
                                                             closeEvent={() => setCurrentMenu(MenuTypes.NONE)}
-                                                            styles="h-[450px] top-[15%] w-"
+                                                            styles="h-[500px] top-[14%] w-"
                                                         >
-                                                            <NewPostModal />
+                                                            <NewPostModal 
+                                                                user={user}
+                                                                closeEvent={() => setCurrentMenu(MenuTypes.NONE)}
+                                                            />
                                                         </Modal>
                                                     )
                                                 }

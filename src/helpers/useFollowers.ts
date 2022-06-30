@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import UserState from '../types/user-state-type';
 import UserSuggestionType from '../types/user-suggestion-type';
 
-const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggestionType) => {
+const useFollowers = ({ userId }: { userId: string }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
     const dispatch = useAppDispatch();
@@ -39,7 +39,7 @@ const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggesti
     }
 
     const addToFollowing = async () => {
-        const newUser = { profileImage, username, fullName, userId }
+        const newUser = { userId }
 
         dispatch(setSignedUser({ ...loggedUser, following: [...loggedUser.following, newUser] }))
 
@@ -53,15 +53,7 @@ const useFollowers = ({ profileImage, username, fullName, userId }: UserSuggesti
 
         const userToUpdate = await getDoc(doc(db, "users", userId));
 
-        const modifiedFollowers = [
-            ...(userToUpdate.data() as UserState).followers,
-            {
-                profileImage: loggedUser.profileImage,
-                username: loggedUser.username,
-                fullName: loggedUser.fullName,
-                userId: loggedUser.userId
-            }
-        ];
+        const modifiedFollowers = [ ...(userToUpdate.data() as UserState).followers, { userId: loggedUser.userId } ];
         if (userId === userOnPage.userId) {
             dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
         }

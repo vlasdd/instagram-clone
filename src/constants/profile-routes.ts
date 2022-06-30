@@ -4,6 +4,7 @@ enum ProfileRoutes{
     TAGGED = "tagged",
     FOLLOWERS = "followers",
     FOLLOWING = "following",
+    POST = "p/"
 }
 
 export default ProfileRoutes;

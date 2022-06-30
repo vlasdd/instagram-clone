@@ -1,12 +1,13 @@
-import React from 'react'
-import { useAppSelector } from '../redux/hooks';
 import { Navigate } from 'react-router-dom';
 import RoutesTypes from '../constants/routes-types';
 
-const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const loggedUser = useAppSelector(state => state.signedUser.user);
+type PrivateRouteProps = {
+  children: JSX.Element,
+  condition: boolean,
+}
 
-  if (loggedUser.userId.length) {
+const PrivateRoute = ({ children, condition }: PrivateRouteProps) => {
+  if (condition) {
     return <Navigate to={RoutesTypes.DASHBOARD} />
   }
 
