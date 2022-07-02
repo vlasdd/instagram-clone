@@ -48,7 +48,8 @@ export const initialState: InitialStateType = {
         birthdate:  {} as BirthdateState,
         phoneNumber: "",
         profileImage: "",
-        posts: []
+        posts: [],
+        savedPosts: [],
     }
 }
 

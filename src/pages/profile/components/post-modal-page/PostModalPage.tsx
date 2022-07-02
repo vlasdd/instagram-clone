@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AreYouSureModal from '../../../../components/modal/AreYouSureModal'
 import Modal from '../../../../components/modal/Modal'
@@ -20,6 +20,7 @@ type PostModalPageProps = {
 const PostModalPage: React.FC<PostModalPageProps> = ({ posts, username, profileImage, userId }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
+    const commentsRef = useRef<React.RefObject<HTMLInputElement>>(null); 
 
     const { postId } = useParams();
     const currentPost = useMemo(() => posts.find(post => post.postId === postId), [postId, posts]);
@@ -80,16 +81,40 @@ const PostModalPage: React.FC<PostModalPageProps> = ({ posts, username, profileI
                             null
                     }
                 </div>
-                <div></div>
+                <div className="w-full h-[calc(100%-180px)] px-3 gap-4 flex items-start overflow-hidden overflow-y-auto no-bar">
+                    <button
+                        className="h-14 py-[0.5px] flex items-center"
+                        onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
+                    >
+                        <img
+                            src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}
+                            className="h-9 w-9 rounded-full object-cover"
+                        />
+                    </button>
+                    <div className="inline-block w-[calc(100%-52px)] pt-3">
+                        <p className="break-words">
+                            <span
+                                className="font-medium text-sm tracking-wide whitespace-nowrap cursor-pointer"
+                                onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
+                            >
+                                {username}
+                            </span>
+                            <span className="ml-2">{currentPost?.text}</span>
+                        </p>
+                    </div>
+                </div>
                 <LikesBar
                     userId={userId}
                     likes={currentPost?.likes || []}
-                    loggedUserId={loggedUser.userId}
+                    postId={postId as string}
+                    posts={posts}
+                    commentsRef={commentsRef}
                 />
                 <CommentForm
                     wordEntering={wordEntering}
                     setWordEntering={setWordEntering}
                     sendComment={() => null}
+                    commentsRef={commentsRef}
                 />
             </div>
             {

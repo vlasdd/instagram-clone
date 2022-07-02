@@ -7,10 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import ProfileDropMenuElement from './ProfileDropMenuElement';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../firebase/firebaseConfig';
-import Profile from '../../../svgs/Profile';
-import Saved from '../../../svgs/Saved';
-import Settings from '../../../svgs/Settings';
-import SwitchAccounts from '../../../svgs/SwitchAccounts';
+import Profile from '../../../svgs/empty/Profile';
+import Saved from '../../../svgs/empty/Saved';
+import Settings from '../../../svgs/empty/Settings';
+import SwitchAccounts from '../../../svgs/empty/SwitchAccounts';
 
 const ProfileDropMenuContainer: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -34,7 +34,12 @@ const ProfileDropMenuContainer: React.FC = () => {
                 }}
             />
             <ProfileDropMenuElement
-                image={<Saved styles="h-5 w-5 text-gray-700"/>} 
+                image={
+                    <Saved
+                        styles="h-5 w-5 text-gray-700"
+                        includeHovering={false}
+                    />
+                }
                 text="Saved"
                 callback={() => {
                     navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)

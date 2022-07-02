@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ProfileRoutes from '../../../constants/profile-routes';
-import FilledComment from '../../../svgs/FilledComment';
-import FilledHeart from '../../../svgs/FilledHeart';
+import FilledComment from '../../../svgs/filled/FilledComment';
+import FilledHeart from '../../../svgs/filled/FilledHeart';
 import PostType from '../../../types/post-type'
 
 const PostImage: React.FC<PostType> = ({ postImage, postId, likes, comments }) => {

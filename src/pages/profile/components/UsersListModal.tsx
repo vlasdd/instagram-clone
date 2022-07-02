@@ -3,7 +3,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../firebase/firebaseConfig';
-import Close from '../../../svgs/Close';
+import Close from '../../../svgs/empty/Close';
 import UserState from '../../../types/user-state-type';
 import UserLoader from '../../../components/other/UserLoader';
 import UserSuggestion from "./UserSuggestion";

@@ -4,10 +4,11 @@ import RoutesTypes from '../../../constants/routes-types';
 import MessageType from '../../../types/message-type';
 
 interface IMessageProps extends MessageType{
-    loggedUserId: string
+    loggedUserId: string,
+    profileImage: string,
 }
 
-const Message: React.FC<IMessageProps> = ({ text, from, createdAt, loggedUserId, media }) => {
+const Message: React.FC<IMessageProps> = ({ text, from, loggedUserId, media, profileImage }) => {
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -29,7 +30,7 @@ const Message: React.FC<IMessageProps> = ({ text, from, createdAt, loggedUserId,
                         onClick={() => navigate(RoutesTypes.DASHBOARD + from.userId)}
                     >
                         <img
-                            src={from.profileImage.length ? from.profileImage : "../images/default-avatar-gray.jpg"}
+                            src={profileImage.length ? profileImage : "../images/default-avatar-gray.jpg"}
                             className="h-8 w-8 rounded-full object-cover"
                         />
                     </button> :

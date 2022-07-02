@@ -43,7 +43,8 @@ const SignUp: React.FC = () => {
                 birthdate: userData.birthdate,
                 phoneNumber: "",
                 profileImage: "",
-                posts: []
+                posts: [],
+                savedPosts: [],
             }
             
             await setDoc(doc(db, "users", user.user.uid), userDoc)

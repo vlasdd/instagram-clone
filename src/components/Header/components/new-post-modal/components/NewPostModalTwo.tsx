@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReturnBack from '../../../../../svgs/ReturnBack';
+import ReturnBack from '../../../../../svgs/empty/ReturnBack';
 import { motion } from "framer-motion";
 import useWindowWidth from "../../../../../helpers/useWindowWidth";
 import Modal from '../../../../modal/Modal';
@@ -27,6 +27,8 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
     const [text, setText] = useState<string>("");
     const dispatch = useAppDispatch();
 
+    console.log("rerender")
+
     const createPost = async () => {
         console.log("post")
         const imageRef = ref(storage, `Images/${image.name + v4()}`)
@@ -39,6 +41,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
             postImage: imageUrl,
             likes: [],
             comments: [],
+            text: text
         }
 
         await updateDoc(doc(db, "users", user.userId), {

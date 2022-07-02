@@ -124,7 +124,8 @@ const App: React.FC = () => {
             <Route
               path={ProfileRoutes.SAVED}
               element={<div>saved</div>}
-            />
+            >
+            </Route>
             <Route
               path={ProfileRoutes.TAGGED}
               element={<div>tagged</div>}

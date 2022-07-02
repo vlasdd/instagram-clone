@@ -6,11 +6,11 @@ import { useNavigate } from "react-router-dom";
 import ProfileDropMenuContainer from "./components/ProfileDropMenuContainer";
 import DropMenu from "../other/DropMenu";
 import UsersSearchDropMenu from "./components/UsersSearchDropMenu";
-import Home from "../../svgs/Home";
-import Direct from "../../svgs/Direct";
+import Home from "../../svgs/both/Home";
+import Direct from "../../svgs/empty/Direct";
 import useWindowWidth from "../../helpers/useWindowWidth";
 import SearchBar from "./components/SearchBar";
-import NewPost from "../../svgs/NewPost";
+import NewPost from "../../svgs/both/NewPost";
 import Modal from "../modal/Modal";
 import NewPostModal from "./components/new-post-modal/NewPostModal";
 
@@ -81,7 +81,10 @@ const Header: React.FC = () => {
                                     className="pb-1 mr-[-3px]"
                                     onClick={() => navigate(RoutesTypes.DIRECT)}
                                 >
-                                    <Direct />
+                                    <Direct 
+                                        styles="h-6 w-6 text-gray-800 rotate-[55deg]"
+                                        includeHovering={false}
+                                    />
                                 </button>
                                 <button
                                     onClick={() => setCurrentMenu(MenuTypes.NEW_POST)}

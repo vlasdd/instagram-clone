@@ -2,8 +2,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProfileRoutes from '../../../../../constants/profile-routes'
 import RoutesTypes from '../../../../../constants/routes-types'
-import ArrowToLeft from '../../../../../svgs/ArrowToLeft'
-import ArrowToRight from '../../../../../svgs/ArrowToRight'
+import ArrowToLeft from '../../../../../svgs/empty/ArrowToLeft'
+import ArrowToRight from '../../../../../svgs/empty/ArrowToRight'
 import PostType from '../../../../../types/post-type'
 
 type PostsModalNavigationProps = {

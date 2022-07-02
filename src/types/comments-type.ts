@@ -1,8 +1,7 @@
 type CommentsType = {
-    username: string,
+    userId: string,
     text: string,
-    profileImage: string,
-    likes: number,
+    likes: { userId: string },
 }
 
 export default CommentsType;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProfileRoutes from '../../../constants/profile-routes';
-import Posts from '../../../svgs/Posts';
-import Profile from '../../../svgs/Profile';
-import Saved from '../../../svgs/Saved';
+import Posts from '../../../svgs/empty/Posts';
+import Profile from '../../../svgs/empty/Profile';
+import Saved from '../../../svgs/empty/Saved';
 
 const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
     const navigate = useNavigate();
@@ -51,7 +51,10 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
                         }}
                         className={`h-12 flex items-center text-gray-400 gap-1  ${currentTab === 1 && "border-t border-t-gray-900 text-black"}`}
                     >
-                        <Saved styles="w-4 h-4" />
+                        <Saved
+                            styles="w-4 h-4"
+                            includeHovering={false}
+                        />
                         <p>SAVED</p>
                     </button> :
                     null

@@ -1,6 +1,6 @@
 import React from 'react'
-import Heart from '../../../svgs/Heart'
-import Photograph from '../../../svgs/Photograph'
+import Heart from '../../../svgs/empty/Heart'
+import Photograph from '../../../svgs/empty/Photograph'
 
 type MessageFormProps = {
     wordEntering: string,
@@ -20,6 +20,7 @@ const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering
             >
                 <Heart 
                     styles="h-7 w-7"
+                    includeHovering={false}
                 />
             </button>
             <input

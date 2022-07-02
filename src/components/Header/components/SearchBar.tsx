@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Search from '../../../svgs/Search';
+import Search from '../../../svgs/empty/Search';
 
 type SearchBarProps = {
     wordEntering: string, 

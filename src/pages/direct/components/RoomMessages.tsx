@@ -6,12 +6,14 @@ import Message from './Message';
 type RoomMessagesProps = {
     messages: MessageType[],
     loggedUserId: string,
+    profileImage: string,
 }
 
-const RoomMessages: React.FC<RoomMessagesProps> = ({ messages, loggedUserId }) => {
+const RoomMessages: React.FC<RoomMessagesProps> = ({ messages, loggedUserId, profileImage }) => {
     const messagesToRender = useMemo(() => messages.map(message => <Message
         {...message}
         loggedUserId={loggedUserId}
+        profileImage={profileImage}
         key={nanoid()}
     />), [messages])
 

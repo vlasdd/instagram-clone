@@ -5,7 +5,7 @@ import RoutesTypes from '../../../constants/routes-types';
 import useFollowers from '../../../helpers/useFollowers';
 import { clearErrors, fetchUserOnPage } from '../../../redux/features/userOnPage';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import Additional from '../../../svgs/Additional';
+import Additional from '../../../svgs/empty/Additional';
 import Modal from '../../../components/modal/Modal';
 import ProfileNavBar from './ProfileNavBar';
 import AreYouSureModal from '../../../components/modal/AreYouSureModal';

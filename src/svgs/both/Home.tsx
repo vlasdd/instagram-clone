@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import RoutesTypes from '../constants/routes-types';
+import RoutesTypes from '../../constants/routes-types';
 
 const Home: React.FC = () => {
     const location = useLocation();

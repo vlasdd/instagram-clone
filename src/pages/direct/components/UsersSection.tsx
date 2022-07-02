@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from '../../../constants/routes-types';
 import { db } from '../../../firebase/firebaseConfig';
 import { useAppSelector } from '../../../redux/hooks'
-import Text from '../../../svgs/Text';
+import Text from '../../../svgs/empty/Text';
 import ChatLink from './ChatLink';
 import ChatState from '../../../types/chat-state-type';
 import UserLoader from '../../../components/other/UserLoader';

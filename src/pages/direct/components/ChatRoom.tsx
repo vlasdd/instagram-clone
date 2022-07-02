@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../redux/hooks';
 import ChatState from '../../../types/chat-state-type';
 import UserState from '../../../types/user-state-type';
 import { initialState as initialUser } from "../../../redux/features/signedUser";
-import Info from '../../../svgs/Info';
+import Info from '../../../svgs/both/Info';
 import MessageType from '../../../types/message-type';
 import MessageForm from './MessageForm';
 import RoutesTypes from '../../../constants/routes-types';
@@ -62,7 +62,6 @@ const ChatRoom: React.FC = () => {
             text: wordEntering,
             from: {
                 userId: loggedUser.userId,
-                profileImage: loggedUser.profileImage,
             },
             createdAt: Timestamp.fromDate(new Date()),
             media: imageUrl
@@ -119,6 +118,7 @@ const ChatRoom: React.FC = () => {
                         <RoomMessages
                             messages={messages}
                             loggedUserId={loggedUser.userId}
+                            profileImage={secondUser.profileImage}
                         />
                         <MessageForm
                             wordEntering={wordEntering}

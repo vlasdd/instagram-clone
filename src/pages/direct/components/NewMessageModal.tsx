@@ -5,7 +5,7 @@ import RoutesTypes from '../../../constants/routes-types';
 import { db } from '../../../firebase/firebaseConfig';
 import getUsers from '../../../helpers/getUsers';
 import { useAppSelector } from '../../../redux/hooks';
-import Close from '../../../svgs/Close'
+import Close from '../../../svgs/empty/Close'
 import UserState from '../../../types/user-state-type';
 import UserSuggestion from '../../../types/user-suggestion-type';
 import UserToWriteTo from './UserToWriteTo';

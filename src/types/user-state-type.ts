@@ -1,5 +1,6 @@
 import BirthdateState from "./birthdate-type";
 import PostType from "./post-type";
+import SavedPostType from "./save-post-type";
 
 type UserState = {
     dateCreated: number,
@@ -12,7 +13,8 @@ type UserState = {
     birthdate: BirthdateState,
     phoneNumber: string,
     profileImage: string,
-    posts: PostType[]
+    posts: PostType[],
+    savedPosts: SavedPostType[],
 }
 
 export default UserState;

@@ -5,7 +5,7 @@ import ProfileRoutes from '../../../constants/profile-routes';
 import RoutesTypes from '../../../constants/routes-types';
 import { clearErrors, fetchSignedUser, setSignedUser } from '../../../redux/features/signedUser';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import Settings from '../../../svgs/Settings';
+import Settings from '../../../svgs/empty/Settings';
 import Modal from '../../../components/modal/Modal';
 import ChangeImageModal from './ChangeImageModal';
 import ProfileNavBar from './ProfileNavBar';
