@@ -17,6 +17,7 @@ import { doc, getDoc } from "firebase/firestore";
 import PrivateRoute from "./helpers/PrivateRoute";
 import ChatRoom from "./pages/direct/components/ChatRoom";
 import PostModalPage from "./pages/profile/components/post-modal-page/PostModalPage";
+import SavedPosts from "./pages/profile/components/SavedPosts";
 
 const Dashboard = lazy(() => import("./pages/dashboard/Dashboard"));
 const Login = lazy(() => import("./pages/login/Login"));
@@ -123,8 +124,19 @@ const App: React.FC = () => {
             </Route>
             <Route
               path={ProfileRoutes.SAVED}
-              element={<div>saved</div>}
+              element={<SavedPosts savedPosts={loggedUser.savedPosts}/>}
             >
+              <Route
+                path={`${ProfileRoutes.POST}:postId`}
+                element={
+                  <Modal
+                    closeEvent={() => navigate(RoutesTypes.DASHBOARD + userOnPage.userId)}
+                    styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
+                  >
+                    <PostModalPage { ...userOnPage } />
+                  </Modal>
+                }
+              />
             </Route>
             <Route
               path={ProfileRoutes.TAGGED}

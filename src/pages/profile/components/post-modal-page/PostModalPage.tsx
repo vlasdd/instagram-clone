@@ -30,7 +30,6 @@ const PostModalPage: React.FC<PostModalPageProps> = ({ posts, username, profileI
     const { addToFollowing, removeFromFollowing } = useFollowers({ userId });
 
     const [wordEntering, setWordEntering] = useState<string>("");
-    const [imageUpload, setImageUpload] = useState<File | null>(null);
 
     return (
         <div className="w-full h-full flex relative">
