@@ -2,19 +2,19 @@ import { nanoid } from '@reduxjs/toolkit';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { db } from '../../../firebase/firebaseConfig';
-import Close from '../../../svgs/empty/Close';
-import UserState from '../../../types/user-state-type';
-import UserLoader from '../../../components/other/UserLoader';
+import { db } from 'firebase-setup/firebaseConfig';
+import Close from 'svgs/empty/Close';
+import UserState from 'types/user-state-type';
+import UserLoader from 'components/other/UserLoader';
 import UserSuggestion from "./UserSuggestion";
 
 type UsersListProps = {
-    uid: string,
     usersList: {userId: string}[];
     descriptionLine: string;
+    closeEvent: () => void
 }
 
-const UsersListModal: React.FC<UsersListProps> = ({ uid, usersList, descriptionLine }) => {
+const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, closeEvent }) => {
     const navigate = useNavigate();
     const [allUsers, setAllUsers] = useState<UserState[]>([])
 
@@ -58,7 +58,7 @@ const UsersListModal: React.FC<UsersListProps> = ({ uid, usersList, descriptionL
                 <p>{descriptionLine}</p>
                 <button
                     className="absolute right-2"
-                    onClick={() => navigate(-1)}
+                    onClick={closeEvent}
                 >
                     <Close
                         styles="h-7 w-7"

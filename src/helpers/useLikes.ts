@@ -1,10 +1,10 @@
 import { doc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import { db } from "../firebase/firebaseConfig";
-import { setSignedUser } from "../redux/features/signedUser";
-import { setUserOnPage } from "../redux/features/userOnPage";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import PostType from "../types/post-type";
+import { db } from "firebase-setup/firebaseConfig";
+import { setSignedUser } from "redux-setup/features/signedUser";
+import { setUserOnPage } from "redux-setup/features/userOnPage";
+import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
+import PostType from "types/post-type";
 
 const useLikes = ({ userId, postId, posts, changePosts }: { userId: string, postId: string, posts: PostType[], changePosts: any }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -19,7 +19,6 @@ const useLikes = ({ userId, postId, posts, changePosts }: { userId: string, post
         const newPosts = posts.map(post => {
             if(post.postId === postId){
                 return { ...post, likes: [...post.likes, { userId: loggedUser.userId }] }
-                console.log("added like")
             }
 
             return post

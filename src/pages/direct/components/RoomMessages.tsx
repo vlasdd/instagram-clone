@@ -1,6 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit'
 import React, { useMemo } from 'react'
-import MessageType from '../../../types/message-type'
+import MessageType from 'types/message-type'
 import Message from './Message';
 
 type RoomMessagesProps = {

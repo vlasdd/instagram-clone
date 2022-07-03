@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RoutesTypes from '../../../constants/routes-types';
-import MessageType from '../../../types/message-type';
+import RoutesTypes from 'constants/routes-types';
+import MessageType from 'types/message-type';
 
 interface IMessageProps extends MessageType{
     loggedUserId: string,

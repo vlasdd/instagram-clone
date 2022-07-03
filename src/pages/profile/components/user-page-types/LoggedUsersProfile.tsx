@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
-import AccountsRoutes from '../../../constants/accounts-routes';
-import ProfileRoutes from '../../../constants/profile-routes';
-import RoutesTypes from '../../../constants/routes-types';
-import { clearErrors, fetchSignedUser, setSignedUser } from '../../../redux/features/signedUser';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import Settings from '../../../svgs/empty/Settings';
-import Modal from '../../../components/modal/Modal';
-import ChangeImageModal from './ChangeImageModal';
-import ProfileNavBar from './ProfileNavBar';
+import AccountsRoutes from 'constants/accounts-routes';
+import ProfileRoutes from 'constants/profile-routes';
+import RoutesTypes from 'constants/routes-types';
+import { clearErrors, fetchSignedUser, setSignedUser } from 'redux-setup/features/signedUser';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
+import Settings from 'svgs/empty/Settings';
+import Modal from 'components/modal/Modal';
+import ChangeImageModal from '../other/ChangeImageModal';
+import ProfileNavBar from '../other/ProfileNavBar';
 
 const LoggedUsersProfile: React.FC = () => {
     const {user: signedUser, status } = useAppSelector(state => state.signedUser);
@@ -38,7 +38,7 @@ const LoggedUsersProfile: React.FC = () => {
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
                     <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">{/*w-2/5 max-w-xs h-full flex justify-center*/}
                         <img
-                            src={signedUser.profileImage.length ? signedUser.profileImage : "../images/default-avatar-gray.jpg"}
+                            src={signedUser.profileImage.length ? signedUser.profileImage : "images/default-avatar-gray.jpg"}
                             className="rounded-full w-[170px] h-[170px] object-cover cursor-pointer"//w-full sm:w-4/5 max-w-[170px]
                             onClick={() => setIsImageModalOpen(true)}
                         />

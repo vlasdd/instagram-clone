@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
-import NewMessageModal from './components/NewMessageModal'
-import NoChatSelected from './components/NoChatSelected'
-import UsersSection from './components/UsersSection'
-import Header from '../../components/header/Header'
-import Modal from '../../components/modal/Modal'
-import useWindowWidth from '../../helpers/useWindowWidth'
+import NewMessageModal from 'pages/direct/components/NewMessageModal'
+import NoChatSelected from 'pages/direct/components/NoChatSelected'
+import UsersSection from 'pages/direct/components/UsersSection'
+import Header from 'components/header/Header'
+import Modal from 'components/modal/Modal'
+import useWindowWidth from 'helpers/useWindowWidth'
 
 const Direct: React.FC = () => {
     const { chatId } = useParams();

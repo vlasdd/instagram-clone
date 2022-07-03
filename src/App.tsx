@@ -1,31 +1,31 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import { Route, Routes, useNavigate} from 'react-router-dom';
-import AccountsRoutes from "./constants/accounts-routes";
-import ProfileRoutes from "./constants/profile-routes";
-import RoutesTypes from "./constants/routes-types"
-import EditProfile from "./pages/accounts/components/EditProfile";
-import { useAppDispatch, useAppSelector } from "./redux/hooks";
+import AccountsRoutes from "constants/accounts-routes";
+import ProfileRoutes from "constants/profile-routes";
+import RoutesTypes from "constants/routes-types"
+import EditProfile from "pages/accounts/components/EditProfile";
+import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
 import { AnimatePresence } from "framer-motion";
-import UsersListModal from "./pages/profile/components/UsersListModal";
-import Modal from "./components/modal/Modal";
-import PostsContainer from "./pages/profile/components/PostsContainer";
-import { setSignedUser } from "./redux/features/signedUser";
+import UsersListModal from "pages/profile/components/users-list/UsersListModal";
+import Modal from "components/modal/Modal";
+import PostsContainer from "pages/profile/components/posts/PostsContainer";
+import { setSignedUser } from "redux-setup/features/signedUser";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "./firebase/firebaseConfig";
-import UserState from "./types/user-state-type";
+import { auth, db } from "./firebase-setup/firebaseConfig";
+import UserState from "types/user-state-type";
 import { doc, getDoc } from "firebase/firestore";
-import PrivateRoute from "./helpers/PrivateRoute";
-import ChatRoom from "./pages/direct/components/ChatRoom";
-import PostModalPage from "./pages/profile/components/post-modal-page/PostModalPage";
-import SavedPosts from "./pages/profile/components/SavedPosts";
+import PrivateRoute from "helpers/PrivateRoute";
+import ChatRoom from "pages/direct/components/ChatRoom";
+import PostModalPage from "pages/profile/components/post-modal-page/PostModalPage";
+import SavedPosts from "pages/profile/components/posts/SavedPosts";
 
-const Dashboard = lazy(() => import("./pages/dashboard/Dashboard"));
-const Login = lazy(() => import("./pages/login/Login"));
-const SignUp = lazy(() => import("./pages/sign-up/SignUp"));
-const NotFound = lazy(() => import("./pages/not-found/NotFound"));
-const Accounts = lazy(() => import("./pages/accounts/Accounts"));
-const DefineProfile = lazy(() => import("./pages/profile/DefineProfile"));
-const Direct = lazy(() => import("./pages/direct/Direct"));
+const Dashboard = lazy(() => import("pages/dashboard/Dashboard"));
+const Login = lazy(() => import("pages/login/Login"));
+const SignUp = lazy(() => import("pages/sign-up/SignUp"));
+const NotFound = lazy(() => import("pages/not-found/NotFound"));
+const Accounts = lazy(() => import("pages/accounts/Accounts"));
+const DefineProfile = lazy(() => import("pages/profile/DefineProfile"));
+const Direct = lazy(() => import("pages/direct/Direct"));
 
 const App: React.FC = () => {
   const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -88,9 +88,9 @@ const App: React.FC = () => {
                     styles="h-96 top-[20%]"
                   >
                     <UsersListModal
-                      uid={userOnPage.userId}
                       descriptionLine="Followers"
                       usersList={userOnPage.followers}
+                      closeEvent={() => navigate(-1)}
                     />
                   </Modal>
                 }
@@ -103,9 +103,9 @@ const App: React.FC = () => {
                     styles="h-96 top-[20%]"
                   >
                     <UsersListModal
-                      uid={userOnPage.userId}
                       descriptionLine="Following"
                       usersList={userOnPage.following}
+                      closeEvent={() => navigate(-1)}
                     />
                   </Modal>
                 }

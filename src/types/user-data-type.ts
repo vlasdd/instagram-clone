@@ -1,4 +1,4 @@
-import BirthdateState  from "./birthdate-type";
+import BirthdateState  from "types/birthdate-type";
 
 type UserData = {
     username: string,

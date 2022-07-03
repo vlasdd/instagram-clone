@@ -1,11 +1,10 @@
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
-import { db } from '../firebase/firebaseConfig';
-import { setSignedUser } from '../redux/features/signedUser';
-import { setUserOnPage } from '../redux/features/userOnPage';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import UserState from '../types/user-state-type';
-import UserSuggestionType from '../types/user-suggestion-type';
+import { db } from 'firebase-setup/firebaseConfig';
+import { setSignedUser } from 'redux-setup/features/signedUser';
+import { setUserOnPage } from 'redux-setup/features/userOnPage';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
+import UserState from 'types/user-state-type';
 
 const useFollowers = ({ userId }: { userId: string }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);

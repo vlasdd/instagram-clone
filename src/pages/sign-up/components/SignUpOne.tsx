@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import RoutesTypes from "../../../constants/routes-types"
-import isEmailAvailable from '../../../firebase/isEmailAvailable';
-import isUsernameAvailable from "../../../firebase/isUsernameAvailable";
-import UserData from "../../../types/user-data-type";
+import RoutesTypes from "constants/routes-types"
+import isEmailAvailable from 'firebase-setup/isEmailAvailable';
+import isUsernameAvailable from "firebase-setup/isUsernameAvailable";
+import UserData from "types/user-data-type";
 
 type SignUpOneProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>

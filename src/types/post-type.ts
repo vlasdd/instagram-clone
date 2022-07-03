@@ -1,4 +1,4 @@
-import CommentsType from "./comments-type"
+import CommentsType from "types/comments-type"
 
 type PostType = {
     postId: string

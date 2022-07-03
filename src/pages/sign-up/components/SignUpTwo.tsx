@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import UserData from "../../../types/user-data-type";
-import BirthdateState from "../../../types/birthdate-type";
+import UserData from "types/user-data-type";
+import BirthdateState from "types/birthdate-type";
 import { Link } from "react-router-dom";
-import RoutesTypes from "../../../constants/routes-types";
+import RoutesTypes from "constants/routes-types";
 
 type SignUpTwoProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>

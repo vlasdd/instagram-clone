@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import PostType from "../types/post-type";
+import PostType from "types/post-type";
 
 const usePosts = () => useOutletContext<{posts: PostType[], changePosts: any}>()
 

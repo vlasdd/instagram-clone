@@ -1,9 +1,9 @@
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { db } from '../../../firebase/firebaseConfig';
-import PostType from '../../../types/post-type'
-import SavedPostType from '../../../types/save-post-type'
-import UserState from '../../../types/user-state-type';
+import { db } from 'firebase-setup/firebaseConfig';
+import PostType from 'types/post-type'
+import SavedPostType from 'types/save-post-type'
+import UserState from 'types/user-state-type';
 import PostsContainer from './PostsContainer';
 
 const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = ({ savedPosts }) => {

@@ -1,15 +1,15 @@
 import { doc, getDoc, onSnapshot, Timestamp, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { db, storage } from '../../../firebase/firebaseConfig';
-import { useAppSelector } from '../../../redux/hooks';
-import ChatState from '../../../types/chat-state-type';
-import UserState from '../../../types/user-state-type';
-import { initialState as initialUser } from "../../../redux/features/signedUser";
-import Info from '../../../svgs/both/Info';
-import MessageType from '../../../types/message-type';
+import { db, storage } from 'firebase-setup/firebaseConfig';
+import { useAppSelector } from 'redux-setup/hooks';
+import ChatState from 'types/chat-state-type';
+import UserState from 'types/user-state-type';
+import { initialState as initialUser } from "redux-setup/features/signedUser";
+import Info from 'svgs/both/Info';
+import MessageType from 'types/message-type';
 import MessageForm from './MessageForm';
-import RoutesTypes from '../../../constants/routes-types';
+import RoutesTypes from 'constants/routes-types';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import RoomMessages from './RoomMessages';

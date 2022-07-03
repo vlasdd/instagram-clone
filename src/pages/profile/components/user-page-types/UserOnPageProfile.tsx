@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
-import ProfileRoutes from '../../../constants/profile-routes';
-import RoutesTypes from '../../../constants/routes-types';
-import useFollowers from '../../../helpers/useFollowers';
-import { clearErrors, fetchUserOnPage } from '../../../redux/features/userOnPage';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import Additional from '../../../svgs/empty/Additional';
-import Modal from '../../../components/modal/Modal';
-import ProfileNavBar from './ProfileNavBar';
-import AreYouSureModal from '../../../components/modal/AreYouSureModal';
+import ProfileRoutes from 'constants/profile-routes';
+import RoutesTypes from 'constants/routes-types';
+import useFollowers from 'helpers/useFollowers';
+import { clearErrors, fetchUserOnPage } from 'redux-setup/features/userOnPage';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
+import Additional from 'svgs/empty/Additional';
+import Modal from 'components/modal/Modal';
+import ProfileNavBar from '../other/ProfileNavBar';
+import AreYouSureModal from 'components/modal/AreYouSureModal';
 
 const UserOnPageProfile: React.FC = () => {
     const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);

@@ -1,5 +1,5 @@
 import React from 'react';
-import UserSuggestionType from '../../../types/user-suggestion-type';
+import UserSuggestionType from 'types/user-suggestion-type';
 
 interface IUserToWriteToProps extends UserSuggestionType {
     addUserToList: () => void

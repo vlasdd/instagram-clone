@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../../components/header/Header";
-import RoutesTypes from "../../constants/routes-types";
+import Header from "components/header/Header";
+import RoutesTypes from "constants/routes-types";
 
 const NotFound: React.FC = () => {
     return (

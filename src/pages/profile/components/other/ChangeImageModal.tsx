@@ -1,11 +1,11 @@
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import { deleteObject, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updateDoc, doc } from "firebase/firestore";
-import { db, storage } from '../../../firebase/firebaseConfig';
+import { db, storage } from 'firebase-setup/firebaseConfig';
 import { v4 } from "uuid";
-import { setSignedUser } from '../../../redux/features/signedUser';
-import UserState from '../../../types/user-state-type';
+import { setSignedUser } from 'redux-setup/features/signedUser';
+import UserState from 'types/user-state-type';
 
 type ChangeImageModalProps = {
     closeEvent: () => void

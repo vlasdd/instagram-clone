@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import ReturnBack from '../../../../../svgs/empty/ReturnBack';
+import ReturnBack from 'svgs/empty/ReturnBack';
 import { motion } from "framer-motion";
-import useWindowWidth from "../../../../../helpers/useWindowWidth";
-import Modal from '../../../../modal/Modal';
-import AreYouSureModal from '../../../../modal/AreYouSureModal';
-import UserState from '../../../../../types/user-state-type';
+import useWindowWidth from "helpers/useWindowWidth";
+import UserState from 'types/user-state-type';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, storage } from '../../../../../firebase/firebaseConfig';
+import { db, storage } from 'firebase-setup/firebaseConfig';
 import { v4 } from 'uuid';
 import { doc, updateDoc } from 'firebase/firestore';
-import { useAppDispatch, useAppSelector } from '../../../../../redux/hooks';
-import { setSignedUser } from '../../../../../redux/features/signedUser';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
+import { setSignedUser } from 'redux-setup/features/signedUser';
 import { nanoid } from '@reduxjs/toolkit';
-import { setUserOnPage } from '../../../../../redux/features/userOnPage';
+import { setUserOnPage } from 'redux-setup/features/userOnPage';
 
 type NewPostModalTwoProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>,

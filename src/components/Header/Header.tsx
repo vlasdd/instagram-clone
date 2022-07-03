@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import RoutesTypes from "../../constants/routes-types"
-import { useAppSelector } from "../../redux/hooks";
+import RoutesTypes from "constants/routes-types"
+import { useAppSelector } from "redux-setup/hooks";
 import { useNavigate } from "react-router-dom";
 import ProfileDropMenuContainer from "./components/ProfileDropMenuContainer";
-import DropMenu from "../other/DropMenu";
+import DropMenu from "components/other/DropMenu";
 import UsersSearchDropMenu from "./components/UsersSearchDropMenu";
-import Home from "../../svgs/both/Home";
-import Direct from "../../svgs/empty/Direct";
-import useWindowWidth from "../../helpers/useWindowWidth";
+import Home from "svgs/both/Home";
+import Direct from "svgs/empty/Direct";
+import useWindowWidth from "helpers/useWindowWidth";
 import SearchBar from "./components/SearchBar";
-import NewPost from "../../svgs/both/NewPost";
-import Modal from "../modal/Modal";
+import NewPost from "svgs/both/NewPost";
+import Modal from "components/modal/Modal";
 import NewPostModal from "./components/new-post-modal/NewPostModal";
 
 enum MenuTypes{

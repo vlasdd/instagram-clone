@@ -1,8 +1,8 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firebaseConfig";
-import { setSignedUser } from "../redux/features/signedUser";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import SavedPostType from "../types/save-post-type";
+import { db } from "firebase-setup/firebaseConfig";
+import { setSignedUser } from "redux-setup/features/signedUser";
+import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
+import SavedPostType from "types/save-post-type";
 
 const useSavedPosts = ({ userId, postId }: { userId: string, postId: string }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);

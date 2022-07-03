@@ -1,6 +1,6 @@
 import React from 'react'
-import Heart from '../../../svgs/empty/Heart'
-import Photograph from '../../../svgs/empty/Photograph'
+import Heart from 'svgs/empty/Heart'
+import Photograph from 'svgs/empty/Photograph'
 
 type MessageFormProps = {
     wordEntering: string,

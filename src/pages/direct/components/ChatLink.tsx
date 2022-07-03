@@ -1,8 +1,8 @@
 import { doc, getDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import RoutesTypes from '../../../constants/routes-types'
-import { db } from '../../../firebase/firebaseConfig'
+import RoutesTypes from 'constants/routes-types'
+import { db } from 'firebase-setup/firebaseConfig'
 
 type ChatLinkProps = {
     userId: string,

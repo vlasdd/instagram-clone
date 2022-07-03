@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import UserSearchElement from './UserSearchElement'
-import UserState from '../../../types/user-state-type';
-import getUsers from '../../../helpers/getUsers';
-import UserLoader from '../../other/UserLoader';
+import UserState from 'types/user-state-type';
+import getUsers from 'helpers/getUsers';
+import UserLoader from 'components/other/UserLoader';
 import { nanoid } from '@reduxjs/toolkit';
 
 const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = ({ wordEntering }) => {

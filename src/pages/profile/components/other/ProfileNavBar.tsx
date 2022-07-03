@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import ProfileRoutes from '../../../constants/profile-routes';
-import Posts from '../../../svgs/empty/Posts';
-import Profile from '../../../svgs/empty/Profile';
-import Saved from '../../../svgs/empty/Saved';
+import ProfileRoutes from 'constants/profile-routes';
+import Posts from 'svgs/empty/Posts';
+import Profile from 'svgs/empty/Profile';
+import Saved from 'svgs/empty/Saved';
 
 const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
     const navigate = useNavigate();

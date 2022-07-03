@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import PostType from '../../../types/post-type'
+import PostType from 'types/post-type'
 import PostImage from './PostImage'
 
 const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = ({ posts, changePosts }) => {

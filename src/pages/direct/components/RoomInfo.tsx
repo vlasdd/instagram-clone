@@ -1,10 +1,10 @@
 import { deleteDoc, doc } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import RoutesTypes from '../../../constants/routes-types'
-import { db } from '../../../firebase/firebaseConfig'
-import AreYouSureModal from '../../../components/modal/AreYouSureModal'
-import Modal from '../../../components/modal/Modal'
+import RoutesTypes from 'constants/routes-types'
+import { db } from 'firebase-setup/firebaseConfig'
+import AreYouSureModal from 'components/modal/AreYouSureModal'
+import Modal from 'components/modal/Modal'
 
 type RoomInfoProps = {
   userId: string,

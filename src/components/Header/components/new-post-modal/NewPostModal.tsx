@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import UserState from '../../../../types/user-state-type';
-import NewPostModalOne from './components/NewPostModalOne';
-import NewPostModalTwo from './components/NewPostModalTwo';
+import UserState from 'types/user-state-type';
+import NewPostModalOne from 'components/header/components/new-post-modal/components/NewPostModalOne';
+import NewPostModalTwo from 'components/header/components/new-post-modal/components/NewPostModalTwo';
 
 type NewPostModalProps = {
     user: UserState;

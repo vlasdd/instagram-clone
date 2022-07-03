@@ -1,6 +1,6 @@
-import BirthdateState from "./birthdate-type";
-import PostType from "./post-type";
-import SavedPostType from "./save-post-type";
+import BirthdateState from "types/birthdate-type";
+import PostType from "types/post-type";
+import SavedPostType from "types/save-post-type";
 
 type UserState = {
     dateCreated: number,

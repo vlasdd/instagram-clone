@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebase/firebaseConfig";
-import RoutesTypes from "../../constants/routes-types";
-import { useAppDispatch } from "../../redux/hooks";
-import { setSignedUser } from "../../redux/features/signedUser";
+import { auth, db } from "firebase-setup/firebaseConfig";
+import RoutesTypes from "constants/routes-types";
+import { useAppDispatch } from "redux-setup/hooks";
+import { setSignedUser } from "redux-setup/features/signedUser";
 import { doc, getDoc } from "firebase/firestore";
-import UserState from "../../types/user-state-type";
+import UserState from "types/user-state-type";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();

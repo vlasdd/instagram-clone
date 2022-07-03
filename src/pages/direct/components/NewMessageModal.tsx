@@ -1,13 +1,13 @@
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import RoutesTypes from '../../../constants/routes-types';
-import { db } from '../../../firebase/firebaseConfig';
-import getUsers from '../../../helpers/getUsers';
-import { useAppSelector } from '../../../redux/hooks';
-import Close from '../../../svgs/empty/Close'
-import UserState from '../../../types/user-state-type';
-import UserSuggestion from '../../../types/user-suggestion-type';
+import RoutesTypes from 'constants/routes-types';
+import { db } from 'firebase-setup/firebaseConfig';
+import getUsers from 'helpers/getUsers';
+import { useAppSelector } from 'redux-setup/hooks';
+import Close from 'svgs/empty/Close'
+import UserState from 'types/user-state-type';
+import UserSuggestion from 'types/user-suggestion-type';
 import UserToWriteTo from './UserToWriteTo';
 
 const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) => {

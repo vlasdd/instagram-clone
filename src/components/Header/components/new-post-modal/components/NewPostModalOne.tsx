@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
-import useWindowWidth from '../../../../../helpers/useWindowWidth';
+import useWindowWidth from 'helpers/useWindowWidth';
 
 type NewPostModalOneProps = { 
     image: any, 

@@ -1,6 +1,6 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../firebase/firebaseConfig";
-import UserState from "../types/user-state-type";
+import { db } from "firebase-setup/firebaseConfig";
+import UserState from "types/user-state-type";
 
 const getUsers = async (
     wordEntering: string,

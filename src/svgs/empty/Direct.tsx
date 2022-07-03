@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import RoutesTypes from '../../constants/routes-types';
+import RoutesTypes from 'constants/routes-types';
 
 const Direct: React.FC<{ styles: string, includeHovering: boolean }> = ({ styles, includeHovering }) => {
     const location = useLocation();

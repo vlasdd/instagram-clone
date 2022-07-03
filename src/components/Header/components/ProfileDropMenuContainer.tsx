@@ -1,16 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProfileRoutes from '../../../constants/profile-routes';
-import RoutesTypes from '../../../constants/routes-types';
-import { removeSignedUser } from '../../../redux/features/signedUser';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
+import ProfileRoutes from 'constants/profile-routes';
+import RoutesTypes from 'constants/routes-types';
+import { removeSignedUser } from 'redux-setup/features/signedUser';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import ProfileDropMenuElement from './ProfileDropMenuElement';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../../firebase/firebaseConfig';
-import Profile from '../../../svgs/empty/Profile';
-import Saved from '../../../svgs/empty/Saved';
-import Settings from '../../../svgs/empty/Settings';
-import SwitchAccounts from '../../../svgs/empty/SwitchAccounts';
+import { auth } from 'firebase-setup/firebaseConfig';
+import Profile from 'svgs/empty/Profile';
+import Saved from 'svgs/empty/Saved';
+import Settings from 'svgs/empty/Settings';
+import SwitchAccounts from 'svgs/empty/SwitchAccounts';
 
 const ProfileDropMenuContainer: React.FC = () => {
     const dispatch = useAppDispatch();

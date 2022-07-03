@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import SignUpOne from "./components/SignUpOne";
-import SignUpTwo from "./components/SignUpTwo";
-import BirthdateState from "../../types/birthdate-type";
-import UserData from "../../types/user-data-type";
+import SignUpOne from "pages/sign-up/components/SignUpOne";
+import SignUpTwo from "pages/sign-up/components/SignUpTwo";
+import BirthdateState from "types/birthdate-type";
+import UserData from "types/user-data-type";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebase/firebaseConfig";
+import { auth, db } from "firebase-setup/firebaseConfig";
 import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore"; 
-import { useAppDispatch } from "../../redux/hooks";
-import { setSignedUser } from "../../redux/features/signedUser";
-import UserState from "../../types/user-state-type";
+import { useAppDispatch } from "redux-setup/hooks";
+import { setSignedUser } from "redux-setup/features/signedUser";
+import UserState from "types/user-state-type";
 import { Navigate, useNavigate } from "react-router-dom";
-import RoutesTypes from "../../constants/routes-types";
+import RoutesTypes from "constants/routes-types";
 
 const SignUp: React.FC = () => {
     const dispatch = useAppDispatch();

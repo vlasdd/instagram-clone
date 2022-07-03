@@ -1,13 +1,13 @@
 import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import RoutesTypes from '../../../constants/routes-types';
-import { db } from '../../../firebase/firebaseConfig';
-import { useAppSelector } from '../../../redux/hooks'
-import Text from '../../../svgs/empty/Text';
+import RoutesTypes from 'constants/routes-types';
+import { db } from 'firebase-setup/firebaseConfig';
+import { useAppSelector } from 'redux-setup/hooks'
+import Text from 'svgs/empty/Text';
 import ChatLink from './ChatLink';
-import ChatState from '../../../types/chat-state-type';
-import UserLoader from '../../../components/other/UserLoader';
+import ChatState from 'types/chat-state-type';
+import UserLoader from 'components/other/UserLoader';
 import { nanoid } from '@reduxjs/toolkit';
 
 const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
