@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import useLikes from '../../../../../helpers/useLikes'
 import Comment from '../../../../../svgs/empty/Comment'
 import Direct from '../../../../../svgs/empty/Direct'
@@ -6,13 +6,11 @@ import FilledHeart from '../../../../../svgs/filled/FilledHeart'
 import Heart from '../../../../../svgs/empty/Heart'
 import PostType from '../../../../../types/post-type'
 import { motion } from "framer-motion"
-import { useRef } from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
 import Saved from '../../../../../svgs/empty/Saved'
 import useSavedPosts from '../../../../../helpers/useSavedPosts'
 import { useAppSelector } from '../../../../../redux/hooks'
 import FilledSaved from '../../../../../svgs/filled/FilledSaved'
+import usePosts from '../../../../../helpers/usePosts'
 
 type LikesBarProps = {
     userId: string,
@@ -23,9 +21,10 @@ type LikesBarProps = {
 }
 
 const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, commentsRef }) => {
-    const loggedUser = useAppSelector(state => state.signedUser.user)
+    const loggedUser = useAppSelector(state => state.signedUser.user);
+    const { changePosts } = usePosts();
 
-    const { addLike, removeLike } = useLikes({ userId, postId, posts });
+    const { addLike, removeLike } = useLikes({ userId, postId, posts, changePosts });
     const { addToSaved, removeFromSaved } = useSavedPosts({ userId, postId });
 
     return (

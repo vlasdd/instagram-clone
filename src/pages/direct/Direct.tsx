@@ -32,7 +32,6 @@ const Direct: React.FC = () => {
                             <UsersSection openModal={() => setIsModalOpen(true)} />
                 }
 
-
                 {
                     isModalOpen ?
                         <Modal

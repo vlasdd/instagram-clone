@@ -41,7 +41,8 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
             postImage: imageUrl,
             likes: [],
             comments: [],
-            text: text
+            text: text,
+            fromId: user.userId
         }
 
         await updateDoc(doc(db, "users", user.userId), {
@@ -88,7 +89,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
             <div className="w-full h-full flex flex-col sm:flex-row">
                 <img
                     src={URL.createObjectURL(image)}
-                    className="h-[235px] sm:h-[calc(100%-40px)] w-[450px] object-cover sm:rounded-bl-xl"
+                    className="h-[335px] sm:h-full w-[450px] object-cover sm:rounded-bl-xl"
                 />
                 <motion.div 
                     className="flex flex-col w-full h-[calc(100%-40px)] sm:border-l overflow-hidden"
@@ -97,7 +98,6 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
                             {
                                 initial: { width: "0px" },
                                 animate: { width: "190px" },
-                                exit: {width: "0px"},
                                 transition: { duration: 0.3 },
                             } :
                             {}

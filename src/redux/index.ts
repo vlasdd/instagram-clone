@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import signedUserReducers from "./features/signedUser";
 import userOnPageReducers from "./features/userOnPage";
+import currentPostReducers from "./features/currentPost";
 
 const store = configureStore({
   reducer: {
     signedUser: signedUserReducers,
-    userOnPage: userOnPageReducers
+    userOnPage: userOnPageReducers,
+    currentPost: currentPostReducers,
   }
 })
 

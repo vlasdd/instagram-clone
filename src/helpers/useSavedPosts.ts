@@ -8,8 +8,6 @@ const useSavedPosts = ({ userId, postId }: { userId: string, postId: string }) =
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
 
-    console.log(userId, "|||",  postId, "|||",  loggedUser.userId)
-
     const addToSaved = async () => {
         const newPosts = [...loggedUser.savedPosts, { fromId: userId, postId: postId }] as SavedPostType[]
 

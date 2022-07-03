@@ -117,7 +117,7 @@ const App: React.FC = () => {
                     closeEvent={() => navigate(RoutesTypes.DASHBOARD + userOnPage.userId)}
                     styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
                   >
-                    <PostModalPage { ...userOnPage } />
+                    <PostModalPage />
                   </Modal>
                 }
               />
@@ -133,7 +133,7 @@ const App: React.FC = () => {
                     closeEvent={() => navigate(RoutesTypes.DASHBOARD + userOnPage.userId)}
                     styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
                   >
-                    <PostModalPage { ...userOnPage } />
+                    <PostModalPage />
                   </Modal>
                 }
               />

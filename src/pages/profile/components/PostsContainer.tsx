@@ -3,7 +3,9 @@ import { Outlet } from 'react-router-dom'
 import PostType from '../../../types/post-type'
 import PostImage from './PostImage'
 
-const PostsContainer: React.FC<{ posts: PostType[] }> = ({ posts }) => {
+const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = ({ posts, changePosts }) => {
+    console.log("savedPosts", posts)
+
     return (
         <>
             {posts.length === 0 ?
@@ -21,7 +23,7 @@ const PostsContainer: React.FC<{ posts: PostType[] }> = ({ posts }) => {
                         <PostImage {...post} key={post.postId} />
                     ))}
                 </div>}
-            <Outlet />
+            <Outlet context={{ posts, changePosts }}/>
         </>
     )
 }

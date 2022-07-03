@@ -6,19 +6,20 @@ import { setUserOnPage } from "../redux/features/userOnPage";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import PostType from "../types/post-type";
 
-const useLikes = ({ userId, postId, posts }: { userId: string, postId: string, posts: PostType[] }) => {
+const useLikes = ({ userId, postId, posts, changePosts }: { userId: string, postId: string, posts: PostType[], changePosts: any }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
     const dispatch = useAppDispatch();
 
-    const { uid } = useParams();
+  //  console.log(userId, "|||", postId, "|||", posts)
 
-    console.log(userId, "|||",  postId, "|||",  loggedUser.userId)
+    const { uid } = useParams();
 
     const addLike = async () => {
         const newPosts = posts.map(post => {
             if(post.postId === postId){
                 return { ...post, likes: [...post.likes, { userId: loggedUser.userId }] }
+                console.log("added like")
             }
 
             return post
@@ -28,12 +29,16 @@ const useLikes = ({ userId, postId, posts }: { userId: string, postId: string, p
             posts: newPosts
         })
 
-        if (uid) {
+        if (uid === userId) {
             dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
         }
 
         if (userOnPage.userId === loggedUser.userId) {
             dispatch(setSignedUser({ ...loggedUser, posts: newPosts }))
+        }
+
+        if(changePosts){
+            changePosts(newPosts)
         }
     } 
 
@@ -50,12 +55,16 @@ const useLikes = ({ userId, postId, posts }: { userId: string, postId: string, p
             posts: newPosts
         })
 
-        if (uid) {
+        if (uid === userId) {
             dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
         }
 
         if (userOnPage.userId === loggedUser.userId) {
             dispatch(setSignedUser({ ...loggedUser, posts: newPosts }))
+        }
+
+        if(changePosts){
+            changePosts(newPosts)
         }
     } 
 

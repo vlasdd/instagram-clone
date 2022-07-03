@@ -24,11 +24,9 @@ const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = ({ savedPosts }) =
         getSavedPosts();
     }, [])
 
-    console.log(savedPostsData)
-
     return (
         savedPostsData.length ?
-            <PostsContainer posts={savedPostsData}/> :
+            <PostsContainer posts={savedPostsData} changePosts={setSavedPostsData}/> :
             <div className="w-[300px] sm:w-[350px] h-full flex items-center justify-center mt-8 text-center">
                 <div className="flex flex-col items-center">
                     <img
