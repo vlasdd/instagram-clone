@@ -61,7 +61,7 @@ const Header: React.FC = () => {
                                         event.stopPropagation();
                                         setCurrentMenu(MenuTypes.NONE)
                                     }}
-                                    styles="w-[375px] top-12 left-[-65px] h-96"
+                                    styles="w-[375px] top-12 left-[-65px] h-96 z-20"
                                 >
                                     <UsersSearchDropMenu
                                         wordEntering={wordEntering}

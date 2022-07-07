@@ -1,19 +1,16 @@
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from 'App';
 import 'style.css';
 import { BrowserRouter as Router } from "react-router-dom" 
 import { Provider } from 'react-redux';
 import store from "redux-setup";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
-root.render(
+ReactDOM.render(
   <Provider store={store}>
     <Router>
-        <App />
+      <App />
     </Router>
-  </Provider>
+  </Provider>,
+  document.getElementById("root")
 );
 

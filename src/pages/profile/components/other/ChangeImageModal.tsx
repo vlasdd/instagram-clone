@@ -6,6 +6,7 @@ import { db, storage } from 'firebase-setup/firebaseConfig';
 import { v4 } from "uuid";
 import { setSignedUser } from 'redux-setup/features/signedUser';
 import UserState from 'types/user-state-type';
+import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 
 type ChangeImageModalProps = {
     closeEvent: () => void
@@ -19,6 +20,8 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
         if(!event.target.files){
             return;
         }
+        dispatch(setIsBeingLoaded(true))
+
         const imageUpload = event.target.files[0];
 
         /*if (currentUser.profileImage !== "") {
@@ -35,12 +38,16 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
         });
 
         dispatch(setSignedUser({...currentUser, profileImage: imageUrl}));
-        closeEvent()
+        closeEvent();
+
+        dispatch(setIsBeingLoaded(false))
     }
 
     async function deleteImage(currentUser: UserState) {
         //const imageRef = ref(storage, currentUser.profileImage);
         //await deleteObject(imageRef);
+
+        dispatch(setIsBeingLoaded(true))
 
         await updateDoc(doc(db, "users", currentUser.userId), {
             profileImage: ""
@@ -48,6 +55,8 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
 
         dispatch(setSignedUser({ ...currentUser, profileImage: "" }));
         closeEvent();
+
+        dispatch(setIsBeingLoaded(false))
     }
 
     return (

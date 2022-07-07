@@ -5,9 +5,10 @@ type DropMenuProps = {
   children: React.ReactNode;
   closeEvent: (() => void) | ((event: any) => void);
   styles: string;
+  noAnimation?: boolean;
 }
 
-const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles }) => {
+const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles, noAnimation }) => {
   return (
     <>
       <div
@@ -16,9 +17,15 @@ const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles }) => 
       ></div>
       <motion.div
         className={`bg-white flex items-center rounded-lg drop-shadow-md absolute flex-col ${styles}`}
-        initial={{ y: -50 }}
-        animate={{ y: 0 }}
-        exit={{ y: 50 }}
+        {...(
+          !noAnimation ?
+            {
+              initial: { y: -50 },
+              animate: { y: 0 },
+              exit: { y: 50 }
+            } :
+            {}
+        )}
       >
         {children}
       </motion.div>

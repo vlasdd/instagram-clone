@@ -1,6 +1,7 @@
+import { nanoid } from '@reduxjs/toolkit';
 import { db } from 'firebase-setup/firebaseConfig';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import usePosts from 'helpers/usePosts';
+import usePosts from 'pages/profile/hooks/usePosts';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { setSignedUser } from 'redux-setup/features/signedUser';
@@ -34,6 +35,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
             userId: loggedUser.userId,
             text: wordEntering,
             likes: [],
+            commentId: nanoid(),
         } 
         
         const newPosts = posts.map(post => {

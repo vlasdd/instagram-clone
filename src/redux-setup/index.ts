@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import signedUserReducers from "redux-setup/features/signedUser";
 import userOnPageReducers from "redux-setup/features/userOnPage";
-import currentPostReducers from "redux-setup/features/currentPost";
+import isBeingLoadedReducers from "./features/isBeingLoaded";
 
 const store = configureStore({
   reducer: {
     signedUser: signedUserReducers,
     userOnPage: userOnPageReducers,
-    currentPost: currentPostReducers,
+    isBeingLoaded: isBeingLoadedReducers,
   }
 })
 

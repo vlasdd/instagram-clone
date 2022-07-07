@@ -3,6 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebase-setup/firebaseConfig";
 import BirthdateState from "types/birthdate-type";
 import UserState from "types/user-state-type";
+import { setIsBeingLoaded } from "./isBeingLoaded";
 
 type InitialStateType = {
     user: UserState,
@@ -13,6 +14,9 @@ type InitialStateType = {
 export const fetchUserOnPage = createAsyncThunk(
     "userOnPage/fetchUserOnPage",
     async (uid: string, {rejectWithValue, dispatch}) => {
+       // dispatch(setIsBeingLoaded(true));
+        console.log("func page")
+
         try {
             const loggedUser = await getDoc(doc(db, "users", uid));
 
@@ -31,6 +35,7 @@ export const fetchUserOnPage = createAsyncThunk(
             }
         }
 
+        //dispatch(setIsBeingLoaded(false))
     }
 )
 
