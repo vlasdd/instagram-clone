@@ -27,7 +27,7 @@ const PostModalPage: React.FC = () => {
 
     const [wordEntering, setWordEntering] = useState<string>("");
 
-    const userInfo = useUserInfo(currentPost?.fromId as string, [postId, currentPost])
+    const userInfo = useUserInfo(currentPost?.fromId as string, [postId, currentPost?.fromId])
     const innerWidth = useWindowWidth();
 
     return (
@@ -43,7 +43,7 @@ const PostModalPage: React.FC = () => {
                         className="w-full max-h-full object-cover"
                     />
                 </div>
-                <div className="w-full sm:w-2/5 flex flex-col justify-between">
+                <div className="w-full h-full sm:w-2/5 flex flex-col justify-between">
                     <UserHeader userInfo={userInfo} />
                     <PostComments
                         comments={currentPost.comments}

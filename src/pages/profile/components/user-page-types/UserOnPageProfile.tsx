@@ -9,6 +9,7 @@ import Additional from 'svgs/empty/Additional';
 import Modal from 'components/modal/Modal';
 import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
+import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 
 const UserOnPageProfile: React.FC = () => {
     const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);
@@ -31,7 +32,9 @@ const UserOnPageProfile: React.FC = () => {
     const { addToFollowing, removeFromFollowing } = useFollowers(userOnPage)
 
     useEffect(() => {
+        dispatch(setIsBeingLoaded(true));
         dispatch(fetchUserOnPage(uid as string))
+        dispatch(setIsBeingLoaded(false));
     }, [uid])
 
     useEffect(() => {

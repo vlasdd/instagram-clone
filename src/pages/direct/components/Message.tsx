@@ -20,7 +20,10 @@ const Message: React.FC<IMessageProps> = ({ text, from, loggedUserId, media, pro
 
     return (
         <div
-            className={`flex items-center gap-2 w-11/12 sm:w-5/6 xl:w-3/4 ${from.userId === loggedUserId ? "justify-end" : "justify-start"}`}
+            className={`
+                flex items-center gap-2 w-11/12 sm:w-5/6 xl:w-3/4 my-[6px]
+                ${from.userId === loggedUserId ? "justify-end" : "justify-start"}
+            `}
             ref={scrollRef}
         >
             {
@@ -39,13 +42,13 @@ const Message: React.FC<IMessageProps> = ({ text, from, loggedUserId, media, pro
             <div className={`
                 inline-block max-w-[200px] 
                 ${from.userId === loggedUserId ? "bg-gray-200" : "border"}
-                ${media ? `rounded-[10px] ${text.length ? "pb-1" : ""}` :"rounded-[25px] py-2 px-2"} 
+                ${media ? `rounded-[10px] ${text.length ? "pb-1" : ""}` : "rounded-[25px] py-2 px-2"} 
             `}>
                 {
                     media.length ?
                         <img
                             src={media}
-                            className="w-[190px] rounded"
+                            className="w-[190px] rounded rounded-t-[10px]"
                         /> :
                         null
                 }

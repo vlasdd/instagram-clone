@@ -66,7 +66,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
     }
 
     return (
-        <div className="flex justify-between items-center rounded-br-xl border h-[50px] w-full px-4 gap-4">
+        <div className="flex justify-between items-center rounded-b-xl border h-[50px] w-full px-4 gap-4">
             <input
                 type="text"
                 placeholder="Message..."

@@ -9,8 +9,8 @@ type ModalProps = {
 
 const Modal: React.FC<ModalProps> = ({ children, closeEvent, styles }) => {
     useEffect(() => {
-        document.body.classList.add("overflow-hidden")
-        return () => document.body.classList.remove("overflow-hidden")
+        document.body.classList.add("overflow-hidden");
+        return () => document.body.classList.remove("overflow-hidden");
     }, [])
 
     return (

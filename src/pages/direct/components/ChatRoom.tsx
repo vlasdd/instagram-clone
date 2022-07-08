@@ -47,10 +47,6 @@ const ChatRoom: React.FC = () => {
     }, [chatId, loggedUser])
 
     const sendMessage = async () => {
-        if(!wordEntering.length){
-            return
-        }
-
         let imageUrl = "";
         if(imageUpload){
             const imageRef = ref(storage, `Images/${imageUpload.name + v4()}`)
@@ -113,6 +109,7 @@ const ChatRoom: React.FC = () => {
                         fullName={secondUser.fullName}
                         profileImage={secondUser.profileImage}
                         chatId={chatId as string}
+                        messages={messages}
                     /> :
                     <div className="flex h-[calc(100%-60px)] flex-col justify-end w-full items-center">
                         <RoomMessages

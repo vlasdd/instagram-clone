@@ -15,7 +15,7 @@ type UsersListProps = {
 }
 
 const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, closeEvent }) => {
-    const navigate = useNavigate();
+    const [isBeingLoaded, setIsBeingLoaded] = useState<boolean>(true);
     const [allUsers, setAllUsers] = useState<UserState[]>([])
 
     useEffect(() => {
@@ -32,6 +32,7 @@ const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, 
         } 
 
         getUsers();
+        setIsBeingLoaded(false);
     }, [usersList])
 
     const users = allUsers.map(data => <UserSuggestion {...data} key={data.userId} />)
@@ -66,11 +67,15 @@ const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, 
                 </button>
             </div>
             {
-                users.length ?
-                    <div className="overflow-hidden overflow-y-auto">
-                        {users}
-                    </div> :
-                    generateSkeletons()
+                isBeingLoaded ?
+                    generateSkeletons() :
+                    users.length ?
+                        <div className="overflow-hidden overflow-y-auto">
+                            {users}
+                        </div> :
+                        <div className="h-10 w-full flex justify-center items-center">
+                            <p className="font-medium text-sm">No Results</p>
+                        </div>
             }
         </>
     )

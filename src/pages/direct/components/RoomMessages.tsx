@@ -28,7 +28,7 @@ const RoomMessages: React.FC<RoomMessagesProps> = ({ messages, loggedUserId, pro
     // {messagesToRender}
     return (
         <div 
-            className="max-h-[calc(100%-45px-30px)] overflow-hidden overflow-y-auto w-full no-bar flex flex-col items-center gap-3 mb-3"
+            className="max-h-[calc(100%-45px-18px)] overflow-hidden overflow-y-auto w-full no-bar flex flex-col items-center"
             //style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", gap: "12px"}}
         >
             {messagesToRender}

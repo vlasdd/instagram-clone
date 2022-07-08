@@ -15,11 +15,11 @@ const useFollowers = ({ userId }: { userId: string }) => {
     const removeFromFollowing = async () => {
         const filteredFollowing = loggedUser.following.filter(data => data.userId !== userId);
 
-        dispatch(setSignedUser({ ...loggedUser, following: filteredFollowing }))
-
         await updateDoc(doc(db, "users", loggedUser.userId), {
             following: filteredFollowing
         })
+
+        dispatch(setSignedUser({ ...loggedUser, following: filteredFollowing }))
 
         if (uid === loggedUser.userId) {
             dispatch(setUserOnPage({ ...loggedUser, following: filteredFollowing }))
@@ -28,23 +28,23 @@ const useFollowers = ({ userId }: { userId: string }) => {
         const userToUpdate = await getDoc(doc(db, "users", userId));
 
         const modifiedFollowers = (userToUpdate.data() as UserState).followers.filter(data => data.userId !== loggedUser.userId);
-        if (userId === userOnPage.userId) {
-            dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
-        }
-
         await updateDoc(doc(db, "users", userId), {
             followers: modifiedFollowers
         })
+
+        if (userId === userOnPage.userId) {
+            dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
+        }
     }
 
     const addToFollowing = async () => {
         const newUser = { userId }
 
-        dispatch(setSignedUser({ ...loggedUser, following: [...loggedUser.following, newUser] }))
-
         await updateDoc(doc(db, "users", loggedUser.userId), {
             following: [...loggedUser.following, newUser]
         })
+
+        dispatch(setSignedUser({ ...loggedUser, following: [...loggedUser.following, newUser] }))
 
         if (uid === loggedUser.userId) {
             dispatch(setUserOnPage({ ...loggedUser, following: [...loggedUser.following, newUser] }))
@@ -53,13 +53,13 @@ const useFollowers = ({ userId }: { userId: string }) => {
         const userToUpdate = await getDoc(doc(db, "users", userId));
 
         const modifiedFollowers = [ ...(userToUpdate.data() as UserState).followers, { userId: loggedUser.userId } ];
-        if (userId === userOnPage.userId) {
-            dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
-        }
-
         await updateDoc(doc(db, "users", userId), {
             followers: modifiedFollowers
         })
+
+        if (userId === userOnPage.userId) {
+            dispatch(setUserOnPage({ ...(userToUpdate.data() as UserState), followers: modifiedFollowers }))
+        }
     }
 
     return { addToFollowing, removeFromFollowing };
