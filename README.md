@@ -4,8 +4,6 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 ## Technologies used
 
-<hr/>
-
 ### Main
 
 + React.js
@@ -22,8 +20,6 @@ This project is my attempt to implement some parts of the Instagram's functional
 + React Placeholder
 
 ## Main Features
-
-<hr />
 
 + Authentication
 + Users' profiles functionality and logic
@@ -43,8 +39,6 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 ## Features that can be added
 
-<hr />
-
 + Dashboard
 + The ability to post more than one photo
 + Allow user to send other people's posts via direct
@@ -53,12 +47,8 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 ## Project Status
 
-<hr />
-
 This project is not finished yet
 
 ## Usage
-
-<hr />
 
 To Visit This App(**!!!Currently is not supported**): `https://vlased.github.io/instagram-clone/`
