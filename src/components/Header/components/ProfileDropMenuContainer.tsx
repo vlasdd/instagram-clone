@@ -11,6 +11,7 @@ import Profile from 'svgs/empty/Profile';
 import Saved from 'svgs/empty/Saved';
 import Settings from 'svgs/empty/Settings';
 import SwitchAccounts from 'svgs/empty/SwitchAccounts';
+import AccountsRoutes from 'constants/accounts-routes';
 
 const ProfileDropMenuContainer: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -22,8 +23,7 @@ const ProfileDropMenuContainer: React.FC = () => {
         dispatch(removeSignedUser());
         navigate(RoutesTypes.LOGIN);
     }
-    //w-56 bg-white flex flex-col items-center rounded-md drop-shadow-md relative
-    //w-screen h-screen bg-[rgba(0,0,0,0.6)] fixed top-0 right-0 
+
     return (
         <>
             <ProfileDropMenuElement
@@ -48,7 +48,7 @@ const ProfileDropMenuContainer: React.FC = () => {
             <ProfileDropMenuElement
                 image={<Settings styles="h-5 w-5 text-gray-700"/>} 
                 text="Settings"
-                callback={() => console.log("clicked")}
+                callback={() => navigate(RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE)}
             />
             <ProfileDropMenuElement
                 image={<SwitchAccounts />} 

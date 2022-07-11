@@ -27,7 +27,7 @@ const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering
                     className="h-full flex items-center"
                     onClick={() => setAreEmojiOpen(prevVal => !prevVal)}
                 >
-                    <Smile />
+                    <Smile styles="h-7 w-7"/>
                 </button>
                 {
                     areEmojiOpen ?

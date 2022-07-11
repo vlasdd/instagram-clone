@@ -7,6 +7,7 @@ import Close from 'svgs/empty/Close';
 import UserState from 'types/user-state-type';
 import UserLoader from 'components/other/UserLoader';
 import UserSuggestion from "./UserSuggestion";
+import { useAppSelector } from 'redux-setup/hooks';
 
 type UsersListProps = {
     usersList: {userId: string}[];
@@ -15,8 +16,8 @@ type UsersListProps = {
 }
 
 const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, closeEvent }) => {
-    const [isBeingLoaded, setIsBeingLoaded] = useState<boolean>(true);
-    const [allUsers, setAllUsers] = useState<UserState[]>([])
+    const [allUsers, setAllUsers] = useState<UserState[]>([]);
+    const userOnPage = useAppSelector(state => state.userOnPage.user);
 
     useEffect(() => {
         const getUsers = async () => {
@@ -32,8 +33,7 @@ const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, 
         } 
 
         getUsers();
-        setIsBeingLoaded(false);
-    }, [usersList])
+    }, [userOnPage.userId])
 
     const users = allUsers.map(data => <UserSuggestion {...data} key={data.userId} />)
 
@@ -67,15 +67,11 @@ const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, 
                 </button>
             </div>
             {
-                isBeingLoaded ?
-                    generateSkeletons() :
-                    users.length ?
-                        <div className="overflow-hidden overflow-y-auto">
-                            {users}
-                        </div> :
-                        <div className="h-10 w-full flex justify-center items-center">
-                            <p className="font-medium text-sm">No Results</p>
-                        </div>
+                allUsers.length ?
+                    <div className="overflow-hidden overflow-y-auto">
+                        {users}
+                    </div> :
+                    generateSkeletons() 
             }
         </>
     )

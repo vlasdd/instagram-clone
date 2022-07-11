@@ -22,7 +22,7 @@ const usePostLikes = ({ userId, postId, posts, changePosts }: { userId: string, 
             }
 
             return post
-        }) as PostType[]
+        }) as PostType[];
 
         await updateDoc(doc(db, "users", userId), {
             posts: newPosts
@@ -50,10 +50,6 @@ const usePostLikes = ({ userId, postId, posts, changePosts }: { userId: string, 
             return post
         }) as PostType[]
 
-        await updateDoc(doc(db, "users", userId), {
-            posts: newPosts
-        })
-
         if (uid === userId) {
             dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
         }
@@ -65,6 +61,10 @@ const usePostLikes = ({ userId, postId, posts, changePosts }: { userId: string, 
         if(changePosts){
             changePosts(newPosts)
         }
+
+        await updateDoc(doc(db, "users", userId), {
+            posts: newPosts
+        })
     } 
 
     return { addLike, removeLike }

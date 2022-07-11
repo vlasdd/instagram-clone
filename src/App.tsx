@@ -18,8 +18,8 @@ import PrivateRoute from "helpers/PrivateRoute";
 import ChatRoom from "pages/direct/components/ChatRoom";
 import PostModalPage from "pages/profile/components/post-modal-page/PostModalPage";
 import SavedPosts from "pages/profile/components/posts/SavedPosts";
-import Loading from "pages/loading/Loading";
 import { setIsBeingLoaded } from "redux-setup/features/isBeingLoaded";
+import ChangePassword from "pages/accounts/components/ChangePassword";
 
 const Dashboard = lazy(() => import("pages/dashboard/Dashboard"));
 const Login = lazy(() => import("pages/login/Login"));
@@ -28,6 +28,8 @@ const NotFound = lazy(() => import("pages/not-found/NotFound"));
 const Accounts = lazy(() => import("pages/accounts/Accounts"));
 const DefineProfile = lazy(() => import("pages/profile/DefineProfile"));
 const Direct = lazy(() => import("pages/direct/Direct"));
+const Loading = lazy(() => import("pages/loading/Loading"));
+const People = lazy(() => import("./pages/people/People"));
 
 const App: React.FC = () => {
   const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -162,6 +164,10 @@ const App: React.FC = () => {
                 path={AccountsRoutes.EDIT_PROFILE}
                 element={<EditProfile />}
               />
+              <Route
+                path={AccountsRoutes.PASSWORD}
+                element={<ChangePassword />}
+              />
             </Route>
             <Route
               path={RoutesTypes.DIRECT}
@@ -172,6 +178,10 @@ const App: React.FC = () => {
                 element={<ChatRoom />}
               />
             </Route>
+            <Route 
+              path={RoutesTypes.PEOPLE}
+              element={<People />}
+            />
             <Route
               path={RoutesTypes.NOT_FOUND}
               element={<NotFound />}

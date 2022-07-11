@@ -11,12 +11,11 @@ import UserHeader from './components/UserHeader'
 import useWindowWidth from 'helpers/useWindowWidth'
 import PostComments from './components/PostComments'
 import useUserInfo from "pages/profile/hooks/useUserInfo";
+import CommentType from 'types/comments-type'
 
 const PostModalPage: React.FC = () => {
     const { posts } = usePosts();
 
-    console.log("posts:", posts)
-    
     const commentsRef = useRef<React.RefObject<HTMLInputElement>>(null);
 
     const { postId } = useParams();
@@ -27,15 +26,13 @@ const PostModalPage: React.FC = () => {
 
     const [wordEntering, setWordEntering] = useState<string>("");
 
-    const userInfo = useUserInfo(currentPost?.fromId as string, [postId, currentPost?.fromId])
+    const userInfo = useUserInfo(currentPost?.fromId as string, [currentPost?.fromId])
     const innerWidth = useWindowWidth();
 
     return (
-        !currentPost ?
-            <div>laoding</div>:
             <div className="w-full h-full flex flex-col sm:flex-row relative">
                 <div className={`
-                    w-full sm:w-3/5 bg-black max-h-1/2 sm: max-h-full flex items-center overflow-hidden
+                    w-full sm:w-3/5 bg-black max-h-1/2 sm:max-h-full flex items-center overflow-hidden
                     ${innerWidth > 640 ? "rounded-l-xl" : "rounded-t-xl"}
                 `}>
                     <img
@@ -46,8 +43,8 @@ const PostModalPage: React.FC = () => {
                 <div className="w-full h-full sm:w-2/5 flex flex-col justify-between">
                     <UserHeader userInfo={userInfo} />
                     <PostComments
-                        comments={currentPost.comments}
-                        currentPostText={currentPost.text}
+                        comments={currentPost?.comments as CommentType[]}
+                        currentPostText={currentPost?.text as string}
                         userInfo={userInfo}
                     />
                     <LikesBar

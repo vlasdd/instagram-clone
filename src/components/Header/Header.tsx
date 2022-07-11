@@ -122,10 +122,7 @@ const Header: React.FC = () => {
                                                             closeEvent={() => setCurrentMenu(MenuTypes.NONE)}
                                                             styles="h-[500px] top-[14%] w-"
                                                         >
-                                                            <NewPostModal 
-                                                                user={user}
-                                                                closeEvent={() => setCurrentMenu(MenuTypes.NONE)}
-                                                            />
+                                                            <NewPostModal closeEvent={() => setCurrentMenu(MenuTypes.NONE)}/>
                                                         </Modal>
                                                     )
                                                 }

@@ -4,13 +4,14 @@ import NewPostModalOne from 'components/header/components/new-post-modal/compone
 import NewPostModalTwo from 'components/header/components/new-post-modal/components/NewPostModalTwo';
 
 type NewPostModalProps = {
-    user: UserState;
     closeEvent: () => void
 }
 
-const NewPostModal: React.FC<NewPostModalProps> = ({ user, closeEvent }) => {
+const NewPostModal: React.FC<NewPostModalProps> = ({ closeEvent }) => {
     const [currentPageId, setCurrentPageId] = useState<number>(0);
-    const [image, setImage] = useState<any>(null);
+    const [image, setImage] = useState<any[]>([]);
+    const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+   // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if(currentPageId === 2){
@@ -27,6 +28,8 @@ const NewPostModal: React.FC<NewPostModalProps> = ({ user, closeEvent }) => {
                             return (
                                 <NewPostModalOne
                                     image={image}
+                                    currentImageIndex={currentImageIndex}
+                                    setCurrentImageIndex={setCurrentImageIndex}
                                     setImage={setImage}
                                     setCurrentPageId={setCurrentPageId}
                                 />
@@ -37,7 +40,6 @@ const NewPostModal: React.FC<NewPostModalProps> = ({ user, closeEvent }) => {
                                 <NewPostModalTwo 
                                     setCurrentPageId={setCurrentPageId}
                                     image={image}
-                                    user={user}
                                 />
                             )
                         }
@@ -47,6 +49,24 @@ const NewPostModal: React.FC<NewPostModalProps> = ({ user, closeEvent }) => {
                     }
                 })()
             }
+            {/* {
+                isModalOpen ?
+                    <Modal
+                        closeEvent={() => setIsModalOpen(false)}
+                        styles="h-72 top-[26.5%]"
+                    >
+                        <AreYouSureModal
+                            areYouSureEvent={() => {
+                                setIsModalOpen(false)
+                            }}
+                            profileImage={""}
+                            closeEvent={() => setIsModalOpen(false)}
+                            questionText={`Unfollow ${"111"}`}
+                            buttonText="Unfollow"
+                        />
+                    </Modal> :
+                    null
+            } */}
         </>
     )
 }

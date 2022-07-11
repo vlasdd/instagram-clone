@@ -1,13 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "firebase-setup/firebaseConfig";
-import BirthdateState from "types/birthdate-type";
-import UserState from "types/user-state-type";
-import { setUserOnPage } from "./userOnPage";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export const initialState: { 
-    isBeingLoaded: boolean 
-} = {
+export const initialState: { isBeingLoaded: boolean } = {
     isBeingLoaded: true
 }
 

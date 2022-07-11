@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
 import useWindowWidth from 'helpers/useWindowWidth';
+import Copy from 'svgs/empty/Copy';
+import DropMenu from 'components/other/DropMenu';
+import GalleryDropMenu from './GalleryDropMenu';
 
 type NewPostModalOneProps = { 
-    image: any, 
-    setImage: React.Dispatch<any>,
+    image: any[], 
+    setImage: React.Dispatch<React.SetStateAction<any[]>>,
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>,
+    currentImageIndex: number
+    setCurrentImageIndex: React.Dispatch<React.SetStateAction<number>>,
 }
 
-const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setCurrentPageId }) => {
+const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setCurrentPageId, setCurrentImageIndex, currentImageIndex }) => {
     const [drag, setDrag] = useState<boolean>(false);
     const [errorFileName, setErrorFileName] = useState<null | string>(null);
+    const [areImagesOpened, setAreImagesOpen] = useState<boolean>(false);
     const innerWidth = useWindowWidth();
 
     const onDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
@@ -23,14 +29,14 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
             return;
         }
         
-        setImage(file)
+        setImage(prevFiles => [...prevFiles, file])
     }
 
     return (
-        <motion.div 
+        <motion.div
             className="flex flex-col h-full w-[300px] sm:w-[450px]"
             {...(
-                image && innerWidth > 640 ?
+                image.length && innerWidth > 640 ?
                     {
                         initial: { width: "640px" },
                         animate: { width: "450px" },
@@ -42,7 +48,7 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
             <div className="h-10 w-full flex justify-center items-center font-medium border-b relative">
                 <p>{errorFileName ? "File couldn't be uploaded" : "Create new post"}</p>
                 {
-                    image ?
+                    image.length ?
                         <button
                             className="absolute right-3 font-bold text-blue-500"
                             onClick={() => setCurrentPageId(prevVal => prevVal + 1)}
@@ -53,11 +59,38 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
                 }
             </div>
             {
-                image ?
-                    <img
-                        src={URL.createObjectURL(image)}
-                        className="h-[calc(100%-40px)] object-cover rounded-b-xl"
-                    /> :
+                image.length ?
+                    <div className="relative h-[calc(100%-40px)] w-full">
+                        <img
+                            src={URL.createObjectURL(image[0])}
+                            className="h-full w-full object-cover rounded-b-xl"
+                        />
+                        <button
+                            className={`
+                                absolute right-4 bottom-4 rounded-full w-8 h-8 flex items-center justify-center
+                                ${areImagesOpened ? "bg-white text-zinc-700 shadow-xl" : "bg-zinc-700 text-white"}
+                            `}
+                            onClick={() => setAreImagesOpen(prevVal => !prevVal)}
+                        >
+                            <Copy />
+                        </button>
+                        {
+                            areImagesOpened ?
+                                <DropMenu
+                                    closeEvent={() => setAreImagesOpen(false)}
+                                    styles="max-w-[calc(100%-31px)] right-4 bottom-16 bg-zinc-700"
+                                    noAnimation={true}
+                                >
+                                    <GalleryDropMenu
+                                        images={image}
+                                        setImage={setImage}
+                                        currentImageIndex={currentImageIndex}
+                                        setCurrentImageIndex={setCurrentImageIndex}
+                                    />
+                                </DropMenu> :
+                                null
+                        }
+                    </div> :
                     <div
                         className={`w-full h-full flex flex-col justify-center items-center gap-2 rounded-b-xl ${(drag || errorFileName) && "back"}`}
                         onDragStart={(event) => {
@@ -97,8 +130,9 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
                                 accept="image/png, image/jpg, image/jpeg"
                                 className="hidden"
                                 onChange={(event) => {
-                                    if (event.target.files) {
-                                        setImage(event.target.files[0]);
+                                    const { files } = event.target
+                                    if (files && files[0]) {
+                                        setImage(prevFiles => [...prevFiles, files[0]]);
                                     }
                                 }}
                             />

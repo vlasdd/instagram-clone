@@ -3,8 +3,8 @@ import { Outlet } from 'react-router-dom'
 import PostType from 'types/post-type'
 import PostImage from './PostImage'
 
-const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = ({ posts, changePosts }) => {
-    console.log("savedPosts", posts)
+const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React.memo(({ posts, changePosts }) => {
+    console.log("savedPosts", posts);
 
     return (
         <>
@@ -26,6 +26,6 @@ const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = ({ po
             <Outlet context={{ posts, changePosts }}/>
         </>
     )
-}
+})
 
 export default PostsContainer

@@ -7,7 +7,7 @@ const Loading: React.FC = () => {
             <div>
                 <img 
                     src="../images/loading-logo.jpg"
-                    className="h-24"
+                    className="h-28"
                 />
             </div>
             <div>

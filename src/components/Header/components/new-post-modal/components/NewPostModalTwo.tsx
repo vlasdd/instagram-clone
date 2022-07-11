@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ReturnBack from 'svgs/empty/ReturnBack';
 import { motion } from "framer-motion";
 import useWindowWidth from "helpers/useWindowWidth";
-import UserState from 'types/user-state-type';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from 'firebase-setup/firebaseConfig';
 import { v4 } from 'uuid';
@@ -11,26 +10,30 @@ import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import { setSignedUser } from 'redux-setup/features/signedUser';
 import { nanoid } from '@reduxjs/toolkit';
 import { setUserOnPage } from 'redux-setup/features/userOnPage';
+import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
+import Smile from 'svgs/empty/Smile';
+import DropMenu from 'components/other/DropMenu';
+import Picker, { IEmojiData } from 'emoji-picker-react'
 
 type NewPostModalTwoProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>,
-    image: any,
-    user: UserState,
+    image: any[],
 }
 
-const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, image, user }) => {
-    //const [isCloseModalOpen, setIsCloseModalOpen] = useState<boolean>(false);
+const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, image }) => {
     const userOnPage = useAppSelector(state => state.userOnPage.user);
-    const innerWidth = useWindowWidth();
-    const [text, setText] = useState<string>("");
+    const user = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
 
-    console.log("rerender")
+    const innerWidth = useWindowWidth();
+    const [text, setText] = useState<string>("");
+
+    const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
 
     const createPost = async () => {
-        console.log("post")
-        const imageRef = ref(storage, `Images/${image.name + v4()}`)
-        await uploadBytes(imageRef, image)
+        dispatch(setIsBeingLoaded(true));
+        const imageRef = ref(storage, `Images/${image[0].name + v4()}`)
+        await uploadBytes(imageRef, image[0])
 
         const imageUrl = await getDownloadURL(imageRef);
 
@@ -53,7 +56,12 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
             dispatch(setUserOnPage({...user, posts: [...user.posts, newPost]}))
         }
 
-        setCurrentPageId(prevVal => prevVal + 1)
+        dispatch(setIsBeingLoaded(false));
+        setCurrentPageId(prevVal => prevVal + 1);
+    }
+
+    const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
+        setText(prevText => prevText + emojiObject.emoji);
     }
 
     return (
@@ -85,10 +93,29 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
                 </div>
             </div>
             <div className="w-full h-full flex flex-col sm:flex-row">
-                <img
-                    src={URL.createObjectURL(image)}
-                    className="h-[335px] sm:h-full w-[450px] object-cover sm:rounded-bl-xl"
-                />
+                <div className="relative">
+                    <img
+                        src={URL.createObjectURL(image[0])}
+                        className="h-[225px] sm:h-[calc(100%-40px)] w-[450px] object-cover sm:rounded-bl-xl"
+                    />
+                    {
+                        areEmojiOpen ?
+                                <DropMenu
+                                    closeEvent={event => {
+                                        event.stopPropagation();
+                                        setAreEmojiOpen(false)
+                                    }}
+                                    styles="w-[calc(100%-10px)] sm:w-[250px] bottom-[calc(100%-221px)] right-[5px] sm:right-[2px] sm:bottom-[225px] h-[217px] sm:h-[233px] z-20 "
+                                    noAnimation={true}
+                                >
+                                    <Picker
+                                        pickerStyle={{ width: "100%", height: "100%" }}
+                                        onEmojiClick={handleEmojiClick}
+                                    />
+                                </DropMenu>:
+                            null
+                    }
+                </div>
                 <motion.div 
                     className="flex flex-col w-full h-[calc(100%-40px)] sm:border-l overflow-hidden"
                     {...(
@@ -112,11 +139,18 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
                     </div>
                     <textarea 
                         className="resize-none h-36 overflow-hidden overflow-y-auto px-3 focus:outline-none text-sm text-sm"
+                        placeholder='Write a caption...'
                         onChange={(event) => setText(event.target.value)}
                         value={text}
                     />
-                    <div className="w-full flex justify-end sm:border-b pr-2 pb-2">
-                        <p className="text-gray-400 text-xs">{text.length}</p>
+                    <div className="w-full flex justify-between sm:border-b px-2 pb-2">
+                        <button
+                            className="h-full flex items-center"
+                            onClick={() => setAreEmojiOpen(prevVal => !prevVal)}
+                        >
+                            <Smile styles="w-6 h-6 text-gray-400"/>
+                        </button>
+                        <p className="text-gray-400 text-sm">{text.length}\200</p>
                     </div>
                 </motion.div>
             </div>
