@@ -14,6 +14,7 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 ### Secondary
 
++ Redux Thunk
 + React Router
 + Framer Motion
 + React Emoji Picker
