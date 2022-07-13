@@ -1,4 +1,4 @@
-import useWindowWidth from 'helpers/useWindowWidth'
+import useWindowWidth from 'helpers/hooks/useWindowWidth'
 import React, { useMemo } from 'react'
 import { useAppSelector } from 'redux-setup/hooks';
 

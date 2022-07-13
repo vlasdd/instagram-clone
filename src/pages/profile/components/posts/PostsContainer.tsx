@@ -4,8 +4,6 @@ import PostType from 'types/post-type'
 import PostImage from './PostImage'
 
 const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React.memo(({ posts, changePosts }) => {
-    console.log("savedPosts", posts);
-
     return (
         <>
             {posts.length === 0 ?

@@ -8,7 +8,7 @@ import DropMenu from "components/other/DropMenu";
 import UsersSearchDropMenu from "./components/UsersSearchDropMenu";
 import Home from "svgs/both/Home";
 import Direct from "svgs/empty/Direct";
-import useWindowWidth from "helpers/useWindowWidth";
+import useWindowWidth from "helpers/hooks/useWindowWidth";
 import SearchBar from "./components/SearchBar";
 import NewPost from "svgs/both/NewPost";
 import Modal from "components/modal/Modal";

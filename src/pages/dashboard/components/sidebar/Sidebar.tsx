@@ -1,9 +1,8 @@
-import { nanoid } from '@reduxjs/toolkit';
 import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
 import { db } from 'firebase-setup/firebaseConfig';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import random from 'helpers/generateRandom';
+import random from 'helpers/other/generateRandom';
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
@@ -47,7 +46,7 @@ const Sidebar: React.FC = () => {
         for (let i = 0; i < SUGGESTIONS_LENGTH; i++) {
             skeletons.push(
                 <UserLoader
-                    key={nanoid()}
+                    key={i}
                     imageStyles={{ width: 32, height: 32, borderRadius: "50%" }}
                     firstTextStyles={{ width: 120, height: 7, borderRadius: "10px" }}
                     secondTextStyles={{ width: 80, height: 7, borderRadius: "10px" }}

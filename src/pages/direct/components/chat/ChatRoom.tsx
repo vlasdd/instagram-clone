@@ -59,7 +59,7 @@ const ChatRoom: React.FC = () => {
             from: {
                 userId: loggedUser.userId,
             },
-            createdAt: Timestamp.fromDate(new Date()),
+            createdAt: (new Date()).getTime(),
             media: imageUrl
         }
 
@@ -69,7 +69,7 @@ const ChatRoom: React.FC = () => {
                 text: newMessage.text,
                 userId: loggedUser.userId
             },
-            lastEdited: new Date().getTime() / 1000
+            lastEdited: (new Date()).getTime()
         })
 
         setImageUpload(null);

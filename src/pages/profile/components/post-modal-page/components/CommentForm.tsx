@@ -27,15 +27,19 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
     const { posts, changePosts } = usePosts();
 
     const sendComment = async () => {
+        const text = wordEntering;
+        setWordEntering("");
+
         const hotPost = ((await getDoc(doc(db, "users", currentPostFromId)))
             .data() as UserState)
             .posts.find(post => post.postId === postId) as PostType
 
         const newComment = {
             userId: loggedUser.userId,
-            text: wordEntering,
+            text: text,
             likes: [],
             commentId: nanoid(),
+            createdAt: (new Date()).getTime()
         } 
         
         const newPosts = posts.map(post => {
@@ -61,8 +65,6 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
         if(changePosts){
             changePosts(newPosts)
         }
-
-        setWordEntering("");
     }
 
     return (

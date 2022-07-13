@@ -8,7 +8,6 @@ import Text from 'svgs/empty/Text';
 import ChatLink from './ChatLink';
 import ChatState from 'types/chat-state-type';
 import UserLoader from 'components/other/UserLoader';
-import { nanoid } from '@reduxjs/toolkit';
 
 const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -58,7 +57,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
         for (let i = 0; i < 3; i++) {
             skeletons.push(
                 <UserLoader
-                    key={nanoid()}
+                    key={i}
                     imageStyles={{ width: 60, height: 60, borderRadius: "50%" }}
                     firstTextStyles={{ width: 180, height: 11, borderRadius: "10px" }}
                     secondTextStyles={{ width: 150, height: 11, borderRadius: "10px" }}
@@ -96,6 +95,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
                             chatId={chat.firstUserId + "-" + chat.secondUserId}
                             userId={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
                             lastMessage={chat.lastMessage}
+                            lastEdited={chat.lastEdited}
                             key={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
                         />) :
                         generateSkeletons()

@@ -1,4 +1,3 @@
-import { nanoid } from '@reduxjs/toolkit'
 import React from 'react'
 
 type GalleryDropMenuProps = {
@@ -16,7 +15,7 @@ const GalleryDropMenu: React.FC<GalleryDropMenuProps> = ({ images, setImage, cur
           <div
             className="relative z-10 w-full h-full aspect-square cursor-pointer rounded-sm"
             onClick={() => setCurrentImageIndex(index)}
-            key={nanoid()}
+            key={image}
           >
             <img
               src={URL.createObjectURL(image)}

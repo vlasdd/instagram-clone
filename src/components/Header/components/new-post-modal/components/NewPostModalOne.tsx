@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from "framer-motion";
-import useWindowWidth from 'helpers/useWindowWidth';
+import useWindowWidth from 'helpers/hooks/useWindowWidth';
 import Copy from 'svgs/empty/Copy';
 import DropMenu from 'components/other/DropMenu';
 import GalleryDropMenu from './GalleryDropMenu';

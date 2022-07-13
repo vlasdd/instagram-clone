@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
 import { db } from 'firebase-setup/firebaseConfig'
+import convertUnixTime from 'helpers/other/convertUnixTime'
 
 type ChatLinkProps = {
     userId: string,
@@ -11,6 +12,7 @@ type ChatLinkProps = {
         text: string,
         userId: string
     },
+    lastEdited: number;
 }
 
 type UserInfoType = { 
@@ -18,7 +20,7 @@ type UserInfoType = {
     username: string 
 }
 
-const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage }) => {
+const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage, lastEdited }) => {
     const navigate = useNavigate();
     const { chatId: chatParam } = useParams();
 
@@ -37,7 +39,6 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage }) => {
         }
 
         getUser();
-        console.log(lastMessage.text + "|||" + lastMessage.userId)
     }, [])
 
     return (
@@ -50,13 +51,26 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage }) => {
                     src={userInfo.profileImage.length ? userInfo.profileImage : "../images/default-avatar-gray.jpg"}
                     className="h-[60px] w-[60px] rounded-full object-cover"
                 />
-                <div className="flex flex-col justify-center text-left">
+                <div className="flex flex-col justify-center text-left w-full">
                     <p className="w-[165px] truncate text-sm tracking-wide">{userInfo.username}</p>
                     <div className={`flex ${lastMessage.userId !== userId ? "gap-1" : " "}`}>
                         <p className="font-medium text-sm tracking-wide whitespace-nowrap">
                             {`${lastMessage.userId !== userId && lastMessage.text.length ? "You:" : " "}`}
                         </p>
-                        <p className="w-[165px] truncate text-gray-400 text-sm">{lastMessage.text}</p>
+                        <p className="max-w-[125px] truncate text-gray-400 text-sm">{lastMessage.text}</p>
+                        {
+                            lastMessage.userId.length !== 0 ?
+                                <>
+                                    <p className="text-sm text-gray-400">•</p>
+                                    <p className="text-sm text-gray-400">
+                                        {(() => {
+                                            let time = convertUnixTime(lastEdited)
+                                            return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
+                                        })()}
+                                    </p>
+                                </> :
+                                null
+                        }
                     </div>
                 </div>
             </div>

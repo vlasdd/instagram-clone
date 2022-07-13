@@ -10,12 +10,11 @@ import UserState from "types/user-state-type";
 type UseCommentLikesProps = { 
     userId: string, 
     postId: string, 
-    posts: PostType[], 
     changePosts: any,
     commentId: string,
 }
 
-const useCommentLikes = ({ userId, postId, posts, changePosts, commentId }: UseCommentLikesProps) => {
+const useCommentLikes = ({ userId, postId, changePosts, commentId }: UseCommentLikesProps) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
     const dispatch = useAppDispatch();
@@ -39,22 +38,21 @@ const useCommentLikes = ({ userId, postId, posts, changePosts, commentId }: UseC
             return post
         }) as PostType[]
 
+        await updateDoc(doc(db, "users", userId), {
+            posts: newPosts
+        })
+
         if (uid === userId) {
             dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
         }
 
-        if (userOnPage.userId === loggedUser.userId) {
+        if (uid === loggedUser.userId) {
             dispatch(setSignedUser({ ...loggedUser, posts: newPosts }))
         }
 
         if(changePosts){
             changePosts(newPosts)
         }
-
-        await updateDoc(doc(db, "users", userId), {
-            posts: newPosts
-        })
-
     } 
 
     const removeLike = async () => {

@@ -11,21 +11,21 @@ const useSavedPosts = ({ userId, postId }: { userId: string, postId: string }) =
     const addToSaved = async () => {
         const newPosts = [...loggedUser.savedPosts, { fromId: userId, postId: postId }] as SavedPostType[]
 
+        dispatch(setSignedUser({ ...loggedUser, savedPosts: newPosts }))
+
         await updateDoc(doc(db, "users", loggedUser.userId), {
             savedPosts: newPosts
         })
-
-        dispatch(setSignedUser({ ...loggedUser, savedPosts: newPosts }))
     } 
 
     const removeFromSaved = async () => {
         const newPosts = loggedUser.savedPosts.filter(post => post.postId !== postId)
+        
+        dispatch(setSignedUser({ ...loggedUser, savedPosts: newPosts }))
 
         await updateDoc(doc(db, "users", loggedUser.userId), {
             savedPosts: newPosts
         })
-
-        dispatch(setSignedUser({ ...loggedUser, savedPosts: newPosts }))
     } 
 
     return { addToSaved, removeFromSaved }

@@ -1,22 +1,20 @@
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import RoutesTypes from 'constants/routes-types';
-import { db } from 'firebase-setup/firebaseConfig';
-import getUsers from 'helpers/getUsers';
+import getUsers from 'helpers/other/getUsers';
 import { useAppSelector } from 'redux-setup/hooks';
 import Close from 'svgs/empty/Close'
 import UserState from 'types/user-state-type';
 import UserSuggestion from 'types/user-suggestion-type';
 import UserToWriteTo from './UserToWriteTo';
+import useChatRoom from 'helpers/hooks/useChatRoom';
 
 const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) => {
   const signedUser = useAppSelector(state => state.signedUser.user);
-  const navigate = useNavigate();
 
   const [wordEntering, setWordEntering] = useState<string>("");
   const [chosenUsers, setChosenUsers] = useState<UserSuggestion[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<UserState[]>([]);
+
+  const { createChatRoom } = useChatRoom();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -28,48 +26,6 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) =
 
     handleUsers();
   }, [wordEntering])
-
-  const createChatRoom = async () => {
-    const userToChatTo = chosenUsers[0];
-    const chatId = signedUser.userId + "-" + userToChatTo.userId;
-    const reversedChatId = userToChatTo.userId + "-" + signedUser.userId;
-
-    const allChats = await getDocs(collection(db, "chats"));
-
-    let chatToNavigateTo: string = "";
-    allChats.forEach(doc => {
-      const docResult = doc.data().firstUserId + "-" + doc.data().secondUserId;
-      if(docResult === chatId){
-        chatToNavigateTo = chatId;
-        return 
-      }
-      
-      if(docResult === reversedChatId){
-        chatToNavigateTo = reversedChatId;
-        return;
-      }
-    })
-
-    if(chatToNavigateTo.length !== 0){
-      closeEvent();
-      navigate(RoutesTypes.DIRECT + "/" + chatToNavigateTo);
-      return;
-    }
-
-    await setDoc(doc(db, "chats", chatId), {
-      firstUserId: signedUser.userId,
-      secondUserId: userToChatTo.userId,
-      messages: [],
-      lastMessage: {
-        text: "",
-        userId: "",
-      },
-      lastEdited: new Date().getTime() / 1000
-    });
-
-    closeEvent();
-    navigate(RoutesTypes.DIRECT + "/" + chatId)
-  }
 
   return (
     <>
@@ -86,7 +42,7 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) =
         <button
           className={`absolute right-3 font-bold ${chosenUsers.length === 0 ? "text-blue-300" : "text-blue-500"}`}
           disabled={chosenUsers.length === 0}
-          onClick={createChatRoom}
+          onClick={() => createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: closeEvent })}
         >
           <p>Next</p>
         </button>
@@ -130,7 +86,7 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = ({ closeEvent }) =
       <div className="flex flex-col overflow-hidden overflow-y-auto">
         {
           !filteredUsers.length ?
-            <p className="font-medium text-sm pl-3 mt-2">Suggested</p> :
+            <p className="font-medium text-sm pl-3 mt-2">No Suggested</p> :
             filteredUsers.map(doc => <UserToWriteTo
               addUserToList={() => {
                 setChosenUsers(prevUsers => [...prevUsers, doc]);

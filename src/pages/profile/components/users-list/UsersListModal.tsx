@@ -1,7 +1,5 @@
-import { nanoid } from '@reduxjs/toolkit';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
 import { db } from 'firebase-setup/firebaseConfig';
 import Close from 'svgs/empty/Close';
 import UserState from 'types/user-state-type';
@@ -42,7 +40,7 @@ const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, 
         for (let i = 0; i < 3; i++) {
             skeletons.push(
                 <UserLoader
-                    key={nanoid()}
+                    key={i}
                     imageStyles={{ width: 40, height: 40, borderRadius: "50%" }}
                     firstTextStyles={{ width: 150, height: 9, borderRadius: "10px" }}
                     secondTextStyles={{ width: 130, height: 9, borderRadius: "10px" }}

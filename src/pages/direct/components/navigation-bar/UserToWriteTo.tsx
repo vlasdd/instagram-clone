@@ -26,7 +26,7 @@ const UserToWriteTo: React.FC<IUserToWriteToProps> = ({
                     className="h-12 w-12 rounded-full object-cover"
                 />
                 <div className="flex flex-col justify-center text-left">
-                    <p className="font-medium text-sm tracking-[1px] whitespace-nowrap">{username}</p>
+                    <p className="font-medium text-sm tracking-[0.3px] whitespace-nowrap">{username}</p>
                     <p className="text-gray-400 text-sm tracking-[0px] whitespace-nowrap">{fullName}</p>
                 </div>
             </div>

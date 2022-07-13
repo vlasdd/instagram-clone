@@ -1,7 +1,6 @@
-import { nanoid } from '@reduxjs/toolkit'
 import UserLoader from 'components/other/UserLoader'
 import RoutesTypes from 'constants/routes-types'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import CommentType from 'types/comments-type'
 import Comment from './Comment'
@@ -19,10 +18,11 @@ type PostCommentProps = {
 const PostComments: React.FC<PostCommentProps> = ({ comments, userInfo, currentPostText }) => {
     const navigate = useNavigate();
 
-    const commentsToRender = useMemo(() => comments.map(comment => <Comment
+    const commentsToRender = comments.map((comment, index) => <Comment
         {...comment}
-        key={nanoid()}
-    />), [comments])
+        fromId={userInfo.userId}
+        key={index}
+    />)
 
     return (
         <div className="w-full h-full sm:h-[calc(100%-180px)] px-3 flex flex-col items-start overflow-hidden overflow-y-auto no-bar">

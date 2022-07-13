@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
-import useFollowers from 'helpers/useFollowers';
+import useFollowers from 'helpers/hooks/useFollowers';
 import { clearErrors, fetchUserOnPage } from 'redux-setup/features/userOnPage';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Additional from 'svgs/empty/Additional';
@@ -10,6 +10,7 @@ import Modal from 'components/modal/Modal';
 import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
 import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
+import useChatRoom from 'helpers/hooks/useChatRoom';
 
 const UserOnPageProfile: React.FC = () => {
     const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);
@@ -22,19 +23,11 @@ const UserOnPageProfile: React.FC = () => {
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
 
-    /*const { addToFollowing, removeFromFollowing } = useFollowers({ 
-        profileImage: userOnPage.profileImage, 
-        username: userOnPage.username, 
-        fullName: userOnPage.fullName, 
-        userId: userOnPage.userId 
-    })*/
-
-    const { addToFollowing, removeFromFollowing } = useFollowers(userOnPage)
+    const { addToFollowing, removeFromFollowing } = useFollowers(userOnPage);
+    const { createChatRoom } = useChatRoom();
 
     useEffect(() => {
-        dispatch(setIsBeingLoaded(true));
         dispatch(fetchUserOnPage(uid as string))
-        dispatch(setIsBeingLoaded(false));
     }, [uid])
 
     useEffect(() => {
@@ -58,7 +51,16 @@ const UserOnPageProfile: React.FC = () => {
                     <div className="flex flex-col w-5/6 sm:w-3/5 py-4 gap-6">
                         <div className="flex gap-4">
                             <p className="text-3xl font-extralight">{userOnPage.username}</p>
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
+                                <button
+                                    className="h-7 w-20 rounded border text-sm font-medium cursor-pointer"
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        createChatRoom({ chosenUserId: userOnPage.userId });
+                                    }}
+                                >
+                                    Message
+                                </button>
                                 {
                                     !loggedUser.username.length ?
                                         null :

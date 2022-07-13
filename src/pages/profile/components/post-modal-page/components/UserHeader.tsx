@@ -2,7 +2,7 @@ import AreYouSureModal from 'components/modal/AreYouSureModal';
 import Modal from 'components/modal/Modal';
 import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
-import useFollowers from 'helpers/useFollowers';
+import useFollowers from 'helpers/hooks/useFollowers';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';

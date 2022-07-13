@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import UserSearchElement from './UserSearchElement'
 import UserState from 'types/user-state-type';
-import getUsers from 'helpers/getUsers';
+import getUsers from 'helpers/other/getUsers';
 import UserLoader from 'components/other/UserLoader';
-import { nanoid } from '@reduxjs/toolkit';
 
 const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = ({ wordEntering }) => {
     const [usersInfo, setUsersInfo] = useState<UserState[]>([])
@@ -17,7 +16,7 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = ({ wordEntering 
         for (let i = 0; i < 3; i++) {
             skeletons.push(
                 <UserLoader
-                    key={nanoid()}
+                    key={i}
                     imageStyles={{ width: 40, height: 40, borderRadius: "50%" }}
                     firstTextStyles={{ width: 160, height: 9, borderRadius: "10px" }}
                     secondTextStyles={{ width: 140, height: 9, borderRadius: "10px" }}

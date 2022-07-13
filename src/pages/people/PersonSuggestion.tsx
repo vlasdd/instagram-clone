@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
-import useFollowers from 'helpers/useFollowers';
+import useFollowers from 'helpers/hooks/useFollowers';
 import { useAppSelector } from 'redux-setup/hooks';
 import UserSuggestionType from 'types/user-suggestion-type';
 import Modal from 'components/modal/Modal';

@@ -1,12 +1,13 @@
-import { Timestamp } from "firebase/firestore";
+import PostType from "./post-type";
 
 type MessageType = {
     text: string,
     from: {
         userId: string
     }
-    createdAt: Timestamp,
+    createdAt: number,
     media: string,
+    post?: PostType
 }
 
 export default MessageType;

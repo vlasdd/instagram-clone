@@ -1,4 +1,3 @@
-import { nanoid } from '@reduxjs/toolkit'
 import React, { useMemo, useRef } from 'react'
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List } from 'react-virtualized';
 import MessageType from 'types/message-type'
@@ -18,11 +17,11 @@ const RoomMessages: React.FC<RoomMessagesProps> = ({ messages, loggedUserId, pro
     //     })
     // )
 
-    const messagesToRender = useMemo(() => messages.map(message => <Message
+    const messagesToRender = useMemo(() => messages.map((message, index) => <Message
         {...message}
         loggedUserId={loggedUserId}
         profileImage={profileImage}
-        key={nanoid()}
+        key={index}
     />), [messages])
 
     // {messagesToRender}

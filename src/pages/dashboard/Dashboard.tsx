@@ -2,7 +2,7 @@ import React from 'react';
 import Header from 'components/header/Header';
 import Sidebar from 'pages/dashboard/components/sidebar/Sidebar';
 import Timeline from 'pages/dashboard/components/timeline/Timeline';
-import useWindowWidth from 'helpers/useWindowWidth';
+import useWindowWidth from 'helpers/hooks/useWindowWidth';
 
 const Dashboard: React.FC = () => {
     const windowWidth = useWindowWidth();

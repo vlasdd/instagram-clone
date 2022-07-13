@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReturnBack from 'svgs/empty/ReturnBack';
 import { motion } from "framer-motion";
-import useWindowWidth from "helpers/useWindowWidth";
+import useWindowWidth from "helpers/hooks/useWindowWidth";
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from 'firebase-setup/firebaseConfig';
 import { v4 } from 'uuid';
@@ -43,7 +43,8 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
             likes: [],
             comments: [],
             text: text,
-            fromId: user.userId
+            fromId: user.userId,
+            createdAt: (new Date()).getTime(),
         }
 
         await updateDoc(doc(db, "users", user.userId), {
@@ -96,7 +97,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
                 <div className="relative">
                     <img
                         src={URL.createObjectURL(image[0])}
-                        className="h-[225px] sm:h-[calc(100%-40px)] w-[450px] object-cover sm:rounded-bl-xl"
+                        className="h-[225px] sm:h-full w-[450px] object-cover sm:rounded-bl-xl"
                     />
                     {
                         areEmojiOpen ?

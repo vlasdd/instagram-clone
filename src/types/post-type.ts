@@ -6,7 +6,8 @@ type PostType = {
     likes: { userId: string }[],
     comments: CommentsType[],
     text: string,
-    fromId: string
+    fromId: string,
+    createdAt: number,
 }
 
 export default PostType

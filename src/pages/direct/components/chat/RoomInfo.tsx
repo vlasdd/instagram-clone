@@ -1,14 +1,11 @@
-import { deleteDoc, doc } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
-import { db, storage } from 'firebase-setup/firebaseConfig'
 import AreYouSureModal from 'components/modal/AreYouSureModal'
 import Modal from 'components/modal/Modal'
 import MessageType from 'types/message-type'
-import { deleteObject, ref } from 'firebase/storage'
 import { useAppDispatch } from 'redux-setup/hooks'
-import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded'
+import useChatRoom from 'helpers/hooks/useChatRoom'
 
 type RoomInfoProps = {
   userId: string,
@@ -25,18 +22,7 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ userId, username, fullName, profile
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
-  const deleteChat = async () => {
-    dispatch(setIsBeingLoaded(true));
-    for (const message of messages) {
-      if (message.media.length) {
-        const imageRef = ref(storage, message.media);
-        await deleteObject(imageRef);
-      }
-    }
-
-    deleteDoc(doc(db, "chats", chatId));
-    dispatch(setIsBeingLoaded(false));
-  }
+  const { deleteChatRoom } = useChatRoom();
 
   return (
     <div className="w-full flex flex-col justify-center py-4">
@@ -84,7 +70,7 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ userId, username, fullName, profile
           >
             <AreYouSureModal
               areYouSureEvent={() => {
-                deleteChat();
+                deleteChatRoom({ messages, chatId });
                 navigate(RoutesTypes.DIRECT);
               }}
               profileImage={profileImage}

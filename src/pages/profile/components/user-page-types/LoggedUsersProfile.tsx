@@ -9,6 +9,7 @@ import Settings from 'svgs/empty/Settings';
 import Modal from 'components/modal/Modal';
 import ChangeImageModal from '../other/ChangeImageModal';
 import ProfileNavBar from '../other/ProfileNavBar';
+import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 
 const LoggedUsersProfile: React.FC = () => {
     const {user: signedUser, status } = useAppSelector(state => state.signedUser);
@@ -21,7 +22,7 @@ const LoggedUsersProfile: React.FC = () => {
     const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        dispatch(fetchSignedUser(uid as string))
+        dispatch(fetchSignedUser(uid as string));
     }, [uid])
 
     useEffect(() => {
