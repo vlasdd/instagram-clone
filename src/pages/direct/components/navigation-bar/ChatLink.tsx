@@ -53,7 +53,7 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage, lastEd
                 />
                 <div className="flex flex-col justify-center text-left w-full">
                     <p className="w-[165px] truncate text-sm tracking-wide">{userInfo.username}</p>
-                    <div className={`flex ${lastMessage.userId !== userId ? "gap-1" : " "}`}>
+                    <div className="flex gap-1">
                         <p className="font-medium text-sm tracking-wide whitespace-nowrap">
                             {`${lastMessage.userId !== userId && lastMessage.text.length ? "You:" : " "}`}
                         </p>

@@ -30,6 +30,7 @@ This project is my attempt to implement some parts of the Instagram's functional
   + Besides the ability to send messages(~~which is the main purpose of direct~~), it also allows user to send:
     * Emojis
     * Image files
+    * Posts
 + Posts
   + Comments
   + Likes
@@ -42,7 +43,7 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 + Dashboard
 + The ability to post more than one photo
-+ ~~Allow user to send other people's posts via direct~~
++ ~~Allow user to send other people's posts via direct~~ ***(Done)***
 + Chat rooms for 3+ users
 + Tagging other users
 

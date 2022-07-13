@@ -91,7 +91,7 @@ const Message: React.FC<IMessageProps> = ({ text, from, loggedUserId, media, pro
                                             <p className="text-[14px] tracking-wide whitespace-nowrap">{userInfo.username}</p>
                                         </button> :
                                         <UserLoader
-                                            imageStyles={{ width: 36, height: 36, borderRadius: "50%" }}
+                                            imageStyles={{ width: 30, height: 30, borderRadius: "50%" }}
                                             firstTextStyles={{ width: 100, height: 7, borderRadius: "10px" }}
                                             secondTextStyles={{ width: 80, height: 7, borderRadius: "10px" }}
                                             margin="my-1"
