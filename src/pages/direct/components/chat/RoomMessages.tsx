@@ -17,11 +17,11 @@ const RoomMessages: React.FC<RoomMessagesProps> = ({ messages, loggedUserId, pro
     //     })
     // )
 
-    const messagesToRender = useMemo(() => messages.map((message, index) => <Message
+    const messagesToRender = useMemo(() => messages.map(message => <Message
         {...message}
         loggedUserId={loggedUserId}
         profileImage={profileImage}
-        key={index}
+        key={message.createdAt}
     />), [messages])
 
     // {messagesToRender}

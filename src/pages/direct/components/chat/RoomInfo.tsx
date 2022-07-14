@@ -18,7 +18,6 @@ type RoomInfoProps = {
 
 const RoomInfo: React.FC<RoomInfoProps> = ({ userId, username, fullName, profileImage, chatId, messages }) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 

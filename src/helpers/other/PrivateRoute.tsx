@@ -4,11 +4,12 @@ import RoutesTypes from 'constants/routes-types';
 type PrivateRouteProps = {
   children: JSX.Element,
   condition: boolean,
+  link: string;
 }
 
-const PrivateRoute = ({ children, condition }: PrivateRouteProps) => {
+const PrivateRoute = ({ children, condition, link }: PrivateRouteProps) => {
   if (condition) {
-    return <Navigate to={RoutesTypes.DASHBOARD} />
+    return <Navigate to={link} />
   }
 
   return children

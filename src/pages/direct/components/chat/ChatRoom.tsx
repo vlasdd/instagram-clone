@@ -2,7 +2,7 @@ import { doc, getDoc, onSnapshot, Timestamp, updateDoc } from 'firebase/firestor
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from 'firebase-setup/firebaseConfig';
-import { useAppSelector } from 'redux-setup/hooks';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import ChatState from 'types/chat-state-type';
 import UserState from 'types/user-state-type';
 import { initialState as initialUser } from "redux-setup/features/signedUser";
@@ -14,9 +14,12 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import RoomMessages from './RoomMessages';
 import RoomInfo from './RoomInfo';
+import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 
 const ChatRoom: React.FC = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
+    const dispatch = useAppDispatch();
+
     const { chatId } = useParams();
     const navigate = useNavigate();
 

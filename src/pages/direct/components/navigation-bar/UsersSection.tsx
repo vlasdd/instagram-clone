@@ -42,12 +42,10 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
         }
 
         onSnapshot(query(collection(db, "chats"), where("firstUserId", "==", loggedUser.userId)), async () => {
-            console.log("section snapshot")
             await getChats();
         })
 
         onSnapshot(query(collection(db, "chats"), where("secondUserId", "==", loggedUser.userId)), async () => {
-            console.log("section snapshot")
             await getChats();
         })
     }, [loggedUser.userId, chatId])

@@ -85,7 +85,7 @@ const UserOnPageProfile: React.FC = () => {
                                             </button>
                                 }
                                 <button>
-                                    <Additional />
+                                    <Additional styles="h-7 w-7"/>
                                 </button>
                             </div>
                         </div>

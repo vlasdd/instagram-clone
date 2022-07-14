@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { motion } from 'framer-motion';
+import Close from 'svgs/empty/Close';
 
 type ModalProps = {
     children: React.ReactNode;
@@ -30,6 +31,9 @@ const Modal: React.FC<ModalProps> = ({ children, closeEvent, styles }) => {
             >
                 {children}
             </motion.div>
+            <div className="absolute top-4 right-4 cursor-pointer">
+                <Close styles="w-[25px] h-[25px] text-white"/>
+            </div>
         </div>
     )
 }

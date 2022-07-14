@@ -9,7 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import UsersListModal from "pages/profile/components/users-list/UsersListModal";
 import Modal from "components/modal/Modal";
 import PostsContainer from "pages/profile/components/posts/PostsContainer";
-import { setSignedUser } from "redux-setup/features/signedUser";
+import { fetchSignedUser, setSignedUser } from "redux-setup/features/signedUser";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "./firebase-setup/firebaseConfig";
 import UserState from "types/user-state-type";
@@ -46,8 +46,9 @@ const App: React.FC = () => {
       if (data) {
         console.log("auth")
 
-        const user = await getDoc(doc(db, "users", data.uid));
-        dispatch(setSignedUser(user.data() as UserState));
+        // const user = await getDoc(doc(db, "users", data.uid));
+        // dispatch(setSignedUser(user.data() as UserState));
+        dispatch(fetchSignedUser(data.uid))
       }
 
       dispatch(setIsBeingLoaded(false));
@@ -71,6 +72,7 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute
                   condition={loggedUser.userId.length !== 0}
+                  link={RoutesTypes.DASHBOARD}
                 >
                   <Login />
                 </PrivateRoute>
@@ -81,6 +83,7 @@ const App: React.FC = () => {
               element={
                 <PrivateRoute
                   condition={loggedUser.userId.length !== 0}
+                  link={RoutesTypes.DASHBOARD}
                 >
                   <SignUp />
                 </PrivateRoute>

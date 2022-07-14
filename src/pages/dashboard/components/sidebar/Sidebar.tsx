@@ -7,7 +7,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
 import UserState from 'types/user-state-type';
-import Suggestion from './Suggestion';
+import Suggestion from './components/Suggestion';
 
 const SUGGESTIONS_LENGTH = 5;
 

@@ -97,7 +97,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
                 <div className="relative">
                     <img
                         src={URL.createObjectURL(image[0])}
-                        className="h-[225px] sm:h-full w-[450px] object-cover sm:rounded-bl-xl"
+                        className="h-[225px] sm:h-[460px] w-[450px] object-cover sm:rounded-bl-xl"
                     />
                     {
                         areEmojiOpen ?

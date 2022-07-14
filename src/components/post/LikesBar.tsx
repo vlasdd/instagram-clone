@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import useLikes from 'helpers/hooks/usePostLikes'
+import usePostLikes from 'helpers/hooks/usePostLikes'
 import Comment from 'svgs/empty/Comment'
 import Direct from 'svgs/empty/Direct'
 import FilledHeart from 'svgs/filled/FilledHeart'
@@ -17,20 +17,22 @@ import convertUnixTime from 'helpers/other/convertUnixTime'
 import SharePostModal from './SharePostModal'
 
 type LikesBarProps = {
-    userId: string,
-    likes: {userId: string}[],
-    postId: string,
-    posts: PostType[],
     commentsRef: any,
-    createdAt: number
+    currentPost: PostType
+    changePostsAdd: any,
+    changePostsRemove: any,
 }
 
-const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, commentsRef, createdAt }) => {
+const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePostsAdd, changePostsRemove }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
-    const { changePosts } = usePosts();
 
-    const { addLike, removeLike } = useLikes({ userId, postId, posts, changePosts });
-    const { addToSaved, removeFromSaved } = useSavedPosts({ userId, postId });
+    const { addLike, removeLike } = usePostLikes({ 
+        userId: currentPost.fromId,
+        postId: currentPost.postId,
+        changePostsAdd: changePostsAdd,
+        changePostsRemove: changePostsRemove
+    });
+    const { addToSaved, removeFromSaved } = useSavedPosts({ userId: currentPost.fromId, postId: currentPost.postId });
 
     const [isListModalOpen, setIsListModalOpen] = useState<boolean>(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
@@ -41,7 +43,7 @@ const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, comme
                 <div className="flex w-full justify-between">
                     <div className="flex items-center gap-3 ml-[-8px]">
                         {
-                            likes.some(obj => obj.userId === loggedUser.userId) ?
+                            currentPost.likes.some(obj => obj.userId === loggedUser.userId) ?
                                 <div className="flex items-center justify-center h-[40px] w-[40px] mr-[-12px]">
                                     <div
                                         className="h-[28px] w-[28px] cursor-pointer"
@@ -88,7 +90,7 @@ const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, comme
                         </button>
                     </div>
                     {
-                        loggedUser.savedPosts.some(post => post.postId === postId) ?
+                        loggedUser.savedPosts.some(post => post.postId === currentPost.postId) ?
                             <button
                                 onClick={removeFromSaved}
                             >
@@ -112,14 +114,14 @@ const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, comme
                 >
                     <p className="font-medium text-sm tracking-wide whitespace-nowrap">
                         {(() => {
-                            const likesAmount = ((posts.find(post => post.postId === postId) as PostType)?.likes.length) || 0
+                            const likesAmount = currentPost.likes.length
                             return `${likesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} like${likesAmount === 1 ? "" : "s"}`
                         })()}
                     </p>
                 </button>
                 <p className="text-[11px] text-gray-400 mt-1 tracking-wide">
                     {(() => {
-                        let time = convertUnixTime(createdAt).toUpperCase();
+                        let time = convertUnixTime(currentPost.createdAt).toUpperCase();
                         if (time === "NOW") {
                             return time;
                         }
@@ -135,7 +137,7 @@ const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, comme
                     >
                         <UsersListModal
                             descriptionLine="Likes"
-                            usersList={likes}
+                            usersList={currentPost.likes}
                             closeEvent={() => setIsListModalOpen(false)}
                         />
                     </Modal> :
@@ -149,7 +151,7 @@ const LikesBar: React.FC<LikesBarProps> = ({ userId, likes, postId, posts, comme
                     >
                         <SharePostModal
                             closeEvent={() => setIsShareModalOpen(false)}
-                            currentPost={posts.find(post => post.postId === postId) as PostType}
+                            currentPost={currentPost}
                         />
                     </Modal> :
                     null
