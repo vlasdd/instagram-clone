@@ -3,13 +3,12 @@ import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom
 import AccountsRoutes from 'constants/accounts-routes';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
-import { clearErrors, fetchSignedUser, setSignedUser } from 'redux-setup/features/signedUser';
+import { clearErrors, fetchSignedUser } from 'redux-setup/features/signedUser';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Settings from 'svgs/empty/Settings';
 import Modal from 'components/modal/Modal';
 import ChangeImageModal from '../other/ChangeImageModal';
 import ProfileNavBar from '../other/ProfileNavBar';
-import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 
 const LoggedUsersProfile: React.FC = () => {
     const {user: signedUser, status } = useAppSelector(state => state.signedUser);

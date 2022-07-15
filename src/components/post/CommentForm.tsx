@@ -107,7 +107,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
             </div>
             <input
                 type="text"
-                placeholder="Message..."
+                placeholder="Send a comment..."
                 className="w-full h-8 placeholder:text-sm"
                 ref={commentsRef}
                 value={wordEntering}

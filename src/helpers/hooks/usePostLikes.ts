@@ -7,7 +7,14 @@ import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
 import PostType from "types/post-type";
 import UserState from "types/user-state-type";
 
-const usePostLikes = ({ userId, postId, changePostsAdd, changePostsRemove }: { userId: string, postId: string, changePostsAdd: any, changePostsRemove: any }) => {
+type UsePostLikesProps = { 
+    userId: string, 
+    postId: string,
+    changePostsAdd: any, 
+    changePostsRemove: any 
+}
+
+const usePostLikes = ({ userId, postId, changePostsAdd, changePostsRemove }: UsePostLikesProps) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
     const dispatch = useAppDispatch();

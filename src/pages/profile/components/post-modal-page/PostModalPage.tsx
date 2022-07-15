@@ -13,8 +13,8 @@ import CommentType from 'types/comments-type'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from 'firebase-setup/firebaseConfig'
 import UserState from 'types/user-state-type'
-import compareSize from 'helpers/other/compareSize';
 import { useAppSelector } from 'redux-setup/hooks';
+import Time from 'components/other/Time';
 
 const PostModalPage: React.FC = () => {
     const { posts, changePosts } = usePosts();
@@ -91,7 +91,7 @@ const PostModalPage: React.FC = () => {
                 `}>
                     <img
                         src={currentPost.postImage}
-                        className={`${compareSize(currentPost.postImage) ? "h-full" : "w-full"} object-cover`}
+                        className="h-full w-full object-contain"
                     />
                 </div>
                 <div className="w-full h-full sm:w-2/5 flex flex-col justify-between">
@@ -107,6 +107,7 @@ const PostModalPage: React.FC = () => {
                         changePostsAdd={changePostsAdd}
                         changePostsRemove={changePostsRemove}
                     />
+                    <Time createdAt={currentPost.createdAt}/>
                     <CommentForm
                         postId={postId as string}
                         wordEntering={wordEntering}

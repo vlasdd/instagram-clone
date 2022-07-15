@@ -41,7 +41,7 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 ## Features that can be added
 
-+ Dashboard
++ ~~Dashboard~~ ***(Done)***
 + The ability to post more than one photo
 + ~~Allow user to send other people's posts via direct~~ ***(Done)***
 + Chat rooms for 3+ users

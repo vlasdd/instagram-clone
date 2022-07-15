@@ -5,7 +5,7 @@ import BirthdateState from "types/birthdate-type";
 import UserData from "types/user-data-type";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "firebase-setup/firebaseConfig";
-import { doc, setDoc, getDoc, Timestamp } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 import { useAppDispatch } from "redux-setup/hooks";
 import { setSignedUser } from "redux-setup/features/signedUser";
 import UserState from "types/user-state-type";

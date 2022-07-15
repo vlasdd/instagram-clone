@@ -4,7 +4,6 @@ import RoutesTypes from 'constants/routes-types'
 import AreYouSureModal from 'components/modal/AreYouSureModal'
 import Modal from 'components/modal/Modal'
 import MessageType from 'types/message-type'
-import { useAppDispatch } from 'redux-setup/hooks'
 import useChatRoom from 'helpers/hooks/useChatRoom'
 
 type RoomInfoProps = {

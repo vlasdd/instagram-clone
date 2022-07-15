@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot, Timestamp, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from 'firebase-setup/firebaseConfig';
@@ -14,7 +14,6 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
 import RoomMessages from './RoomMessages';
 import RoomInfo from './RoomInfo';
-import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 
 const ChatRoom: React.FC = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);

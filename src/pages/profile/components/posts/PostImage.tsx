@@ -18,7 +18,7 @@ const PostImage: React.FC<PostType> = ({ postImage, postId, likes, comments }) =
         >
             <img
                 src={postImage}
-                className={`object-cover w-full h-full rounded-sm ${isHovered && "brightness-75"}`}
+                className={`w-full h-full object-cover rounded-sm ${isHovered && "brightness-75"}`}
             />
             {
                 isHovered ?

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import MessageType from 'types/message-type';
 import ProfileRoutes from 'constants/profile-routes';

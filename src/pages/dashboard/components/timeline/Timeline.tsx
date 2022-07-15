@@ -35,7 +35,7 @@ const Timeline: React.FC = () => {
         getPosts();
     }, [])
 
-    const postsComponenets = postsToRender.map(post => (
+    const postsComponents = postsToRender.map(post => (
         <Post
             currentPost={post}
             changePosts={setPostsToRender}
@@ -45,7 +45,7 @@ const Timeline: React.FC = () => {
 
     return (
         <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]": "w-full"}`}>
-            {postsComponenets}
+            {postsComponents}
             <div className="w-full flex flex-col items-center mt-8 mb-14">
                 <img
                    src="../images/done.jpg"

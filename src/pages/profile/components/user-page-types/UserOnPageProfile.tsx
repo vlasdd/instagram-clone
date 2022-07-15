@@ -9,7 +9,6 @@ import Additional from 'svgs/empty/Additional';
 import Modal from 'components/modal/Modal';
 import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
-import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 import useChatRoom from 'helpers/hooks/useChatRoom';
 
 const UserOnPageProfile: React.FC = () => {

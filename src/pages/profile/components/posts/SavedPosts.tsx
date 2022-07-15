@@ -21,6 +21,7 @@ const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = ({ savedPosts }) =
               }));
         } 
 
+        console.log("saved posts use effect")
         getSavedPosts();
     }, [])
 

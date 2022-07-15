@@ -10,7 +10,6 @@ import Saved from 'svgs/empty/Saved'
 import useSavedPosts from 'pages/profile/hooks/useSavedPosts'
 import { useAppSelector } from 'redux-setup/hooks'
 import FilledSaved from 'svgs/filled/FilledSaved'
-import usePosts from 'pages/profile/hooks/usePosts'
 import Modal from 'components/modal/Modal'
 import UsersListModal from 'pages/profile/components/users-list/UsersListModal'
 import convertUnixTime from 'helpers/other/convertUnixTime'
@@ -39,7 +38,7 @@ const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePos
 
     return (
         <>
-            <div className="h-[95px] flex flex-col px-4">
+            <div className="flex flex-col px-4 pt-2 border-t">
                 <div className="flex w-full justify-between">
                     <div className="flex items-center gap-3 ml-[-8px]">
                         {
@@ -119,15 +118,6 @@ const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePos
                         })()}
                     </p>
                 </button>
-                <p className="text-[11px] text-gray-400 mt-1 tracking-wide">
-                    {(() => {
-                        let time = convertUnixTime(currentPost.createdAt).toUpperCase();
-                        if (time === "NOW") {
-                            return time;
-                        }
-                        return time + " AGO"
-                    })()}
-                </p>
             </div>
             {
                 isListModalOpen ?

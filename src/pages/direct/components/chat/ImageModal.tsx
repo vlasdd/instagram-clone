@@ -1,4 +1,3 @@
-import compareSize from 'helpers/other/compareSize';
 import React from 'react'
 
 type ImageModalProps = {
@@ -10,7 +9,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ image }) => {
         <div className="w-full bg-black h-full flex items-center overflow-hidden rounded-xl">
             <img
                 src={image}
-                className={`${compareSize(image) ? "h-full" : "w-full"} object-cover`}
+                className="h-full w-full object-contain"
             />
         </div>
     )
