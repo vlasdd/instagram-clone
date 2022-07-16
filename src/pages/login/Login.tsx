@@ -8,7 +8,7 @@ import { setSignedUser } from "redux-setup/features/signedUser";
 import { doc, getDoc } from "firebase/firestore";
 import UserState from "types/user-state-type";
 
-const Login: React.FC = () => {
+const Login: React.FC = React.memo(() => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -53,7 +53,11 @@ const Login: React.FC = () => {
                                 className="w-6/12 mt-6"
                             />
                         </div>
-                        {error && <p className="mb-4 w-4/5 text-xs text-red-500">{error}</p>}
+                        {
+                            error ? 
+                            <p className="mb-4 w-4/5 text-xs text-red-500">{error}</p>:
+                            null
+                        }
                         <form
                             method="POST"
                             className="flex flex-col items-center w-full"
@@ -112,6 +116,6 @@ const Login: React.FC = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Login;

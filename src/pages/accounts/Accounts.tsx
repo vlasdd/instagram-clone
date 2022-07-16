@@ -9,7 +9,7 @@ const Links = [{
    // link: Pr AccountsRoutes.EDIT_PROFILE 
 }]
 
-const Accounts: React.FC = () => {
+const Accounts: React.FC = React.memo(() => {
     return (
         <div className="back w-screen h-screen flex flex-col items-center ">
             <Header />
@@ -19,6 +19,6 @@ const Accounts: React.FC = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Accounts

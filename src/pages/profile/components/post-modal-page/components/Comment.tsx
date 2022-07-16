@@ -11,7 +11,7 @@ import usePosts from 'pages/profile/hooks/usePosts';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from 'firebase-setup/firebaseConfig';
 import UserState from 'types/user-state-type';
-import convertUnixTime from 'helpers/other/convertUnixTime';
+import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime';
 import Modal from 'components/modal/Modal';
 import UsersListModal from '../../users-list/UsersListModal';
 
@@ -19,7 +19,7 @@ interface ICommentsProps extends CommentsType {
     fromId: string
 }
 
-const Comment: React.FC<ICommentsProps> = ({ userId, text, likes, commentId, fromId, createdAt }) => {
+const Comment: React.FC<ICommentsProps> = React.memo(({ userId, text, likes, commentId, fromId, createdAt }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user); 
 
     const navigate = useNavigate();
@@ -51,6 +51,11 @@ const Comment: React.FC<ICommentsProps> = ({ userId, text, likes, commentId, fro
 
     const { addLike, removeLike } = useCommentLikes({ userId: fromId, postId: postId as string, changePosts, commentId })
 
+    const generateTime = () => {
+        let time = convertUnixTime(createdAt)
+        return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
+    }
+
     return (
         <>
             <div className="flex w-full justify-between items-start">
@@ -78,10 +83,7 @@ const Comment: React.FC<ICommentsProps> = ({ userId, text, likes, commentId, fro
                         </div>
                         <div className="flex gap-2 text-xs text-gray-400">
                             <p>
-                                {(() => {
-                                    let time = convertUnixTime(createdAt)
-                                    return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
-                                })()}
+                                {generateTime()}
                             </p>
                             <button onClick={() => setIsListModalOpen(true)}>
                                 <p className="font-medium">{`${likes.length} like${likes.length === 1 ? "" : "s"}`}</p>
@@ -136,6 +138,6 @@ const Comment: React.FC<ICommentsProps> = ({ userId, text, likes, commentId, fro
             }
         </>
     )
-}
+})
 
 export default Comment

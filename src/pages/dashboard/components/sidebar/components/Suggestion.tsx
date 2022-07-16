@@ -11,7 +11,7 @@ interface ISuggestionProps extends UserSuggestionType {
     isFollowing: boolean;
 }
 
-const Suggestion: React.FC<ISuggestionProps> = ({ profileImage, username, fullName, userId, isFollowing }) => {
+const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, username, fullName, userId, isFollowing }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
@@ -77,6 +77,6 @@ const Suggestion: React.FC<ISuggestionProps> = ({ profileImage, username, fullNa
             }
         </div>
     )
-}
+})
 
 export default Suggestion

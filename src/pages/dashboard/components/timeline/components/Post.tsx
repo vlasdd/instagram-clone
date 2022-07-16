@@ -5,7 +5,7 @@ import ProfileRoutes from 'constants/profile-routes'
 import RoutesTypes from 'constants/routes-types'
 import { db } from 'firebase-setup/firebaseConfig'
 import { doc, getDoc } from 'firebase/firestore'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks'
 import PostType from 'types/post-type'
@@ -17,11 +17,10 @@ type PostProps = {
     changePosts: any
 }
 
-const Post: React.FC<PostProps> = ({ currentPost, changePosts }) => {
+const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
 
     const commentsRef = useRef<React.RefObject<HTMLInputElement>>(null);
-    const navigate = useNavigate();
 
     const [userInfo, setUserInfo] = useState<{
         username: string,
@@ -43,21 +42,26 @@ const Post: React.FC<PostProps> = ({ currentPost, changePosts }) => {
         getUser();
     }, [])
 
-    const changePostsAdd = () => changePosts((posts: PostType[]) => posts.map(post => {
+    const changePostsAdd = useCallback(() => changePosts((posts: PostType[]) => posts.map(post => {
         if (post.postId === currentPost.postId) {
             return { ...post, likes: [...post.likes, { userId: loggedUser.userId }] }
         }
 
         return post
-    }) as PostType[])
+    }) as PostType[]), [currentPost.postId, loggedUser.userId])
 
-    const changePostsRemove = () => changePosts((posts: PostType[]) => posts.map(post => {
+    const changePostsRemove = useCallback(() => changePosts((posts: PostType[]) => posts.map(post => {
         if (post.postId === currentPost.postId) {
             return { ...post, likes: post.likes.filter(obj => obj.userId !== loggedUser.userId) }
         }
 
         return post
-    }) as PostType[])
+    }) as PostType[]), [currentPost.postId, loggedUser.userId])
+
+    const handleCommentsAmount = () => {
+        const commentsAmount = currentPost.comments.length
+        return `View all ${commentsAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} comment${commentsAmount === 1 ? "" : "s"}`
+    }
 
     return (
         <div className="w-full h-full flex flex-col bg-white border rounded-xl">
@@ -92,10 +96,7 @@ const Post: React.FC<PostProps> = ({ currentPost, changePosts }) => {
                     to={RoutesTypes.DASHBOARD + currentPost.fromId + "/" + ProfileRoutes.POST + currentPost.postId}
                 >
                     <p className="text-sm text-gray-400 mt-1 tracking-wide">
-                        {(() => {
-                            const commentsAmount = currentPost.comments.length
-                            return `View all ${commentsAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} comment${commentsAmount === 1 ? "" : "s"}`
-                        })()}
+                        {handleCommentsAmount()}
                     </p>
                 </Link>
             </div>
@@ -109,6 +110,6 @@ const Post: React.FC<PostProps> = ({ currentPost, changePosts }) => {
             />
         </div>
     )
-}
+})
 
 export default Post

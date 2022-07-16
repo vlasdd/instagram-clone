@@ -6,7 +6,7 @@ import LoggedUsersProfile from './components/user-page-types/LoggedUsersProfile'
 import UserOnPageProfile from './components/user-page-types/UserOnPageProfile';
 import Loading from 'pages/loading/Loading';
 
-const DefineProfile: React.FC = () => {
+const DefineProfile: React.FC = React.memo(() => {
     const { uid } = useParams();
     const signedUser = useAppSelector(state => state.signedUser.user);
 
@@ -22,6 +22,6 @@ const DefineProfile: React.FC = () => {
                 }
             </>
     )
-}
+})
 
 export default DefineProfile;

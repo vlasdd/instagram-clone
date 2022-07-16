@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
@@ -13,40 +13,36 @@ import Settings from 'svgs/empty/Settings';
 import SwitchAccounts from 'svgs/empty/SwitchAccounts';
 import AccountsRoutes from 'constants/accounts-routes';
 
-const ProfileDropMenuContainer: React.FC = () => {
+const ProfileDropMenuContainer: React.FC = React.memo(() => {
     const dispatch = useAppDispatch();
     const user = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
-    const handleLogout = async () => {
+    const handleLogout = useCallback(async () => {
         await signOut(auth);
         dispatch(removeSignedUser());
         navigate(RoutesTypes.LOGIN);
-    }
+    }, [auth])
 
     return (
         <>
             <ProfileDropMenuElement
-                image={<Profile styles="h-5 w-5 text-gray-700"/>} 
+                image={<Profile styles="h-5 w-5 text-gray-700" />}
                 text="Profile"
-                callback={() => {
-                    navigate(RoutesTypes.DASHBOARD + user.userId)
-                }}
+                callback={() => navigate(RoutesTypes.DASHBOARD + user.userId)}
             />
             <ProfileDropMenuElement
-                image={
+                image={(
                     <Saved
                         styles="h-5 w-5 text-gray-700"
                         includeHovering={false}
                     />
-                }
+                )}
                 text="Saved"
-                callback={() => {
-                    navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)
-                }}
+                callback={() => navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)}
             />
             <ProfileDropMenuElement
-                image={<Settings styles="h-5 w-5 text-gray-700"/>} 
+                image={<Settings styles="h-5 w-5 text-gray-700" />}
                 text="Settings"
                 callback={() => navigate(RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE)}
             />
@@ -63,6 +59,6 @@ const ProfileDropMenuContainer: React.FC = () => {
             <div className="w-4 h-4 absolute bg-white rotate-45 top-[-8px] right-8 "></div>
         </>
     )
-}
+})
 
 export default ProfileDropMenuContainer;

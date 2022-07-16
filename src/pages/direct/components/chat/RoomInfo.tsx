@@ -15,7 +15,7 @@ type RoomInfoProps = {
   messages: MessageType[];
 }
 
-const RoomInfo: React.FC<RoomInfoProps> = ({ userId, username, fullName, profileImage, chatId, messages }) => {
+const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ userId, username, fullName, profileImage, chatId, messages }) => {
   const navigate = useNavigate();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
@@ -82,6 +82,6 @@ const RoomInfo: React.FC<RoomInfoProps> = ({ userId, username, fullName, profile
       }
     </div>
   )
-}
+})
 
 export default RoomInfo

@@ -5,7 +5,7 @@ import Posts from 'svgs/empty/Posts';
 import Profile from 'svgs/empty/Profile';
 import Saved from 'svgs/empty/Saved';
 
-const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
+const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersPage }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -71,6 +71,6 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = ({ isUsersPage }) => {
             </button>
         </div>
     )
-}
+})
 
 export default ProfileNavBar

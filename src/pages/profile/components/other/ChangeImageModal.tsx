@@ -12,11 +12,11 @@ type ChangeImageModalProps = {
     closeEvent: () => void
 }
 
-const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
+const ChangeImageModal: React.FC<ChangeImageModalProps> = React.memo(({ closeEvent }) => {
     const currentUser = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
 
-    async function uploadImage(event: React.ChangeEvent<HTMLInputElement>){
+    const uploadImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if(!event.target.files){
             return;
         }
@@ -24,10 +24,10 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
 
         const imageUpload = event.target.files[0];
 
-        /*if (currentUser.profileImage !== "") {
+        if (currentUser.profileImage !== "") {
             const deleteImageRef = ref(storage, currentUser.profileImage);
             await deleteObject(deleteImageRef);
-        }*/
+        }
 
         const imageRef = ref(storage, `Images/${imageUpload.name + v4()}`)
         await uploadBytes(imageRef, imageUpload)
@@ -43,9 +43,9 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
         dispatch(setIsBeingLoaded(false))
     }
 
-    async function deleteImage(currentUser: UserState) {
-        //const imageRef = ref(storage, currentUser.profileImage);
-        //await deleteObject(imageRef);
+    const deleteImage = async (currentUser: UserState) => {
+        const imageRef = ref(storage, currentUser.profileImage);
+        await deleteObject(imageRef);
 
         dispatch(setIsBeingLoaded(true))
 
@@ -103,6 +103,6 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = ({ closeEvent }) => {
             </button>
         </div>
     )
-}
+})
 
 export default ChangeImageModal

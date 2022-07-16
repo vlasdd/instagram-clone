@@ -12,8 +12,8 @@ import { useAppSelector } from 'redux-setup/hooks'
 import FilledSaved from 'svgs/filled/FilledSaved'
 import Modal from 'components/modal/Modal'
 import UsersListModal from 'pages/profile/components/users-list/UsersListModal'
-import convertUnixTime from 'helpers/other/convertUnixTime'
-import SharePostModal from './SharePostModal'
+import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime'
+import SharePostModal from '../modal/SharePostModal'
 
 type LikesBarProps = {
     commentsRef: any,
@@ -22,7 +22,7 @@ type LikesBarProps = {
     changePostsRemove: any,
 }
 
-const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePostsAdd, changePostsRemove }) => {
+const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost, changePostsAdd, changePostsRemove }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
 
     const { addLike, removeLike } = usePostLikes({ 
@@ -35,6 +35,11 @@ const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePos
 
     const [isListModalOpen, setIsListModalOpen] = useState<boolean>(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+
+    const handleLikesAmount = () => {
+        const likesAmount = currentPost.likes.length
+        return `${likesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} like${likesAmount === 1 ? "" : "s"}`
+    }
 
     return (
         <>
@@ -112,10 +117,7 @@ const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePos
                     className="flex flex-start"
                 >
                     <p className="font-medium text-sm tracking-wide whitespace-nowrap">
-                        {(() => {
-                            const likesAmount = currentPost.likes.length
-                            return `${likesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} like${likesAmount === 1 ? "" : "s"}`
-                        })()}
+                        {handleLikesAmount()}
                     </p>
                 </button>
             </div>
@@ -148,6 +150,6 @@ const LikesBar: React.FC<LikesBarProps> = ({ commentsRef, currentPost, changePos
             }
         </>
     )
-}
+})
 
 export default LikesBar

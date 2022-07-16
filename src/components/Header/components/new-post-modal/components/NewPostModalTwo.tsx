@@ -20,7 +20,7 @@ type NewPostModalTwoProps = {
     image: any[],
 }
 
-const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, image }) => {
+const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrentPageId, image }) => {
     const userOnPage = useAppSelector(state => state.userOnPage.user);
     const user = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
@@ -157,7 +157,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = ({ setCurrentPageId, ima
             </div>
         </motion.div>
     )
-}
+})
 
 export default NewPostModalTwo
 {/* {

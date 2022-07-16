@@ -6,18 +6,22 @@ type DropMenuElementProps = {
     callback: () => void,
 }
 
-const ProfileDropMenuElement: React.FC<DropMenuElementProps> = ({ image, text, callback }) => {
+const ProfileDropMenuElement: React.FC<DropMenuElementProps> = React.memo(({ image, text, callback }) => {
     return (
         <button
             className="flex w-full h-9 items-center justify-center "
             onClick={callback}
         >
             <div className="flex w-5/6 gap-3">
-                {image && image}
+                {
+                    image ?
+                        image :
+                        null
+                }
                 <p className="text-gray-700 text-sm">{text}</p>
             </div>
         </button>
     )
-}
+})
 
 export default ProfileDropMenuElement;

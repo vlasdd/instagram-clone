@@ -56,7 +56,10 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                     />
                 </div>
                 <p className="w-4/5 pb-4 text-center text-gray-400 font-semibold">Sign up to see photos and videos from your friends</p>
-                {error && <p className="mb-4 w-4/5 text-sm text-red-500 text-center">{error}</p>}
+                {
+                    error ? <p className="mb-4 w-4/5 text-sm text-red-500 text-center">{error}</p>:
+                    null
+                }
                 <form
                     method="POST"
                     className="flex flex-col items-center w-full"

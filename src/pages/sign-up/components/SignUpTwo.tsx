@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import UserData from "types/user-data-type";
 import BirthdateState from "types/birthdate-type";
 import { Link } from "react-router-dom";
@@ -59,7 +59,7 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
         year: new Date().getFullYear() - 1,
     })
 
-    const isInvalid = new Date().getFullYear() - birthdate.year > 5 ? false: true;
+    const isInvalid = useMemo(() => new Date().getFullYear() - birthdate.year > 5 ? false: true, [birthdate])
 
     return (
         <div className="w-4/5 sm:w-3/5 lg:w-1/3">

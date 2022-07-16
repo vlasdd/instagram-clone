@@ -10,7 +10,7 @@ import Modal from 'components/modal/Modal';
 import ChangeImageModal from '../other/ChangeImageModal';
 import ProfileNavBar from '../other/ProfileNavBar';
 
-const LoggedUsersProfile: React.FC = () => {
+const LoggedUsersProfile: React.FC = React.memo(() => {
     const {user: signedUser, status } = useAppSelector(state => state.signedUser);
     const dispatch = useAppDispatch();
 
@@ -104,6 +104,6 @@ const LoggedUsersProfile: React.FC = () => {
                 <Outlet />
             </div>
     )
-}
+})
 
 export default LoggedUsersProfile

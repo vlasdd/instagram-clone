@@ -8,7 +8,7 @@ type ModalProps = {
     styles: string
 }
 
-const Modal: React.FC<ModalProps> = ({ children, closeEvent, styles }) => {
+const Modal: React.FC<ModalProps> = React.memo(({ children, closeEvent, styles }) => {
     useEffect(() => {
         document.body.classList.add("overflow-hidden");
         return () => document.body.classList.remove("overflow-hidden");
@@ -36,6 +36,6 @@ const Modal: React.FC<ModalProps> = ({ children, closeEvent, styles }) => {
             </div>
         </div>
     )
-}
+})
 
 export default Modal

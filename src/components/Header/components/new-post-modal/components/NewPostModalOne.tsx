@@ -13,7 +13,7 @@ type NewPostModalOneProps = {
     setCurrentImageIndex: React.Dispatch<React.SetStateAction<number>>,
 }
 
-const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setCurrentPageId, setCurrentImageIndex, currentImageIndex }) => {
+const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({ image, setImage, setCurrentPageId, setCurrentImageIndex, currentImageIndex }) => {
     const [drag, setDrag] = useState<boolean>(false);
     const [errorFileName, setErrorFileName] = useState<null | string>(null);
     const [areImagesOpened, setAreImagesOpen] = useState<boolean>(false);
@@ -30,6 +30,13 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
         }
         
         setImage(prevFiles => [...prevFiles, file])
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { files } = event.target
+        if (files && files[0]) {
+            setImage(prevFiles => [...prevFiles, files[0]]);
+        }
     }
 
     return (
@@ -129,12 +136,7 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
                                 type="file"
                                 accept="image/png, image/jpg, image/jpeg"
                                 className="hidden"
-                                onChange={(event) => {
-                                    const { files } = event.target
-                                    if (files && files[0]) {
-                                        setImage(prevFiles => [...prevFiles, files[0]]);
-                                    }
-                                }}
+                                onChange={(event) => handleChange(event)}
                             />
                             <p>{errorFileName ? "Select other files" : "Select from computer"}</p>
                         </label>
@@ -142,6 +144,6 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = ({ image, setImage, setC
             }
         </motion.div>
     )
-}
+})
 
 export default NewPostModalOne

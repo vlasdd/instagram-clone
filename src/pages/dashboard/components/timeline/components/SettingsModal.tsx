@@ -5,21 +5,30 @@ import { useNavigate } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import ProfileRoutes from 'constants/profile-routes';
 import Modal from 'components/modal/Modal';
-import SharePostModal from 'components/post/SharePostModal';
+import SharePostModal from 'components/modal/SharePostModal';
 
 type SettingsModalProps = {
     closeEvent: () => void;
     post: PostType
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ closeEvent, post }) => {
+const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, post }) => {
     const navigate = useNavigate();
-
+    
     const { removeFromFollowing } = useFollowers({ userId: post.fromId })
 
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
-    console.log(window.location)
+    const handleCopy = () => {
+        navigator.clipboard.writeText(
+            window.location.origin +
+            RoutesTypes.DASHBOARD +
+            post.fromId + "/" +
+            ProfileRoutes.POST +
+            post.postId
+        );
+        closeEvent();
+    }
 
     return (
         <>
@@ -47,16 +56,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ closeEvent, post }) => {
                 </button>
                 <button
                     className="w-full active:bg-gray-300 h-12 border-t-2 flex items-center justify-center text-sm"
-                    onClick={() => {
-                        navigator.clipboard.writeText(
-                            window.location.origin +
-                            RoutesTypes.DASHBOARD +
-                            post.fromId + "/" +
-                            ProfileRoutes.POST +
-                            post.postId
-                        );
-                        closeEvent();
-                    }}
+                    onClick={handleCopy}
                 >
                     Copy link
                 </button>
@@ -82,7 +82,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ closeEvent, post }) => {
             }
         </>
     )
-}
+})
 
 
 export default SettingsModal

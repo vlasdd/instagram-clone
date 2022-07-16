@@ -1,5 +1,5 @@
 import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import { db } from 'firebase-setup/firebaseConfig';
@@ -9,7 +9,7 @@ import ChatLink from './ChatLink';
 import ChatState from 'types/chat-state-type';
 import UserLoader from 'components/other/UserLoader';
 
-const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
+const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModal }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
     const { chatId } = useParams();
@@ -67,6 +67,14 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
         return skeletons
     }
 
+    const chatLinks = useMemo(() => chats.map(chat => <ChatLink
+        chatId={chat.firstUserId + "-" + chat.secondUserId}
+        userId={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
+        lastMessage={chat.lastMessage}
+        lastEdited={chat.lastEdited}
+        key={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
+    />), [chats, loggedUser.userId])
+
     return (
         <div className="w-full sm:w-[520px] h-full border-r flex flex-col">
             <div className="flex justify-end items-center h-[60px] border-b pr-4">
@@ -89,18 +97,12 @@ const UsersSection: React.FC<{ openModal: () => void }> = ({ openModal }) => {
             <div className="flex flex-col w-full h-[calc(100%-60px)] overflow-hidden overflow-y-auto">
                 {
                     chats.length ?
-                        chats.map(chat => <ChatLink
-                            chatId={chat.firstUserId + "-" + chat.secondUserId}
-                            userId={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
-                            lastMessage={chat.lastMessage}
-                            lastEdited={chat.lastEdited}
-                            key={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
-                        />) :
+                        chatLinks :
                         generateSkeletons()
                 }
             </div>
         </div>
     )
-}
+})
 
 export default UsersSection

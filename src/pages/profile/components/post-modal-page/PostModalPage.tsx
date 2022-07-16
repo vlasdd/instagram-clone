@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import PostType from 'types/post-type'
 import PostsModalNavigation from 'pages/profile/components/post-modal-page/components/PostsModalNavigation'
@@ -16,7 +16,7 @@ import UserState from 'types/user-state-type'
 import { useAppSelector } from 'redux-setup/hooks';
 import Time from 'components/other/Time';
 
-const PostModalPage: React.FC = () => {
+const PostModalPage: React.FC = React.memo(() => {
     const { posts, changePosts } = usePosts();
 
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -25,8 +25,8 @@ const PostModalPage: React.FC = () => {
     const { postId } = useParams();
     const location = useLocation();
 
-    const currentPost = posts.find(post => post?.postId === postId) as PostType
-    const currentIndex = posts.indexOf(currentPost as PostType);
+    const currentPost = useMemo(() => posts.find(post => post?.postId === postId) as PostType, [posts, postId])
+    const currentIndex = useMemo(() => posts.indexOf(currentPost as PostType), [posts, currentPost])
 
     const [wordEntering, setWordEntering] = useState<string>("");
 
@@ -126,6 +126,6 @@ const PostModalPage: React.FC = () => {
                 />
             </div>
     )
-}
+})
 
 export default PostModalPage

@@ -12,11 +12,11 @@ import UserState from "types/user-state-type";
 import { Navigate, useNavigate } from "react-router-dom";
 import RoutesTypes from "constants/routes-types";
 
+const LAST_PAGE_ID = 2;
+
 const SignUp: React.FC = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
-    const lastPageId = 2;
 
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
     const [currentPageId, setCurrentPageId] = useState<number>(0)
@@ -59,30 +59,30 @@ const SignUp: React.FC = () => {
     }
 
     useEffect(() => {
-        if (currentPageId === lastPageId) {
+        if (currentPageId === LAST_PAGE_ID) {
             handleSignUp();
         }
     }, [currentPageId])
+
+    const generatePages = () => {
+        switch (currentPageId) {
+            case 0: {
+                return <SignUpOne {...{ setCurrentPageId, userData, setUserData }} />
+            }
+            case 1: {
+                return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
+            }
+            default: {
+                return null;
+            }
+        }
+    }
 
     return (
         shouldRedirect ?
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
             <div className="h-screen w-screen flex justify-center items-center bg-[#FAFAFA]">
-                {
-                    (() => {
-                        switch (currentPageId) {
-                            case 0: {
-                                return <SignUpOne {...{ setCurrentPageId, userData, setUserData }} />
-                            }
-                            case 1: {
-                                return <SignUpTwo {...{ setCurrentPageId, setUserData }} />
-                            }
-                            default: {
-                                return null;
-                            }
-                        }
-                    })()
-                }
+                {generatePages()}
             </div>
     )
 }

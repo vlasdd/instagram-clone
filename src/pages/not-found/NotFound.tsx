@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "components/header/Header";
 import RoutesTypes from "constants/routes-types";
 
-const NotFound: React.FC = () => {
+const NotFound: React.FC = React.memo(() => {
     return (
         <div className="h-screen w-screen back flex flex-col items-center">
             <Header />
@@ -15,6 +15,6 @@ const NotFound: React.FC = () => {
             </div>
         </div>
     )
-}
+})
 
 export default NotFound;

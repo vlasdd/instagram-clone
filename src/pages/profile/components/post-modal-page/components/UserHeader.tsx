@@ -15,7 +15,7 @@ type UserHeaderProps = {
     }
 }
 
-const UserHeader: React.FC<UserHeaderProps> = ({ userInfo }) => {
+const UserHeader: React.FC<UserHeaderProps> = React.memo(({ userInfo }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
@@ -95,6 +95,6 @@ const UserHeader: React.FC<UserHeaderProps> = ({ userInfo }) => {
             }
         </>
     )
-}
+})
 
 export default UserHeader

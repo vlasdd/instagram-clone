@@ -16,7 +16,7 @@ type PostHeaderProps = {
     post: PostType
 }
 
-const PostHeader: React.FC<PostHeaderProps> = ({ userInfo, post }) => {
+const PostHeader: React.FC<PostHeaderProps> = React.memo(({ userInfo, post }) => {
     const navigate = useNavigate();
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
 
@@ -62,6 +62,6 @@ const PostHeader: React.FC<PostHeaderProps> = ({ userInfo, post }) => {
             }
         </div>
     )
-}
+})
 
 export default PostHeader

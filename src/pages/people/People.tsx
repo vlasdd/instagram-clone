@@ -9,7 +9,7 @@ import PersonSuggestion from './PersonSuggestion'
 
 const SUGGESTIONS_AMOUNT = 30;
 
-const People: React.FC = () => {
+const People: React.FC = React.memo(() => {
   const loggedUser = useAppSelector(state => state.signedUser.user);
   const [suggestions, setSuggestions] = useState<UserState[]>([]);
 
@@ -60,6 +60,6 @@ const People: React.FC = () => {
         </div>
       </>
   )
-}
+})
 
 export default People

@@ -11,38 +11,34 @@ type PostsModalNavigationProps = {
     routePart: () => string
 }
 
-const PostsModalNavigation: React.FC<PostsModalNavigationProps> = ({ currentIndex, posts, routePart }) => {
+const PostsModalNavigation: React.FC<PostsModalNavigationProps> = React.memo(({ currentIndex, posts, routePart }) => {
     const navigate = useNavigate();
 
-    console.log(routePart())
+    const handleNavigateForward = () => {
+        navigate(routePart() + "/" + ProfileRoutes.POST + posts[currentIndex - 1].postId)
+    }
+
+    const handleNavigateBack = () => {
+        navigate(routePart() + "/" + ProfileRoutes.POST + posts[currentIndex + 1].postId)
+    }
 
     return (
         <>
             {
-                currentIndex !== posts.length - 1 ?
+                currentIndex !== 0 ?
                     <button
                         className="w-8 h-8 rounded-full bg-white absolute flex justify-center items-center left-[calc(100%+15px)] top-[46%]"
-                        onClick={() => navigate(
-                            routePart() +
-                            "/" +
-                            ProfileRoutes.POST +
-                            posts[currentIndex + 1].postId)
-                        }
+                        onClick={handleNavigateForward}
                     >
                         <ArrowToRight />
                     </button> :
                     null
             }
             {
-                currentIndex !== 0 ?
+                currentIndex !== posts.length - 1 ?
                     <button
                         className="w-8 h-8 rounded-full bg-white absolute flex justify-center items-center right-[calc(100%+15px)] top-[46%]"
-                        onClick={() => navigate(
-                            routePart() +
-                            "/" +
-                            ProfileRoutes.POST +
-                            posts[currentIndex - 1].postId)
-                        }
+                        onClick={handleNavigateBack}
                     >
                         <ArrowToLeft />
                     </button> :
@@ -50,6 +46,6 @@ const PostsModalNavigation: React.FC<PostsModalNavigationProps> = ({ currentInde
             }
         </>
     )
-}
+})
 
 export default PostsModalNavigation

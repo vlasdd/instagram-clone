@@ -5,7 +5,7 @@ import FilledComment from 'svgs/filled/FilledComment';
 import FilledHeart from 'svgs/filled/FilledHeart';
 import PostType from 'types/post-type'
 
-const PostImage: React.FC<PostType> = ({ postImage, postId, likes, comments }) => {
+const PostImage: React.FC<PostType> = React.memo(({ postImage, postId, likes, comments }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -36,6 +36,6 @@ const PostImage: React.FC<PostType> = ({ postImage, postId, likes, comments }) =
             }
         </div>
     )
-}
+})
 
 export default PostImage

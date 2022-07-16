@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
 import { db } from 'firebase-setup/firebaseConfig'
-import convertUnixTime from 'helpers/other/convertUnixTime'
+import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime'
 
 type ChatLinkProps = {
     userId: string,
@@ -20,7 +20,7 @@ type UserInfoType = {
     username: string 
 }
 
-const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage, lastEdited }) => {
+const ChatLink: React.FC<ChatLinkProps> = React.memo(({ userId, chatId, lastMessage, lastEdited }) => {
     const navigate = useNavigate();
     const { chatId: chatParam } = useParams();
 
@@ -40,6 +40,11 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage, lastEd
 
         getUser();
     }, [])
+
+    const generateTime = () => {
+        let time = convertUnixTime(lastEdited)
+        return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
+    }
 
     return (
         <button
@@ -63,10 +68,7 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage, lastEd
                                 <>
                                     <p className="text-sm text-gray-400">•</p>
                                     <p className="text-sm text-gray-400">
-                                        {(() => {
-                                            let time = convertUnixTime(lastEdited)
-                                            return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
-                                        })()}
+                                        {generateTime()}
                                     </p>
                                 </> :
                                 null
@@ -76,6 +78,6 @@ const ChatLink: React.FC<ChatLinkProps> = ({ userId, chatId, lastMessage, lastEd
             </div>
         </button>
     )
-}
+})
 
 export default ChatLink

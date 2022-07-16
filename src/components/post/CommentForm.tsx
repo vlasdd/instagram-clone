@@ -21,7 +21,7 @@ type CommentFormProps = {
     postId: string
 }
 
-const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering, commentsRef, currentPostFromId, postId }) => {
+const CommentForm: React.FC<CommentFormProps> = React.memo(({ wordEntering, setWordEntering, commentsRef, currentPostFromId, postId }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
 
@@ -78,6 +78,12 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
         setWordEntering(prevText => prevText + emojiObject.emoji);
     }
 
+    const handleKey = (event: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLButtonElement>) => {
+        if (event.key === "Enter") {
+            sendComment();
+        }
+    }
+
     return (
         <div className="flex justify-between items-center rounded-b-xl border h-[50px] w-full px-4 gap-4">
             <div className="relative">
@@ -112,26 +118,18 @@ const CommentForm: React.FC<CommentFormProps> = ({ wordEntering, setWordEntering
                 ref={commentsRef}
                 value={wordEntering}
                 onChange={event => setWordEntering(event.target.value)}
-                onKeyDown={event => {
-                    if (event.key === "Enter") {
-                        sendComment();
-                    }
-                }}
+                onKeyDown={event => handleKey(event)}
             />
             <button
                 className={`font-semibold ${wordEntering.length ? "text-blue-500": "text-blue-200"}`}
                 onClick={sendComment}
                 disabled={!wordEntering.length}
-                onKeyDown={event => {
-                    if (event.key === "Enter") {
-                        sendComment();
-                    }
-                }}
+                onKeyDown={event => handleKey(event)}
             >
                 <p>Post</p>
             </button>
         </div>
     )
-}
+})
 
 export default CommentForm

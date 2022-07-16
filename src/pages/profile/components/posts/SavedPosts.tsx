@@ -6,7 +6,7 @@ import SavedPostType from 'types/save-post-type'
 import UserState from 'types/user-state-type';
 import PostsContainer from './PostsContainer';
 
-const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = ({ savedPosts }) => {
+const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = React.memo(({ savedPosts }) => {
     const [savedPostsData, setSavedPostsData] = useState<PostType[]>([]);
 
     useEffect(() => {
@@ -21,7 +21,6 @@ const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = ({ savedPosts }) =
               }));
         } 
 
-        console.log("saved posts use effect")
         getSavedPosts();
     }, [])
 
@@ -41,6 +40,6 @@ const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = ({ savedPosts }) =
                 </div>
             </div>
     )
-}
+})
 
 export default SavedPosts

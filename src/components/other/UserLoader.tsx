@@ -8,7 +8,7 @@ type UserLoaderType = {
     margin?: string,
 }
 
-const UserLoader: React.FC<UserLoaderType> = ({ imageStyles, firstTextStyles, secondTextStyles, margin }) => {
+const UserLoader: React.FC<UserLoaderType> = React.memo(({ imageStyles, firstTextStyles, secondTextStyles, margin }) => {
     return (
         <div className={`flex px-[2px] pr-6 items-center justify-center py-1 ${margin ? margin: ""}`}>
             <div className="w-full py-[0.5px] flex items-center px-3">
@@ -20,6 +20,6 @@ const UserLoader: React.FC<UserLoaderType> = ({ imageStyles, firstTextStyles, se
             </div>
         </div>
     )
-}
+})
 
 export default UserLoader

@@ -1,7 +1,7 @@
 import { db } from 'firebase-setup/firebaseConfig';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import useWindowWidth from 'helpers/hooks/useWindowWidth'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useAppSelector } from 'redux-setup/hooks';
 import PostType from 'types/post-type';
 import UserState from 'types/user-state-type';
@@ -9,7 +9,7 @@ import Post from './components/Post';
 
 const POSTS_AMOUNT = 20;
 
-const Timeline: React.FC = () => {
+const Timeline: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const width = useWindowWidth();
 
@@ -35,13 +35,13 @@ const Timeline: React.FC = () => {
         getPosts();
     }, [])
 
-    const postsComponents = postsToRender.map(post => (
+    const postsComponents = useMemo(() => postsToRender.map(post => (
         <Post
             currentPost={post}
             changePosts={setPostsToRender}
             key={post.postId + post.fromId}
         />
-    ))
+    )), [postsToRender])
 
     return (
         <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]": "w-full"}`}>
@@ -56,6 +56,6 @@ const Timeline: React.FC = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Timeline

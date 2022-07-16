@@ -7,7 +7,7 @@ interface IUserToWriteToProps extends UserSuggestionType {
     isUserInList: boolean
 }
 
-const UserToWriteTo: React.FC<IUserToWriteToProps> = ({
+const UserToWriteTo: React.FC<IUserToWriteToProps> = React.memo(({
     profileImage,
     username,
     fullName,
@@ -40,6 +40,6 @@ const UserToWriteTo: React.FC<IUserToWriteToProps> = ({
             }
         </button>
     )
-}
+})
 
 export default UserToWriteTo

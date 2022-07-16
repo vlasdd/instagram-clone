@@ -7,7 +7,7 @@ import UserSuggestionType from 'types/user-suggestion-type';
 import Modal from 'components/modal/Modal';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
 
-const PersonSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username, fullName, userId }) => {
+const PersonSuggestion: React.FC<UserSuggestionType> = React.memo(({ profileImage, username, fullName, userId }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
 
@@ -74,6 +74,6 @@ const PersonSuggestion: React.FC<UserSuggestionType> = ({ profileImage, username
             }
         </div>
     )
-}
+})
 
 export default PersonSuggestion

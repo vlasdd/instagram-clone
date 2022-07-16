@@ -13,11 +13,29 @@ type MessageFormProps = {
     imageUpload: File | null,
 }
 
-const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering, sendMessage, setImageUpload, imageUpload }) => {
+const MessageForm: React.FC<MessageFormProps> = React.memo(({ 
+    wordEntering, 
+    setWordEntering, 
+    sendMessage, 
+    setImageUpload, 
+    imageUpload 
+}) => {
     const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
 
     const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
         setWordEntering(prevText => prevText + emojiObject.emoji);
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            setImageUpload(event.target.files[0])
+        }
     }
 
     return (
@@ -53,14 +71,10 @@ const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering
                 className="w-full h-8 placeholder:text-sm"
                 value={wordEntering}
                 onChange={event => setWordEntering(event.target.value)}
-                onKeyDown={event => {
-                    if (event.key === "Enter") {
-                        sendMessage();
-                    }
-                }}
+                onKeyDown={event => handleKeyDown(event)}
             />
             {
-                (wordEntering.length && wordEntering.split("").some(letter => letter !== " ") || imageUpload) ?
+                ((wordEntering.length && wordEntering.split("").some(letter => letter !== " ")) || imageUpload) ?
                     <button
                         className="font-semibold text-blue-500"
                         onClick={sendMessage}
@@ -69,9 +83,7 @@ const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering
                     </button> :
                     <>
                         <button
-                            onClick={() => {
-                                setWordEntering(prevText => prevText + "❤️");
-                            }}
+                            onClick={() => setWordEntering(prevText => prevText + "❤️")}
                         >
                             <Heart
                                 styles="h-7 w-7"
@@ -90,17 +102,13 @@ const MessageForm: React.FC<MessageFormProps> = ({ wordEntering, setWordEntering
                                 id="img"
                                 accept="image/*"
                                 className="hidden "
-                                onChange={(event) => {
-                                    if (event.target.files) {
-                                        setImageUpload(event.target.files[0])
-                                    }
-                                }}
+                                onChange={(event) => handleChange(event)}
                             />
                         </div>
                     </>
             }
         </div>
     )
-}
+})
 
 export default MessageForm

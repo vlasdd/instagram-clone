@@ -2,7 +2,7 @@ import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
 import { db } from 'firebase-setup/firebaseConfig';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import random from 'helpers/other/generateRandom';
+import random from 'helpers/other/generate-random/generateRandom';
 import React, { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
@@ -11,7 +11,7 @@ import Suggestion from './components/Suggestion';
 
 const SUGGESTIONS_LENGTH = 5;
 
-const Sidebar: React.FC = () => {
+const Sidebar: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const [suggestionsInfo, setSuggestionsInfo] = useState<UserState[]>([]);
     const navigate = useNavigate();
@@ -121,6 +121,6 @@ const Sidebar: React.FC = () => {
         </div>
 
     )
-}
+})
 
 export default Sidebar

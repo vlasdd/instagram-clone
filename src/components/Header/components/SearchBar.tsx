@@ -6,7 +6,7 @@ type SearchBarProps = {
     setWordEntering: React.Dispatch<React.SetStateAction<string>> 
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ wordEntering, setWordEntering }) => {
+const SearchBar: React.FC<SearchBarProps> = React.memo(({ wordEntering, setWordEntering }) => {
     const inputRef = useRef<any>();
 
     return (
@@ -17,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ wordEntering, setWordEntering }) 
             {
                 document.activeElement !== inputRef.current ?
                     <Search /> :
-                    undefined
+                    null
             }
             <input
                 className="w-full h-full bg-gray-200 rounded-lg placeholder:font-light placeholder:text-gray-400 relative"
@@ -30,6 +30,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ wordEntering, setWordEntering }) 
             />
         </button>
     )
-}
+})
 
 export default SearchBar

@@ -14,7 +14,7 @@ const EditProfile = lazy(() => import("pages/accounts/components/EditProfile"));
 const UsersListModal = lazy(() => import("pages/profile/components/users-list/UsersListModal"));
 const Modal = lazy(() => import("components/modal/Modal"));
 const PostsContainer = lazy(() => import("pages/profile/components/posts/PostsContainer"));
-const PrivateRoute = lazy(() => import("helpers/other/PrivateRoute"));
+const PrivateRoute = lazy(() => import("helpers/components/PrivateRoute"));
 const ChatRoom = lazy(() => import("pages/direct/components/chat/ChatRoom"));
 const PostModalPage = lazy(() => import("pages/profile/components/post-modal-page/PostModalPage"));
 const SavedPosts = lazy(() => import("pages/profile/components/posts/SavedPosts"));

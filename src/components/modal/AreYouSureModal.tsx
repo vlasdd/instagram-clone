@@ -9,7 +9,7 @@ type AreYouSureModalProps = {
     additionalText?: string
 }
 
-const AreYouSureModal: React.FC<AreYouSureModalProps> = ({ 
+const AreYouSureModal: React.FC<AreYouSureModalProps> = React.memo(({ 
     areYouSureEvent, 
     profileImage, 
     closeEvent, 
@@ -45,6 +45,6 @@ const AreYouSureModal: React.FC<AreYouSureModalProps> = ({
             </button>
         </div>
     )
-}
+})
 
 export default AreYouSureModal

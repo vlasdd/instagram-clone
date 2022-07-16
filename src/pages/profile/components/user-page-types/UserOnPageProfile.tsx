@@ -11,7 +11,7 @@ import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
 import useChatRoom from 'helpers/hooks/useChatRoom';
 
-const UserOnPageProfile: React.FC = () => {
+const UserOnPageProfile: React.FC = React.memo(() => {
     const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
@@ -141,6 +141,6 @@ const UserOnPageProfile: React.FC = () => {
                 <Outlet />
             </div>
     )
-}
+})
 
 export default UserOnPageProfile

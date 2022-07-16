@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import UserSearchElement from './UserSearchElement'
 import UserState from 'types/user-state-type';
-import getUsers from 'helpers/other/getUsers';
+import getUsers from 'helpers/other/get-users/getUsers';
 import UserLoader from 'components/other/UserLoader';
 
-const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = ({ wordEntering }) => {
+const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = React.memo(({ wordEntering }) => {
     const [usersInfo, setUsersInfo] = useState<UserState[]>([])
 
     useEffect(() => {
@@ -27,22 +27,24 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = ({ wordEntering 
         return skeletons
     }
 
+    const generateElements = useMemo(() => usersInfo.map(doc => <UserSearchElement
+        profileImage={doc.profileImage}
+        username={doc.username}
+        fullName={doc.fullName}
+        userId={doc.userId}
+        key={doc.userId}
+    />), [usersInfo])
+
     return (
         <div className="flex flex-col w-full mt-2 overflow-hidden overflow-y-auto">
             {
                 usersInfo.length ?
-                    usersInfo.map(doc => <UserSearchElement
-                        profileImage={doc.profileImage}
-                        username={doc.username}
-                        fullName={doc.fullName}
-                        userId={doc.userId}
-                        key={doc.userId}
-                    />) :
+                    generateElements :
                     generateSkeletons()
             }
             <div className="w-4 h-4 absolute bg-white rotate-45 top-[-8px] right-[180px]"></div>
         </div>
     )
-}
+})
 
 export default UsersSearchDropMenu

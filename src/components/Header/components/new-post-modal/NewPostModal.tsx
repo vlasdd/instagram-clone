@@ -6,7 +6,7 @@ type NewPostModalProps = {
     closeEvent: () => void
 }
 
-const NewPostModal: React.FC<NewPostModalProps> = ({ closeEvent }) => {
+const NewPostModal: React.FC<NewPostModalProps> = React.memo(({ closeEvent }) => {
     const [currentPageId, setCurrentPageId] = useState<number>(0);
     const [image, setImage] = useState<any[]>([]);
     const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
@@ -68,6 +68,6 @@ const NewPostModal: React.FC<NewPostModalProps> = ({ closeEvent }) => {
             } */}
         </>
     )
-}
+})
 
 export default NewPostModal

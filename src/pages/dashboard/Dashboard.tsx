@@ -6,7 +6,7 @@ import useWindowWidth from 'helpers/hooks/useWindowWidth';
 import { useAppSelector } from 'redux-setup/hooks';
 import Loading from 'pages/loading/Loading';
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const windowWidth = useWindowWidth();
 
@@ -25,6 +25,6 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
     )
-};
+})
 
 export default Dashboard;

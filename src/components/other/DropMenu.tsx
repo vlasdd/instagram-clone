@@ -8,7 +8,7 @@ type DropMenuProps = {
   noAnimation?: boolean;
 }
 
-const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles, noAnimation }) => {
+const DropMenu: React.FC<DropMenuProps> = React.memo(({ children, closeEvent, styles, noAnimation }) => {
   return (
     <>
       <div
@@ -31,6 +31,6 @@ const DropMenu: React.FC<DropMenuProps> = ({ children, closeEvent, styles, noAni
       </motion.div>
     </>
   )
-}
+})
 
 export default DropMenu

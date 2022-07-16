@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
-import getUsers from 'helpers/other/getUsers';
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import getUsers from 'helpers/other/get-users/getUsers';
 import { useAppSelector } from 'redux-setup/hooks';
 import Close from 'svgs/empty/Close'
 import UserState from 'types/user-state-type';
@@ -16,7 +16,7 @@ type SharePostModalProps = {
     currentPost: PostType
 }
 
-const SharePostModal: React.FC<SharePostModalProps> = ({ closeEvent, currentPost }) => {
+const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, currentPost }) => {
     const signedUser = useAppSelector(state => state.signedUser.user);
 
     const [wordEntering, setWordEntering] = useState<string>("");
@@ -85,6 +85,62 @@ const SharePostModal: React.FC<SharePostModalProps> = ({ closeEvent, currentPost
         closeEvent();
     }
 
+    const handleChosenClick = (chosenUser: UserSuggestion) => {
+        setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== chosenUser.username))
+        if (inputRef.current !== null) {
+            inputRef.current.focus();
+        }
+    }
+
+    const chosenUsersElements = useMemo(() => chosenUsers.map(chosenUser => (
+        <div
+            className="bg-blue-100 flex rounded p-2"
+            key={chosenUser.userId}
+        >
+            <button
+                className="flex gap-1"
+                onClick={() => handleChosenClick(chosenUser)}
+            >
+                <p className="text-cyan-500 text-sm ">{chosenUser.username}</p>
+                <Close
+                    styles="w-5 h-5 text-cyan-500"
+                />
+            </button>
+        </div>
+    )), [chosenUsers])
+
+    const addUserToList = (doc: UserState) => {
+        setChosenUsers(prevUsers => [...prevUsers, doc]);
+        setWordEntering("");
+        if (inputRef.current !== null) {
+            inputRef.current.focus();
+        }
+    }
+
+    const removeUserFromList = (doc: UserState) => {
+        setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== doc.username))
+        if (inputRef.current !== null) {
+            inputRef.current.focus();
+        }
+    }
+
+    const filteredUsersElements = useMemo(() => filteredUsers.map(doc => <UserToWriteTo
+        addUserToList={() => addUserToList(doc)}
+        removeUserFromList={() => removeUserFromList(doc)}
+        isUserInList={chosenUsers.some(user => user.username === doc.username)}
+        profileImage={doc.profileImage}
+        username={doc.username}
+        fullName={doc.fullName}
+        userId={doc.userId}
+        key={doc.userId}
+    />), [filteredUsers, inputRef, chosenUsers])
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages });
+        }
+    }
+
     return (
         <div className="w-full h-full flex flex-col justify-between">
             <div className="flex flex-col w-full">
@@ -102,29 +158,7 @@ const SharePostModal: React.FC<SharePostModalProps> = ({ closeEvent, currentPost
                 <div className="w-full max-h-[175px] flex border-b p-3 items-start gap-5">
                     <p className="font-medium mt-[6px]">To:</p>
                     <div className="w-full h-full flex flex-col items-start gap-2 overflow-hidden overflow-y-auto">
-                        {
-                            chosenUsers.map(chosenUser => (
-                                <div
-                                    className="bg-blue-100 flex rounded p-2"
-                                    key={chosenUser.userId}
-                                >
-                                    <button
-                                        className="flex gap-1"
-                                        onClick={() => {
-                                            setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== chosenUser.username))
-                                            if (inputRef.current !== null) {
-                                                inputRef.current.focus();
-                                            }
-                                        }}
-                                    >
-                                        <p className="text-cyan-500 text-sm ">{chosenUser.username}</p>
-                                        <Close
-                                            styles="w-5 h-5 text-cyan-500"
-                                        />
-                                    </button>
-                                </div>
-                            ))
-                        }
+                        {chosenUsersElements}
                         <input
                             className="w-full p-2 rounded-lg placeholder:font-light placeholder:text-gray-400 placeholder:text-sm relative text-sm"
                             type="text"
@@ -139,44 +173,20 @@ const SharePostModal: React.FC<SharePostModalProps> = ({ closeEvent, currentPost
                     {
                         !filteredUsers.length ?
                             <p className="font-medium text-sm pl-3 mt-2">No Suggested</p> :
-                            filteredUsers.map(doc => <UserToWriteTo
-                                addUserToList={() => {
-                                    setChosenUsers(prevUsers => [...prevUsers, doc]);
-                                    setWordEntering("");
-                                    if (inputRef.current !== null) {
-                                        inputRef.current.focus();
-                                    }
-                                }}
-                                removeUserFromList={() => {
-                                    setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== doc.username))
-                                    if (inputRef.current !== null) {
-                                        inputRef.current.focus();
-                                    }
-                                }}
-                                isUserInList={chosenUsers.some(user => user.username === doc.username)}
-                                profileImage={doc.profileImage}
-                                username={doc.username}
-                                fullName={doc.fullName}
-                                userId={doc.userId}
-                                key={doc.userId}
-                            />)
+                            filteredUsersElements
                     }
                 </div>
             </div>
             <div className="flex flex-col">
                 <input
-                  type="text"
-                  value={messageEntering}
-                  placeholder="Write a message..."
-                  onChange={(event) => setMessageEntering(event.target.value)}
-                  onKeyDown={event => {
-                    if (event.key === "Enter") {
-                        createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages });
-                    }
-                }}
-                  className="mx-[15px] my-[10px] placeholder:font-light placeholder:text-gray-400 placeholder:text-sm text-sm"
+                    type="text"
+                    value={messageEntering}
+                    placeholder="Write a message..."
+                    onChange={event => setMessageEntering(event.target.value)}
+                    onKeyDown={event => handleKeyDown(event)}
+                    className="mx-[15px] my-[10px] placeholder:font-light placeholder:text-gray-400 placeholder:text-sm text-sm"
                 />
-                <button 
+                <button
                     className={`${chosenUsers.length === 0 ? "bg-blue-300" : "bg-blue-500"} h-10 mx-[15px] mb-[15px] mt-[10px] rounded flex justify-center items-center font-medium text-white`}
                     onClick={() => createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages })}
                     disabled={chosenUsers.length === 0}
@@ -186,6 +196,6 @@ const SharePostModal: React.FC<SharePostModalProps> = ({ closeEvent, currentPost
             </div>
         </div>
     )
-}
+})
 
 export default SharePostModal

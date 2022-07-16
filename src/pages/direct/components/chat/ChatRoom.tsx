@@ -1,5 +1,5 @@
 import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from 'firebase-setup/firebaseConfig';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
@@ -15,9 +15,8 @@ import { v4 } from 'uuid';
 import RoomMessages from './RoomMessages';
 import RoomInfo from './RoomInfo';
 
-const ChatRoom: React.FC = () => {
+const ChatRoom: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
-    const dispatch = useAppDispatch();
 
     const { chatId } = useParams();
     const navigate = useNavigate();
@@ -130,6 +129,6 @@ const ChatRoom: React.FC = () => {
             }
         </div>
     )
-}
+})
 
 export default ChatRoom

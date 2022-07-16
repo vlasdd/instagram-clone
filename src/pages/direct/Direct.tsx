@@ -7,7 +7,7 @@ import Header from 'components/header/Header'
 import Modal from 'components/modal/Modal'
 import useWindowWidth from 'helpers/hooks/useWindowWidth'
 
-const Direct: React.FC = () => {
+const Direct: React.FC = React.memo(() => {
     const { chatId } = useParams();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -47,6 +47,6 @@ const Direct: React.FC = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Direct

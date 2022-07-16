@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import UserSuggestionType from 'types/user-suggestion-type';
 
-const UserSearchElement: React.FC<UserSuggestionType> = ({ profileImage, username, fullName, userId }) => {
+const UserSearchElement: React.FC<UserSuggestionType> = React.memo(({ profileImage, username, fullName, userId }) => {
     return (
         <Link 
             className="flex h-13 mb-1 px-2 items-center py-1"
@@ -21,6 +21,6 @@ const UserSearchElement: React.FC<UserSuggestionType> = ({ profileImage, usernam
             </div>
         </Link>
     )
-}
+})
 
 export default UserSearchElement

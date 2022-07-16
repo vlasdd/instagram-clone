@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Loading: React.FC = () => {
+const Loading: React.FC = React.memo(() => {
   return (
         <div className="w-[100vw] h-[100vh] py-8 flex flex-col items-center justify-between">
             <div className="h-12"></div>
@@ -18,6 +18,6 @@ const Loading: React.FC = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Loading

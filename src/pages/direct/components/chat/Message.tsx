@@ -15,7 +15,7 @@ interface IMessageProps extends MessageType{
     profileImage: string,
 }
 
-const Message: React.FC<IMessageProps> = ({ text, from, loggedUserId, media, profileImage, post }) => {
+const Message: React.FC<IMessageProps> = React.memo(({ text, from, loggedUserId, media, profileImage, post }) => {
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -161,9 +161,8 @@ const Message: React.FC<IMessageProps> = ({ text, from, loggedUserId, media, pro
                     </Modal> :
                     null
             }
-            {/* <Outlet context={{ posts: [post] }} /> */}
         </>
     )
-}
+})
 
 export default Message

@@ -13,7 +13,7 @@ type UsersListProps = {
     closeEvent: () => void
 }
 
-const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, closeEvent }) => {
+const UsersListModal: React.FC<UsersListProps> = React.memo(({ usersList, descriptionLine, closeEvent }) => {
     const [allUsers, setAllUsers] = useState<UserState[]>([]);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
 
@@ -73,6 +73,6 @@ const UsersListModal: React.FC<UsersListProps> = ({ usersList, descriptionLine, 
             }
         </>
     )
-}
+})
 
 export default UsersListModal

@@ -4,7 +4,7 @@ type ImageModalProps = {
     image: string;
 }
 
-const ImageModal: React.FC<ImageModalProps> = ({ image }) => {
+const ImageModal: React.FC<ImageModalProps> = React.memo(({ image }) => {
     return (
         <div className="w-full bg-black h-full flex items-center overflow-hidden rounded-xl">
             <img
@@ -13,6 +13,6 @@ const ImageModal: React.FC<ImageModalProps> = ({ image }) => {
             />
         </div>
     )
-}
+})
 
 export default ImageModal

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NoChatSelected: React.FC<{ openModal: () => void }> = ({ openModal }) => {
+const NoChatSelected: React.FC<{ openModal: () => void }> = React.memo(({ openModal }) => {
     return (
         <div className="w-full h-full flex flex-col justify-center items-center gap-1">
             <img
@@ -18,6 +18,6 @@ const NoChatSelected: React.FC<{ openModal: () => void }> = ({ openModal }) => {
             </button>
         </div>
     )
-}
+})
 
 export default NoChatSelected
