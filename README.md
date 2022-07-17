@@ -37,6 +37,9 @@ This project is my attempt to implement some parts of the Instagram's functional
   + The ability to save posts
   + The navigation between the posts(buttons at the sides)
 + Dashboard
+  + Timeline
+  + Sidebar
++ Page with suggested users(they are chosen in a random way)  
 + Various modal pages(like in the Intagram website)
 + Drop menus
 
