@@ -64,96 +64,77 @@ const Header: React.FC = React.memo(() => {
     }
 
     return (
-        <>
-            <header className="w-screen py-2 flex items-center justify-center border-b border-gray-200 bg-white">
-                <div className="w-11/12 flex items-center justify-evenly">
-                    <Link to={RoutesTypes.DASHBOARD}>
-                        <img
-                            src="images/instagram-logo.webp"
-                            className="h-10"
+        <header className="w-screen py-2 flex items-center justify-center border-b border-gray-200 bg-white">
+            <div className="w-11/12 flex items-center justify-evenly">
+                <Link to={RoutesTypes.DASHBOARD}>
+                    <img
+                        src="images/instagram-logo.webp"
+                        className="h-10"
+                    />
+                </Link>
+                {
+                    innerWidth > 640 ?
+                        <div
+                            className="w-64 h-9 relative"
+                            onClick={() => setCurrentMenu(MenuTypes.SEARCH)}
+                        >
+                            <SearchBar
+                                wordEntering={wordEntering}
+                                setWordEntering={setWordEntering}
+                            />
+                            {
+                                currentMenu === MenuTypes.SEARCH ?
+                                    <DropMenu
+                                        closeEvent={event => {
+                                            event.stopPropagation();
+                                            setCurrentMenu(MenuTypes.NONE)
+                                        }}
+                                        styles="w-[375px] top-12 left-[-65px] h-96 z-20"
+                                    >
+                                        <UsersSearchDropMenu
+                                            wordEntering={wordEntering}
+                                        />
+                                    </DropMenu> :
+                                    null
+                            }
+                        </div> :
+                        null
+                }
+                <div className="flex gap-4">
+                    <button onClick={() => navigate(RoutesTypes.DASHBOARD)}>
+                        <Home />
+                    </button>
+                    <button
+                        className="pb-1 mr-[-3px]"
+                        onClick={() => navigate(RoutesTypes.DIRECT)}
+                    >
+                        <Direct
+                            styles="h-6 w-6 text-gray-800 rotate-[55deg]"
+                            includeHovering={false}
                         />
-                    </Link>
-                    {
-                        innerWidth > 640 ?
-                            <div
-                                className="w-64 h-9 relative"
-                                onClick={() => setCurrentMenu(MenuTypes.SEARCH)}
-                            >
-                                <SearchBar
-                                    wordEntering={wordEntering}
-                                    setWordEntering={setWordEntering}
-                                />
-                                {
-                                    currentMenu === MenuTypes.SEARCH ?
-                                        <DropMenu
-                                            closeEvent={event => {
-                                                event.stopPropagation();
-                                                setCurrentMenu(MenuTypes.NONE)
-                                            }}
-                                            styles="w-[375px] top-12 left-[-65px] h-96 z-20"
-                                        >
-                                            <UsersSearchDropMenu
-                                                wordEntering={wordEntering}
-                                            />
-                                        </DropMenu> :
-                                        null
-                                }
-                            </div> :
-                            null
-                    }
-                    {/* {
-                        user.userId.length ? */}
-                    <div className="flex gap-4">
-                        <button onClick={() => navigate(RoutesTypes.DASHBOARD)}>
-                            <Home />
-                        </button>
+                    </button>
+                    <button
+                        onClick={() => setCurrentMenu(MenuTypes.NEW_POST)}
+                    >
+                        <NewPost
+                            isOpen={currentMenu === MenuTypes.NEW_POST}
+                        />
+                    </button>
+                    <div className="relative flex items-center">
                         <button
-                            className="pb-1 mr-[-3px]"
-                            onClick={() => navigate(RoutesTypes.DIRECT)}
+                            className="h-7 w-7 cursor-pointer rounded-full"
+                            onClick={() => setCurrentMenu(MenuTypes.PROFILE)}
                         >
-                            <Direct
-                                styles="h-6 w-6 text-gray-800 rotate-[55deg]"
-                                includeHovering={false}
+                            <img
+                                src={user.profileImage.length ? user.profileImage : "../images/default-avatar-image.jpg"}
+                                className="rounded-full h-7 w-7 object-cover"
                             />
                         </button>
-                        <button
-                            onClick={() => setCurrentMenu(MenuTypes.NEW_POST)}
-                        >
-                            <NewPost
-                                isOpen={currentMenu === MenuTypes.NEW_POST}
-                            />
-                        </button>
-                        <div className="relative flex items-center">
-                            <button
-                                className="h-7 w-7 cursor-pointer rounded-full"
-                                onClick={() => setCurrentMenu(MenuTypes.PROFILE)}
-                            >
-                                <img
-                                    src={user.profileImage.length ? user.profileImage : "../images/default-avatar-image.jpg"}
-                                    className="rounded-full h-7 w-7 object-cover"
-                                />
-                            </button>
-                            {generateModal()}
-                        </div>
-                        </div> {/*:
-                            <div className="flex gap-2 h-12 items-center">
-                                <button
-                                    className="h-3/5 w-16 bg-blue-500 font-bold text-white rounded cursor-pointer"
-                                    onClick={() => navigate(RoutesTypes.LOGIN)}
-                                >
-                                    Log in
-                                </button>
-                                <button
-                                    className="h-3/5 w-16 font-bold cursor-pointer"
-                                    onClick={() => navigate(RoutesTypes.SIGN_UP)}
-                                >
-                                    Sign up
-                                </button>
-                            </div>
-                    } */}
+                        {generateModal()}
                     </div>
-            </header>
-        </>
+                </div>
+            </div>
+        </header>
     )
 })
 

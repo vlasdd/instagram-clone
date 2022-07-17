@@ -86,7 +86,7 @@ const PostModalPage: React.FC = React.memo(() => {
             </div> :
             <div className="w-full h-full flex flex-col sm:flex-row relative">
                 <div className={`
-                    w-full sm:w-3/5 bg-black max-h-1/2 sm:max-h-full flex items-center justify-center overflow-hidden
+                    w-full sm:w-3/5 bg-black h-1/3 sm:h-full flex items-center justify-center overflow-hidden
                     ${innerWidth > 640 ? "rounded-l-xl" : "rounded-t-xl"}
                 `}>
                     <img
@@ -94,7 +94,7 @@ const PostModalPage: React.FC = React.memo(() => {
                         className="h-full w-full object-contain"
                     />
                 </div>
-                <div className="w-full h-full sm:w-2/5 flex flex-col justify-between">
+                <div className="w-full h-2/3 sm:h-full sm:w-2/5 flex flex-col justify-between">
                     <UserHeader userInfo={userInfo} />
                     <PostComments
                         comments={currentPost.comments as CommentType[]}

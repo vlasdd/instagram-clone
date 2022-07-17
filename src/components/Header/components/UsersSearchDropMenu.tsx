@@ -8,7 +8,11 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = React.memo(({ wo
     const [usersInfo, setUsersInfo] = useState<UserState[]>([])
 
     useEffect(() => {
-        getUsers(wordEntering, setUsersInfo);
+        const handler = setTimeout(() => {
+            getUsers(wordEntering, setUsersInfo);
+        }, 300)
+
+        return () => clearTimeout(handler);
     }, [wordEntering])
 
     const generateSkeletons = () => {

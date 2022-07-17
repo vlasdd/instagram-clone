@@ -25,18 +25,16 @@ const PostMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUse
 
     useEffect(() => {
         if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({"behavior": "auto"})
+            scrollRef.current.scrollIntoView({ "behavior": "auto" })
         }
 
-        if(post){
-            const getUser = async () => {
-                const user = (await getDoc(doc(db, "users", post.fromId))).data() as UserState;
-                setUserInfo({ ...user })
-            }
-    
-            setUserInfo({ username: "", profileImage: "", userId: "" })
-            getUser();
+        const getUser = async () => {
+            const user = (await getDoc(doc(db, "users", post?.fromId as string))).data() as UserState;
+            setUserInfo({ ...user })
         }
+
+        setUserInfo({ username: "", profileImage: "", userId: "" })
+        getUser();
     }, [])
 
     return (

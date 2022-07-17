@@ -9,16 +9,16 @@ import { fetchSignedUser } from "redux-setup/features/signedUser";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-setup/firebaseConfig";
 import { setIsBeingLoaded } from "redux-setup/features/isBeingLoaded";
+import PrivateRoute from "helpers/components/PrivateRoute";
+import PostsContainer from "pages/profile/components/posts/PostsContainer";
+import Modal from "components/modal/Modal";
+import UsersListModal from "pages/profile/components/users-list/UsersListModal";
+import PostModalPage from "pages/profile/components/post-modal-page/PostModalPage";
+import SavedPosts from "pages/profile/components/posts/SavedPosts";
+import EditProfile from "pages/accounts/components/EditProfile";
+import ChangePassword from "pages/accounts/components/ChangePassword";
+import ChatRoom from "pages/direct/components/chat/ChatRoom";
 
-const EditProfile = lazy(() => import("pages/accounts/components/EditProfile"));
-const UsersListModal = lazy(() => import("pages/profile/components/users-list/UsersListModal"));
-const Modal = lazy(() => import("components/modal/Modal"));
-const PostsContainer = lazy(() => import("pages/profile/components/posts/PostsContainer"));
-const PrivateRoute = lazy(() => import("helpers/components/PrivateRoute"));
-const ChatRoom = lazy(() => import("pages/direct/components/chat/ChatRoom"));
-const PostModalPage = lazy(() => import("pages/profile/components/post-modal-page/PostModalPage"));
-const SavedPosts = lazy(() => import("pages/profile/components/posts/SavedPosts"));
-const ChangePassword = lazy(() => import("pages/accounts/components/ChangePassword"));
 const Dashboard = lazy(() => import("pages/dashboard/Dashboard"));
 const Login = lazy(() => import("pages/login/Login"));
 const SignUp = lazy(() => import("pages/sign-up/SignUp"));
@@ -172,17 +172,6 @@ const App: React.FC = () => {
                 path={`${RoutesTypes.DIRECT}:chatId`}
                 element={<ChatRoom />}
               >
-                {/* <Route
-                  path={`${ProfileRoutes.POST}:postId`}
-                  element={
-                    <Modal
-                      closeEvent={() => navigate(-1)}
-                      styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
-                    >
-                      <PostModalPage />
-                    </Modal>
-                  }
-                /> */}
               </Route>
             </Route>
             <Route

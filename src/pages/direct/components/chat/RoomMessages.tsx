@@ -1,17 +1,16 @@
 import React, { useMemo, useRef } from 'react'
 import MessageType from 'types/message-type'
 import ImageMessage from './ImageMessage';
-import Message from './Message';
 import PostMessage from './PostMessage';
 import TextMessage from './TextMessage';
 
-type RoomMessagesProps = {
-    messages: MessageType[],
+export interface IMessageProps extends MessageType {
     loggedUserId: string,
     profileImage: string,
 }
 
-export interface IMessageProps extends MessageType {
+type RoomMessagesProps = {
+    messages: MessageType[],
     loggedUserId: string,
     profileImage: string,
 }
