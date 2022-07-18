@@ -14,8 +14,8 @@ const Dashboard: React.FC = React.memo(() => {
     const windowWidth = useWindowWidth();
 
     return (
-        !loggedUser.userId.length ?
-            <Loading /> :
+        // !loggedUser.userId.length ?
+        //     <Loading /> :
             !auth.currentUser ?
                 <Navigate to={RoutesTypes.LOGIN} /> :
                 <div className="bg-[#f7f7f7] overflow-hidden overflow-y-auto flex flex-col items-center">
