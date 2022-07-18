@@ -57,4 +57,4 @@ This project is not finished yet
 
 ## Usage
 
-To Visit This App: https://Vlased.github.io/instagram-clone/#/
+To Visit This App: *https://Vlased.github.io/instagram-clone/#/*
