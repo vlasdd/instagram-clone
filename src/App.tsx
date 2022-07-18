@@ -52,7 +52,7 @@ const App: React.FC = () => {
     // isBeingLoaded ?
     //   <Loading /> :
       <AnimatePresence>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<div>loading</div>}>
           <Routes>
             <Route
               path={RoutesTypes.DASHBOARD}
