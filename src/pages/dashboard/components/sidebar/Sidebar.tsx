@@ -22,6 +22,7 @@ const Sidebar: React.FC = React.memo(() => {
             const q = query(usersRef, where("username", ">=", ""));
             const querySnapshot = await getDocs(q);
             let docsContainer: UserState[] = [];
+            let i = 0;
 
             while (docsContainer.length !== SUGGESTIONS_LENGTH) {
                 const index = random(0, querySnapshot.docs.length);
@@ -35,6 +36,11 @@ const Sidebar: React.FC = React.memo(() => {
                     setSuggestionsInfo(prevUsers => [...prevUsers, currentDoc])
                     docsContainer = [...docsContainer, currentDoc];
                 }
+
+                if(i > 100){
+                    break;
+                }
+                i++;
             }
         }
 
@@ -99,7 +105,7 @@ const Sidebar: React.FC = React.memo(() => {
             </div>
             <div className="flex flex-col gap-2 px-3">
                 {
-                    users.length === SUGGESTIONS_LENGTH ?
+                    users.length !== 0 ?
                         users :
                         generateSkeletons()
                 }
