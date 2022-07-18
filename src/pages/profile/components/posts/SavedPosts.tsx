@@ -30,7 +30,7 @@ const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = React.memo(({ save
             <div className="w-[300px] sm:w-[350px] h-full flex items-center justify-center mt-8 text-center">
                 <div className="flex flex-col items-center">
                     <img
-                        src="../images/saved.jpg"
+                        src={process.env.PUBLIC_URL + "/images/saved.jpg"}
                         className="w-20"
                     />
                     <p className="text-3xl font-extralight">Save</p>

@@ -32,7 +32,12 @@ const Timeline: React.FC = React.memo(() => {
             setPostsToRender(currentPosts)
         }
 
-        getPosts();
+        if(loggedUser.following.length){
+            getPosts();
+        }
+        else{
+            setPostsToRender([])
+        }
     }, [])
 
     const postsComponents = useMemo(() => postsToRender?.map(post => (
@@ -45,7 +50,7 @@ const Timeline: React.FC = React.memo(() => {
 
     return (
         !postsToRender ?
-            <div className="h-32 w-full flex items-center justify-center">
+            <div className={`h-32 ${width > 500 ? "w-[470px]" : "w-full"} flex items-center justify-center`}>
                 <div
                     style={{ "borderTopColor": "transparent" }}
                     className="w-16 h-16 border-4 border-gray-700 border-dashed rounded-full animate-spin"
@@ -56,7 +61,7 @@ const Timeline: React.FC = React.memo(() => {
                     {postsComponents}
                     <div className="w-full flex flex-col items-center mt-8 mb-14">
                         <img
-                            src="../images/done.jpg"
+                            src={process.env.PUBLIC_URL + "/images/done.jpg"}
                             className="w-16"
                         />
                         <p className="text-lg">You're all caught up</p>

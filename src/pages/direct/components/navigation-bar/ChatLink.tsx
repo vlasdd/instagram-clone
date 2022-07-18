@@ -53,7 +53,7 @@ const ChatLink: React.FC<ChatLinkProps> = React.memo(({ userId, chatId, lastMess
         >
             <div className="w-full h-16 py-[0.5px] gap-4 flex items-center px-3">
                 <img
-                    src={userInfo.profileImage.length ? userInfo.profileImage : "../images/default-avatar-gray.jpg"}
+                    src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
                     className="h-[60px] w-[60px] rounded-full object-cover"
                 />
                 <div className="flex flex-col justify-center text-left w-full">

@@ -6,13 +6,13 @@ const Loading: React.FC = React.memo(() => {
             <div className="h-12"></div>
             <div>
                 <img 
-                    src="../images/loading-logo.jpg"
+                    src={process.env.PUBLIC_URL + "/images/loading-logo.jpg"}
                     className="h-28"
                 />
             </div>
             <div>
                 <img
-                    src="../images/from-meta.jpg"
+                    src={process.env.PUBLIC_URL + "/images/from-meta.jpg"}
                     className="h-16"
                 />
             </div>

@@ -41,7 +41,7 @@ const Login: React.FC = React.memo(() => {
             <div className="container flex mx-auto max-w-screen-md items-center h-screen">
                 <div className="flex w-0 lg:w-3/5">
                     <img
-                        src="/images/iphone-with-profile.jpg"
+                        src={process.env.PUBLIC_URL + "/images/iphone-with-profile.jpg"}
                         className="lg:max-w-sm"
                     />
                 </div>
@@ -49,7 +49,7 @@ const Login: React.FC = React.memo(() => {
                     <div className="flex flex-col items-center w-full border bg-white">
                         <div className="flex justify-center w-full pb-4">
                             <img
-                                src="/images/instagram-logo.webp"
+                                src={process.env.PUBLIC_URL + "/images/instagram-logo.webp"}
                                 className="w-6/12 mt-6"
                             />
                         </div>

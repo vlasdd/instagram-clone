@@ -21,7 +21,7 @@ const AreYouSureModal: React.FC<AreYouSureModalProps> = React.memo(({
         <div className="h-full w-full flex flex-col items-center z-50">
             <div className={`w-full h-[100px] flex items-start justify-center ${additionalText ? "mt-3 mb-2" : "mt-6 mb-4"}`}>
                 <img
-                    src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}
+                    src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                     className="rounded-full h-[100px] w-[100px] object-cover"
                 />
             </div>

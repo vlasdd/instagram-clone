@@ -21,7 +21,7 @@ const PersonSuggestion: React.FC<UserSuggestionType> = React.memo(({ profileImag
                 onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
             >
                 <img
-                    src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}
+                    src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                     className="h-12 w-12 rounded-full object-cover"
                 />
                 <div className="flex flex-col items-start">

@@ -4,7 +4,7 @@ const NoChatSelected: React.FC<{ openModal: () => void }> = React.memo(({ openMo
     return (
         <div className="w-full h-full flex flex-col justify-center items-center gap-1">
             <img
-                src="../images/direct.jpg"
+                src={process.env.PUBLIC_URL + "/images/direct.jpg"}
                 className="w-[120px] h-[112px]"
                 alt="direct"
             />

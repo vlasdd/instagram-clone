@@ -51,7 +51,7 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
             <div className="flex flex-col items-center w-full border bg-white">
                 <div className="flex justify-center w-full">
                     <img
-                        src="/images/instagram-logo.webp"
+                        src={process.env.PUBLIC_URL + "/images/instagram-logo.webp"}
                         className="w-6/12 mt-6"
                     />
                 </div>

@@ -28,7 +28,7 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ userId, username, fullNa
       <div className="flex w-full h-24 items-center gap-3 border-b px-4">
         <Link to={RoutesTypes.DASHBOARD + userId}>
           <img
-            src={profileImage.length ? profileImage : "../images/default-avatar-gray.jpg"}
+            src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
             className="h-[60px] w-[60px] rounded-full object-cover"
           />
         </Link>

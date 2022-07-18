@@ -88,7 +88,7 @@ const ChatRoom: React.FC = React.memo(() => {
                             onClick={() => navigate(RoutesTypes.DASHBOARD + secondUser.userId)}
                         >
                             <img
-                                src={secondUser.profileImage.length ? secondUser.profileImage : "../images/default-avatar-gray.jpg"}
+                                src={secondUser.profileImage.length ? secondUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
                                 className="h-6 w-6 rounded-full object-cover"
                             />
                             <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>

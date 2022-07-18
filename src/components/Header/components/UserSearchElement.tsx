@@ -11,7 +11,7 @@ const UserSearchElement: React.FC<UserSuggestionType> = React.memo(({ profileIma
         >
             <div className="w-full h-full py-[0.5px] gap-2 flex items-center">
                 <img
-                    src={profileImage.length ? profileImage : "../images/default-avatar-image.jpg"}
+                    src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                     className="h-12 w-12 rounded-full object-cover"
                 />
                 <div className="flex flex-col justify-center">

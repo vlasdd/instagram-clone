@@ -29,7 +29,7 @@ const PostHeader: React.FC<PostHeaderProps> = React.memo(({ userInfo, post }) =>
                         onClick={() => navigate(RoutesTypes.DASHBOARD + userInfo.userId)}
                     >
                         <img
-                            src={userInfo.profileImage.length ? userInfo.profileImage : "../images/default-avatar-image.jpg"}
+                            src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                             className="h-9 w-9 rounded-full object-cover"
                         />
                         <p className="font-medium text-[14px] tracking-wide whitespace-nowrap">{userInfo.username}</p>

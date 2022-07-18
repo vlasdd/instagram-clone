@@ -36,10 +36,10 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
             <div className="min-h-[calc(100vh-60px)] w-screen flex flex-col items-center back">
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
-                    <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">{/*w-2/5 max-w-xs h-full flex justify-center*/}
+                    <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">
                         <img
-                            src={signedUser.profileImage.length ? signedUser.profileImage : "images/default-avatar-gray.jpg"}
-                            className="rounded-full w-[170px] h-[170px] object-cover cursor-pointer"//w-full sm:w-4/5 max-w-[170px]
+                            src={signedUser.profileImage.length ? signedUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+                            className="rounded-full w-[170px] h-[170px] object-cover cursor-pointer"
                             onClick={() => setIsImageModalOpen(true)}
                         />
                     </div>

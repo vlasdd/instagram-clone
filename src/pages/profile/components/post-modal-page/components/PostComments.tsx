@@ -35,7 +35,7 @@ const PostComments: React.FC<PostCommentProps> = React.memo(({ comments, userInf
                                 onClick={() => navigate(RoutesTypes.DASHBOARD + userInfo.userId)}
                             >
                                 <img
-                                    src={userInfo.profileImage.length ? userInfo.profileImage : "../images/default-avatar-image.jpg"}
+                                    src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                                     className="h-9 w-9 rounded-full object-cover"
                                 />
                             </button>

@@ -68,7 +68,7 @@ const Header: React.FC = React.memo(() => {
             <div className="w-11/12 flex items-center justify-evenly">
                 <Link to={RoutesTypes.DASHBOARD}>
                     <img
-                        src="images/instagram-logo.webp"
+                        src={process.env.PUBLIC_URL + "/images/instagram-logo.webp"}
                         className="h-10"
                     />
                 </Link>
@@ -126,7 +126,7 @@ const Header: React.FC = React.memo(() => {
                             onClick={() => setCurrentMenu(MenuTypes.PROFILE)}
                         >
                             <img
-                                src={user.profileImage.length ? user.profileImage : "../images/default-avatar-image.jpg"}
+                                src={user.profileImage.length ? user.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                                 className="rounded-full h-7 w-7 object-cover"
                             />
                         </button>

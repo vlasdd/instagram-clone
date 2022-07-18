@@ -115,7 +115,7 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({ image, set
                         onDrop={(event) => onDropHandler(event)}
                     >
                         <img
-                            src={errorFileName ? "../images/error.jpg" : drag ? "../images/create-post-drag.jpg" : "../images/create-post.jpg"}
+                            src={errorFileName ? process.env.PUBLIC_URL + "/images/error.jpg" : drag ? process.env.PUBLIC_URL + "/images/create-post-drag.jpg" : process.env.PUBLIC_URL + "/images/create-post.jpg"}
                             className={drag ? "w-[106px]" : "w-[100px]"}
                         />
                         <p className="text-xl sm:text-2xl font-thin">

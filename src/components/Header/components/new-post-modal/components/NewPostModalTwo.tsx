@@ -133,7 +133,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
                         className="w-full h-14 py-[0.5px] gap-2 flex items-center px-3"
                     >
                         <img
-                            src={user.profileImage.length ? user.profileImage : "../images/default-avatar-image.jpg"}
+                            src={user.profileImage.length ? user.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                             className="h-9 w-9 rounded-full object-cover"
                         />
                         <p className="font-medium text-sm tracking-wide whitespace-nowrap">{user.username}</p>

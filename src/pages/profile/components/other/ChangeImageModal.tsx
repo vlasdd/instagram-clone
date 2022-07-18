@@ -63,7 +63,7 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = React.memo(({ closeEve
         <div className="h-full w-full flex flex-col items-center">
             <div className="w-full h-[50px] flex mt-2 mb-1 items-start justify-center">
                 <img
-                    src={currentUser.profileImage.length ? currentUser.profileImage : "../images/default-avatar-image.jpg"}
+                    src={currentUser.profileImage.length ? currentUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
                     className="rounded-full h-full w-[50px] object-cover"
                 />
             </div>

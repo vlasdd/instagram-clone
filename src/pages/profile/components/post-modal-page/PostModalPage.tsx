@@ -80,7 +80,7 @@ const PostModalPage: React.FC = React.memo(() => {
         !currentPost || !posts ?
             <div className="w-full h-full flex items-center justify-center">
                 <img
-                    src="../images/loading-logo.jpg"
+                    src={process.env.PUBLIC_URL + "/images/loading-logo.jpg"}
                     className="h-28"
                 />
             </div> :

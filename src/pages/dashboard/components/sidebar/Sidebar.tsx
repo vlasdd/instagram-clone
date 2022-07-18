@@ -74,7 +74,7 @@ const Sidebar: React.FC = React.memo(() => {
                     onClick={() => navigate(RoutesTypes.DASHBOARD + loggedUser.userId)}
                 >
                     <img
-                        src={loggedUser.profileImage.length ? loggedUser.profileImage : "../images/default-avatar-gray.jpg"}
+                        src={loggedUser.profileImage.length ? loggedUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
                         className="h-11 w-11 rounded-full object-cover"
                     />
                     <div className="flex flex-col items-start">

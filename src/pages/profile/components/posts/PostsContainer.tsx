@@ -15,7 +15,7 @@ const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React
                     <div className="w-full h-full flex items-center justify-center mt-8">
                         <div className="flex flex-col gap-4 items-center">
                             <img
-                                src="../images/camera.jpg"
+                                src={process.env.PUBLIC_URL + "/images/camera.jpg"}
                                 className="w-8"
                             />
                             <p className="text-3xl font-extralight">No Posts Yet</p>

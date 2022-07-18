@@ -43,7 +43,7 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                 <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
                     <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">
                         <img
-                            src={userOnPage.profileImage.length ? userOnPage.profileImage : "../images/default-avatar-gray.jpg"}
+                            src={userOnPage.profileImage.length ? userOnPage.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
                             className="rounded-full w-[170px] h-[170px] object-cover"
                         />
                     </div>

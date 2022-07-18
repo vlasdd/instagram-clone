@@ -25,7 +25,7 @@ const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, usern
                 onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
             >
                 <img
-                    src={profileImage.length ? profileImage : "../images/default-avatar-gray.jpg"}
+                    src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
                     className="h-8 w-8 rounded-full object-cover"
                 />
                 <div className="flex flex-col items-start">

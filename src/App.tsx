@@ -49,8 +49,8 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    // isBeingLoaded ?
-    //   <Loading /> :
+    isBeingLoaded ?
+      <Loading /> :
       <AnimatePresence>
         <Suspense fallback={<Loading />}>
           <Routes>

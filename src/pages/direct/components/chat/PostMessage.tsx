@@ -49,7 +49,7 @@ const PostMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUse
                         onClick={() => navigate(RoutesTypes.DASHBOARD + from.userId)}
                     >
                         <img
-                            src={profileImage.length ? profileImage : "../images/default-avatar-gray.jpg"}
+                            src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
                             className="h-8 w-8 rounded-full object-cover"
                         />
                     </button> :
@@ -68,8 +68,8 @@ const PostMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUse
                                         userInfo.profileImage.length ?
                                             userInfo.profileImage :
                                             from.userId === loggedUserId ?
-                                                "../images/default-avatar-gray.jpg" :
-                                                "../images/default-avatar-image.jpg"
+                                                process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg" :
+                                                process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"
                                     }
                                     className="h-8 w-8 rounded-full object-cover"
                                 />

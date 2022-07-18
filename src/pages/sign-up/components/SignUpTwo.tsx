@@ -66,7 +66,7 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
             <div className="flex flex-col items-center w-full border bg-white px-2">
                 <div className="flex justify-center w-full">
                     <img
-                        src="/images/cake.jpg"
+                        src={process.env.PUBLIC_URL + "/images/cake.jpg"}
                         className="w-5/12 mt-6"
                     />
                 </div>
