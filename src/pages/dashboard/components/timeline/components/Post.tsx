@@ -64,7 +64,7 @@ const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
     }
 
     return (
-        <div className="w-full h-full flex flex-col bg-white border rounded-xl">
+        <article className="w-full h-full flex flex-col bg-white border rounded-xl">
             <PostHeader
                 userInfo={userInfo}
                 post={currentPost}
@@ -108,7 +108,7 @@ const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
                 commentsRef={commentsRef}
                 currentPostFromId={currentPost.fromId}
             />
-        </div>
+        </article>
     )
 })
 

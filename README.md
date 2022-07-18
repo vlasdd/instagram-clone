@@ -39,7 +39,7 @@ This project is my attempt to implement some parts of the Instagram's functional
 + Dashboard
   + Timeline
   + Sidebar
-+ Page with suggested users(they are chosen in a random way)  
++ Page  containes suggested users
 + Various modal pages(like in the Intagram website)
 + Drop menus
 
@@ -57,4 +57,4 @@ This project is not finished yet
 
 ## Usage
 
-To Visit This App(**!!!Currently is not supported**): `https://vlased.github.io/instagram-clone/`
+To Visit This App: https://Vlased.github.io/instagram-clone/

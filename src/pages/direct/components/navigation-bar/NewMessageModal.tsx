@@ -19,12 +19,12 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = React.memo(({ clos
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const handleUsers = async () => {
+    const handler = setTimeout(async () => {
       await getUsers(wordEntering, setFilteredUsers);
       setFilteredUsers(prevUsers => prevUsers.filter(user => user.username !== signedUser.username));
-    }
+    }, 300)
 
-    handleUsers();
+    return () => clearTimeout(handler);
   }, [wordEntering])
 
   const handleChosenClick = (chosenUser: UserSuggestion) => {

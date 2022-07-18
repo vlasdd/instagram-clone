@@ -31,7 +31,7 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
     }, [location.pathname])
 
     return (
-        <div className="flex border-t justify-center items-center border-t-gray-300 gap-12 lg:gap-16 text-[12px] font-medium tracking-widest w-full sm:w-3/4 lg:w-2/3">
+        <nav className="flex border-t justify-center items-center border-t-gray-300 gap-12 lg:gap-16 text-[12px] font-medium tracking-widest w-full sm:w-3/4 lg:w-2/3">
             <button
                 onClick={() => {
                     navigate(ProfileRoutes.POSTS);
@@ -69,7 +69,7 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
                 <Profile styles="w-4 h-4" />
                 <p>TAGGED</p>
             </button>
-        </div>
+        </nav>
     )
 })
 

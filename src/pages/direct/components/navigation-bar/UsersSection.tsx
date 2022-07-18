@@ -76,7 +76,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
     />), [chats, loggedUser.userId])
 
     return (
-        <div className="w-full sm:w-[520px] h-full border-r flex flex-col">
+        <aside className="w-full sm:w-[520px] h-full border-r flex flex-col">
             <div className="flex justify-end items-center h-[60px] border-b pr-4">
                 <div
                     className="w-full flex justify-center pl-4"
@@ -94,14 +94,14 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
                     <Text />
                 </button>
             </div>
-            <div className="flex flex-col w-full h-[calc(100%-60px)] overflow-hidden overflow-y-auto">
+            <nav className="flex flex-col w-full h-[calc(100%-60px)] overflow-hidden overflow-y-auto">
                 {
                     chats.length ?
                         chatLinks :
                         generateSkeletons()
                 }
-            </div>
-        </div>
+            </nav>
+        </aside>
     )
 })
 

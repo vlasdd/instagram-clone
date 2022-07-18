@@ -67,7 +67,7 @@ const Sidebar: React.FC = React.memo(() => {
     )), [suggestionsInfo])
 
     return (
-        <div className="flex flex-col gap-4 w-[325px]">
+        <aside className="flex flex-col gap-4 w-[325px]">
             <div className="flex w-full h-13 mb-1 px-3 justify-between items-center my-[4px]">
                 <button
                     className="w-full h-full py-[0.5px] gap-2 flex items-center"
@@ -118,8 +118,7 @@ const Sidebar: React.FC = React.memo(() => {
                 </div>
                 <p className="text-xs text-gray-300">© 2022 INSTAGRAM FROM META</p>
             </div>
-        </div>
-
+        </aside>
     )
 })
 

@@ -8,8 +8,8 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = React.memo(({ wo
     const [usersInfo, setUsersInfo] = useState<UserState[]>([])
 
     useEffect(() => {
-        const handler = setTimeout(() => {
-            getUsers(wordEntering, setUsersInfo);
+        const handler = setTimeout(async () => {
+           await getUsers(wordEntering, setUsersInfo);
         }, 300)
 
         return () => clearTimeout(handler);

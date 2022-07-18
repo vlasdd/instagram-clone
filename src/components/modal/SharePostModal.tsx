@@ -29,12 +29,12 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        const handleUsers = async () => {
+        const handler = setTimeout(async () => {
             await getUsers(wordEntering, setFilteredUsers);
             setFilteredUsers(prevUsers => prevUsers.filter(user => user.username !== signedUser.username));
-        }
+        }, 300)
 
-        handleUsers();
+        return () => clearTimeout(handler);
     }, [wordEntering])
 
     const sendMessages = async (chatId: string) => {

@@ -13,7 +13,7 @@ const Timeline: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const width = useWindowWidth();
 
-    const [postsToRender, setPostsToRender] = useState<PostType[]>([]);
+    const [postsToRender, setPostsToRender] = useState<PostType[] | null>(null);
 
     useEffect(() => {
         const getPosts = async () => {
@@ -35,7 +35,7 @@ const Timeline: React.FC = React.memo(() => {
         getPosts();
     }, [])
 
-    const postsComponents = useMemo(() => postsToRender.map(post => (
+    const postsComponents = useMemo(() => postsToRender?.map(post => (
         <Post
             currentPost={post}
             changePosts={setPostsToRender}
@@ -44,17 +44,26 @@ const Timeline: React.FC = React.memo(() => {
     )), [postsToRender])
 
     return (
-        <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]": "w-full"}`}>
-            {postsComponents}
-            <div className="w-full flex flex-col items-center mt-8 mb-14">
-                <img
-                   src="../images/done.jpg"
-                   className="w-16"
-                />
-                <p className="text-lg">You're all caught up</p>
-                <p className="text-sm text-gray-400">You've seen all new posts from the past days</p>
+        !postsToRender ?
+            <div className="h-32 w-full flex items-center justify-center">
+                <div
+                    style={{ "borderTopColor": "transparent" }}
+                    className="w-16 h-16 border-4 border-gray-700 border-dashed rounded-full animate-spin"
+                ></div>
+            </div> :
+            <div>
+                <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]" : "w-full"}`}>
+                    {postsComponents}
+                    <div className="w-full flex flex-col items-center mt-8 mb-14">
+                        <img
+                            src="../images/done.jpg"
+                            className="w-16"
+                        />
+                        <p className="text-lg">You're all caught up</p>
+                        <p className="text-sm text-gray-400">You've seen all new posts from the past days</p>
+                    </div>
+                </div>
             </div>
-        </div>
     )
 })
 
