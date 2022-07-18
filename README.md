@@ -39,7 +39,7 @@ This project is my attempt to implement some parts of the Instagram's functional
 + Dashboard
   + Timeline
   + Sidebar
-+ Page  containes suggested users
++ Page that contains suggested users
 + Various modal pages(like in the Intagram website)
 + Drop menus
 
