@@ -41,6 +41,7 @@ const App: React.FC = () => {
       dispatch(setIsBeingLoaded(true));
 
       if (data) {
+        console.log("auth")
         dispatch(fetchSignedUser(data.uid))
       }
 
