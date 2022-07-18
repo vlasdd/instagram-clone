@@ -49,26 +49,30 @@ const Timeline: React.FC = React.memo(() => {
     )), [postsToRender])
 
     return (
-        !postsToRender ?
-            <div className={`h-32 ${width > 500 ? "w-[470px]" : "w-full"} flex items-center justify-center`}>
-                <div
-                    style={{ "borderTopColor": "transparent" }}
-                    className="w-16 h-16 border-4 border-gray-700 border-dashed rounded-full animate-spin"
-                ></div>
-            </div> :
-            <div>
-                <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]" : "w-full"}`}>
-                    {postsComponents}
-                    <div className="w-full flex flex-col items-center mt-8 mb-14">
-                        <img
-                            src={process.env.PUBLIC_URL + "/images/done.jpg"}
-                            className="w-16"
-                        />
-                        <p className="text-lg">You're all caught up</p>
-                        <p className="text-sm text-gray-400">You've seen all new posts from the past days</p>
+        <div className={`flex ${postsToRender !== null && postsToRender.length === 0 ? "hidden" : ""}`}>
+            {
+                !postsToRender ?
+                    <div className={`h-32 ${width > 500 ? "w-[470px]" : "w-full"} flex items-center justify-center`}>
+                        <div
+                            style={{ "borderTopColor": "transparent" }}
+                            className="w-16 h-16 border-4 border-gray-700 border-dashed rounded-full animate-spin"
+                        ></div>
+                    </div> :
+                    <div>
+                        <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]" : "w-full"}`}>
+                            {postsComponents}
+                            <div className="w-full flex flex-col items-center mt-8 mb-14">
+                                <img
+                                    src={process.env.PUBLIC_URL + "/images/done.jpg"}
+                                    className="w-16"
+                                />
+                                <p className="text-lg">You're all caught up</p>
+                                <p className="text-sm text-gray-400">You've seen all new posts from the past days</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+            }
+        </div>
     )
 })
 
