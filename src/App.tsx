@@ -49,10 +49,10 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    // isBeingLoaded ?
-    //   <Loading /> :
+    isBeingLoaded ?
+      <Loading /> :
       <AnimatePresence>
-        <Suspense fallback={<div>loading</div>}>
+        <Suspense fallback={<Loading/>}>
           <Routes>
             <Route
               path={RoutesTypes.DASHBOARD}

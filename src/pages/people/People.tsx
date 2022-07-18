@@ -41,8 +41,8 @@ const People: React.FC = React.memo(() => {
   )), [suggestions])
 
   return (
-    // users.length === 0 ?
-    //   <Loading /> :
+    users.length === 0 ?
+      <Loading /> :
       <>
         <div className="back flex flex-col items-center">
           <Header />

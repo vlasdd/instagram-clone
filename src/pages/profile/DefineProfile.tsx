@@ -11,8 +11,8 @@ const DefineProfile: React.FC = React.memo(() => {
     const signedUser = useAppSelector(state => state.signedUser.user);
 
     return (
-        // !signedUser.userId.length ?
-        //     <Loading /> :
+        !signedUser.userId.length ?
+            <Loading /> :
             <>
                 <Header />
                 {
