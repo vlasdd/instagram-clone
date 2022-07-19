@@ -1,28 +1,10 @@
-import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
-import { db } from 'firebase-setup/firebaseConfig';
-import PostType from 'types/post-type'
-import SavedPostType from 'types/save-post-type'
-import UserState from 'types/user-state-type';
+import React from 'react'
+import SavedPostType from 'types/savePostType'
 import PostsContainer from './PostsContainer';
+import useSavedPostsData from 'pages/profile/hooks/useSavedPostsData';
 
 const SavedPosts: React.FC<{ savedPosts: SavedPostType[] }> = React.memo(({ savedPosts }) => {
-    const [savedPostsData, setSavedPostsData] = useState<PostType[]>([]);
-
-    useEffect(() => {
-        const getSavedPosts = async () => {
-            await Promise.all(savedPosts.map(async savedPost => {
-                const savedUserData = await getDoc(doc(db, "users", savedPost.fromId))
-                const savedPostData = (savedUserData.data() as UserState).posts.find(post => post.postId === savedPost.postId)
-
-                if(savedPostData){
-                    setSavedPostsData(prevPosts => [...prevPosts, savedPostData])
-                }
-              }));
-        } 
-
-        getSavedPosts();
-    }, [])
+    const { savedPostsData, setSavedPostsData } = useSavedPostsData(savedPosts)
 
     return (
         savedPostsData.length ?

@@ -1,4 +1,4 @@
-import MessageType from "types/message-type";
+import MessageType from "types/messageType";
 
 type ChatState = {
     firstUserId: string,

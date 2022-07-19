@@ -2,14 +2,12 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import getUsers from 'helpers/other/get-users/getUsers';
 import { useAppSelector } from 'redux-setup/hooks';
 import Close from 'svgs/empty/Close'
-import UserState from 'types/user-state-type';
-import UserSuggestion from 'types/user-suggestion-type';
+import UserState from 'types/userStateType';
+import UserSuggestion from 'types/userSuggestionType';
 import UserToWriteTo from 'pages/direct/components/navigation-bar/UserToWriteTo';
 import useChatRoom from 'helpers/hooks/useChatRoom';
-import PostType from 'types/post-type';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from 'firebase-setup/firebaseConfig';
-import ChatState from 'types/chat-state-type';
+import PostType from 'types/postType';
+import sharePost from 'apis/sharePost';
 
 type SharePostModalProps = {
     closeEvent: () => void,
@@ -38,50 +36,7 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
     }, [wordEntering])
 
     const sendMessages = async (chatId: string) => {
-        const newMessage = {
-            text: currentPost.text,
-            from: {
-                userId: signedUser.userId,
-            },
-            createdAt: (new Date()).getTime(),
-            media: currentPost.postImage,
-            post: currentPost
-        }
-
-        const currentChat = (await getDoc(doc(db, "chats", chatId))).data() as ChatState;
-
-        if(messageEntering.length === 0){
-            await updateDoc(doc(db, "chats", chatId), {
-                messages: [...currentChat.messages, newMessage],
-                lastMessage: {
-                    text: "You sent a post",
-                    userId: signedUser.userId
-                },
-                lastEdited: (new Date()).getTime()
-            })
-
-            closeEvent();
-            return;
-        }
-
-        const userMessage = {
-            text: messageEntering,
-            from: {
-                userId: signedUser.userId,
-            },
-            createdAt: (new Date()).getTime(),
-            media: "",
-        }
-
-        await updateDoc(doc(db, "chats", chatId), {
-            messages: [...currentChat.messages, newMessage, userMessage],
-            lastMessage: {
-                text: userMessage.text,
-                userId: signedUser.userId
-            },
-            lastEdited: (new Date()).getTime()
-        })
-
+        await sharePost({currentPost, signedUserId: signedUser.userId, chatId, messageEntering})
         closeEvent();
     }
 

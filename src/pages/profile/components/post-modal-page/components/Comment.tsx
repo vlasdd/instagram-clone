@@ -4,13 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks';
 import Heart from 'svgs/empty/Heart';
 import FilledHeart from 'svgs/filled/FilledHeart';
-import CommentsType from 'types/comments-type';
+import CommentsType from 'types/commentsType';
 import { motion } from "framer-motion";
 import useCommentLikes from 'helpers/hooks/useCommentLikes';
 import usePosts from 'pages/profile/hooks/usePosts';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from 'firebase-setup/firebaseConfig';
-import UserState from 'types/user-state-type';
+import UserState from 'types/userStateType';
 import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime';
 import Modal from 'components/modal/Modal';
 import UsersListModal from '../../users-list/UsersListModal';

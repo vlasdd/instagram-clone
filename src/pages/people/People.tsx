@@ -1,37 +1,11 @@
 import Header from 'components/header/Header'
-import { db } from 'firebase-setup/firebaseConfig'
-import { collection, getDocs, query, where } from 'firebase/firestore'
 import Loading from 'pages/loading/Loading'
-import React, { useEffect, useMemo, useState } from 'react'
-import { useAppSelector } from 'redux-setup/hooks'
-import UserState from 'types/user-state-type'
-import PersonSuggestion from './PersonSuggestion'
-
-const SUGGESTIONS_AMOUNT = 30;
+import React, { useMemo } from 'react'
+import PersonSuggestion from './components/PersonSuggestion'
+import useSuggestions from './hooks/useSuggestions'
 
 const People: React.FC = React.memo(() => {
-  const loggedUser = useAppSelector(state => state.signedUser.user);
-  const [suggestions, setSuggestions] = useState<UserState[]>([]);
-
-  useEffect(() => {
-    const getSuggestions = async () => {
-      const usersRef = collection(db, "users");
-      const q = query(usersRef, where("username", ">=", ""));
-      const querySnapshot = (await getDocs(q)).docs.map(doc => doc.data());
-
-      const users = querySnapshot
-        .filter(user =>
-          user.userId !== loggedUser.userId &&
-          loggedUser.following.every(fol => fol.userId !== user.userId)
-        )
-        .sort((a, b) => 0.5 - Math.random())
-        .slice(0, SUGGESTIONS_AMOUNT) as UserState[];
-
-      setSuggestions(users);
-    }
-
-    getSuggestions();
-  }, [])
+  const suggestions = useSuggestions();
 
   const users = useMemo(() => suggestions.map(data => (
     <PersonSuggestion

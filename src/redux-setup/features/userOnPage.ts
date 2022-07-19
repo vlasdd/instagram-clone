@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "firebase-setup/firebaseConfig";
-import BirthdateState from "types/birthdate-type";
-import UserState from "types/user-state-type";
+import BirthdateState from "types/birthdateType";
+import UserState from "types/userStateType";
 import { setIsBeingLoaded } from "./isBeingLoaded";
 
 type InitialStateType = {

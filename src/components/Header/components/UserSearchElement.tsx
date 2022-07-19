@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
-import UserSuggestionType from 'types/user-suggestion-type';
+import UserSuggestionType from 'types/userSuggestionType';
 
 const UserSearchElement: React.FC<UserSuggestionType> = React.memo(({ profileImage, username, fullName, userId }) => {
     return (

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
 import AreYouSureModal from 'components/modal/AreYouSureModal'
 import Modal from 'components/modal/Modal'
-import MessageType from 'types/message-type'
+import MessageType from 'types/messageType'
 import useChatRoom from 'helpers/hooks/useChatRoom'
 
 type RoomInfoProps = {

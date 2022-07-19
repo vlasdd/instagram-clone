@@ -6,10 +6,10 @@ import RoutesTypes from 'constants/routes-types'
 import { db } from 'firebase-setup/firebaseConfig'
 import { doc, getDoc } from 'firebase/firestore'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks'
-import PostType from 'types/post-type'
-import UserState from 'types/user-state-type'
+import PostType from 'types/postType'
+import UserState from 'types/userStateType'
 import PostHeader from './PostHeader'
 
 type PostProps = {

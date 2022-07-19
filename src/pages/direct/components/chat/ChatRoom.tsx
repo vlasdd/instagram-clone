@@ -3,17 +3,16 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { db, storage } from 'firebase-setup/firebaseConfig';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import ChatState from 'types/chat-state-type';
-import UserState from 'types/user-state-type';
+import ChatState from 'types/chatStateType';
+import UserState from 'types/userStateType';
 import { initialState as initialUser } from "redux-setup/features/signedUser";
 import Info from 'svgs/both/Info';
-import MessageType from 'types/message-type';
+import MessageType from 'types/messageType';
 import MessageForm from './MessageForm';
 import RoutesTypes from 'constants/routes-types';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { v4 } from 'uuid';
 import RoomMessages from './RoomMessages';
 import RoomInfo from './RoomInfo';
+import createMessage from 'apis/createMessage';
 
 const ChatRoom: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -48,29 +47,16 @@ const ChatRoom: React.FC = React.memo(() => {
     }, [chatId, loggedUser])
 
     const sendMessage = async () => {
-        let imageUrl = "";
-        if(imageUpload){
-            const imageRef = ref(storage, `Images/${imageUpload.name + v4()}`)
-            await uploadBytes(imageRef, imageUpload)
-            imageUrl = await getDownloadURL(imageRef);
+        if(!wordEntering.length){
+            return;
         }
 
-        const newMessage = {
-            text: wordEntering,
-            from: {
-                userId: loggedUser.userId,
-            },
-            createdAt: (new Date()).getTime(),
-            media: imageUrl
-        }
-
-        await updateDoc(doc(db, "chats", chatId as string), {
-            messages: [...messages, newMessage],
-            lastMessage: {
-                text: newMessage.text,
-                userId: loggedUser.userId
-            },
-            lastEdited: (new Date()).getTime()
+        createMessage({ 
+            imageUpload, 
+            wordEntering, 
+            loggedUserId: loggedUser.userId, 
+            chatId: chatId as string, 
+            messages 
         })
 
         setImageUpload(null);

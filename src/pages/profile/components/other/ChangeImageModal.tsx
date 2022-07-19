@@ -1,12 +1,6 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import { deleteObject, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { updateDoc, doc } from "firebase/firestore";
-import { db, storage } from 'firebase-setup/firebaseConfig';
-import { v4 } from "uuid";
-import { setSignedUser } from 'redux-setup/features/signedUser';
-import UserState from 'types/user-state-type';
-import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
+import { createNewProfileImage, deleteProfileImage, setSignedUser } from 'redux-setup/features/signedUser';
 
 type ChangeImageModalProps = {
     closeEvent: () => void
@@ -20,43 +14,14 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = React.memo(({ closeEve
         if(!event.target.files){
             return;
         }
-        dispatch(setIsBeingLoaded(true))
 
-        const imageUpload = event.target.files[0];
-
-        if (currentUser.profileImage !== "") {
-            const deleteImageRef = ref(storage, currentUser.profileImage);
-            await deleteObject(deleteImageRef);
-        }
-
-        const imageRef = ref(storage, `Images/${imageUpload.name + v4()}`)
-        await uploadBytes(imageRef, imageUpload)
-
-        const imageUrl = await getDownloadURL(imageRef);
-        await updateDoc(doc(db, "users", currentUser.userId), {
-            profileImage: imageUrl
-        });
-
-        dispatch(setSignedUser({...currentUser, profileImage: imageUrl}));
+        await dispatch(createNewProfileImage({image: event.target.files[0]}))
         closeEvent();
-
-        dispatch(setIsBeingLoaded(false))
     }
 
-    const deleteImage = async (currentUser: UserState) => {
-        const imageRef = ref(storage, currentUser.profileImage);
-        await deleteObject(imageRef);
-
-        dispatch(setIsBeingLoaded(true))
-
-        await updateDoc(doc(db, "users", currentUser.userId), {
-            profileImage: ""
-        });
-
-        dispatch(setSignedUser({ ...currentUser, profileImage: "" }));
+    const deleteImage = async () => {
+        await dispatch(deleteProfileImage());
         closeEvent();
-
-        dispatch(setIsBeingLoaded(false))
     }
 
     return (
@@ -89,7 +54,7 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = React.memo(({ closeEve
                 currentUser.profileImage.length ?
                     <button
                         className="w-full h-12 border-t-2 flex items-center justify-center text-rose-600 font-medium text-sm"
-                        onClick={() => deleteImage(currentUser)}
+                        onClick={deleteImage}
                     >
                         Remove Current Photo
                     </button> :

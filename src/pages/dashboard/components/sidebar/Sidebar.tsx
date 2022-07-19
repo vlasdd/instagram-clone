@@ -1,51 +1,18 @@
 import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
-import { db } from 'firebase-setup/firebaseConfig';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import random from 'helpers/other/generate-random/generateRandom';
-import React, { useEffect, useMemo, useState } from 'react'
+import useSuggestions from 'pages/dashboard/hooks/useSuggestions';
+import React, { useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
-import UserState from 'types/user-state-type';
 import Suggestion from './components/Suggestion';
 
 const SUGGESTIONS_LENGTH = 5;
 
 const Sidebar: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
-    const [suggestionsInfo, setSuggestionsInfo] = useState<UserState[]>([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const getSuggestions = async () => {
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("username", ">=", ""));
-            const querySnapshot = await getDocs(q);
-            let docsContainer: UserState[] = [];
-            let i = 0;
-
-            while (docsContainer.length !== SUGGESTIONS_LENGTH) {
-                const index = random(0, querySnapshot.docs.length);
-                const currentDoc = querySnapshot.docs[index].data() as UserState;
-
-                if (
-                    docsContainer.every(user => user.userId !== currentDoc.userId) &&
-                    loggedUser.following.every(user => user.userId !== currentDoc.userId) &&
-                    currentDoc.userId !== loggedUser.userId
-                ) {
-                    setSuggestionsInfo(prevUsers => [...prevUsers, currentDoc])
-                    docsContainer = [...docsContainer, currentDoc];
-                }
-
-                if(i > 100){
-                    break;
-                }
-                i++;
-            }
-        }
-
-        getSuggestions();
-    }, [])
+    const suggestionsInfo = useSuggestions(SUGGESTIONS_LENGTH)
 
     const generateSkeletons = () => {
         const skeletons = [];

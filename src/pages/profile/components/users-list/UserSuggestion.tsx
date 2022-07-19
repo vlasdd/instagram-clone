@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import useFollowers from 'helpers/hooks/useFollowers';
 import { useAppSelector } from 'redux-setup/hooks';
-import UserSuggestionType from 'types/user-suggestion-type';
+import UserSuggestionType from 'types/userSuggestionType';
 import Modal from 'components/modal/Modal';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
 

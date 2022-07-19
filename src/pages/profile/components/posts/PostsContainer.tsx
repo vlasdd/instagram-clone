@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
-import PostType from 'types/post-type'
+import PostType from 'types/postType'
 import PostImage from './PostImage'
 
 const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React.memo(({ posts, changePosts }) => {

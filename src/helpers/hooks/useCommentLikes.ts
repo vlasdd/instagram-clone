@@ -4,8 +4,8 @@ import { db } from "firebase-setup/firebaseConfig";
 import { setSignedUser } from "redux-setup/features/signedUser";
 import { setUserOnPage } from "redux-setup/features/userOnPage";
 import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
-import PostType from "types/post-type";
-import UserState from "types/user-state-type";
+import PostType from "types/postType";
+import UserState from "types/userStateType";
 
 type UseCommentLikesProps = { 
     userId: string, 

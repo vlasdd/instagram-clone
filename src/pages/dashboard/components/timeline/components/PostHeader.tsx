@@ -4,7 +4,7 @@ import RoutesTypes from 'constants/routes-types';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Additional from 'svgs/empty/Additional';
-import PostType from 'types/post-type';
+import PostType from 'types/postType';
 import SettingsModal from './SettingsModal';
 
 type PostHeaderProps = {

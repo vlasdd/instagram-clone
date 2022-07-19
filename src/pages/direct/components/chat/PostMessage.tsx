@@ -5,7 +5,7 @@ import { db } from 'firebase-setup/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import UserState from 'types/user-state-type';
+import UserState from 'types/userStateType';
 import { IMessageProps } from './RoomMessages';
 
 const PostMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUserId, media, profileImage, post }) => {
@@ -21,7 +21,6 @@ const PostMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUse
         profileImage: "",
         userId: ""
     })
-    const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (scrollRef.current) {

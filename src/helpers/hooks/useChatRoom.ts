@@ -4,7 +4,7 @@ import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore"
 import { deleteObject, ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "redux-setup/hooks";
-import MessageType from "types/message-type";
+import MessageType from "types/messageType";
 
 type CreateChatRoomProps = {
     chosenUserId: string; 

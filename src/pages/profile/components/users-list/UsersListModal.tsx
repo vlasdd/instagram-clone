@@ -2,10 +2,11 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import { db } from 'firebase-setup/firebaseConfig';
 import Close from 'svgs/empty/Close';
-import UserState from 'types/user-state-type';
+import UserState from 'types/userStateType';
 import UserLoader from 'components/other/UserLoader';
 import UserSuggestion from "./UserSuggestion";
 import { useAppSelector } from 'redux-setup/hooks';
+import useUserList from 'pages/profile/hooks/useUserList';
 
 type UsersListProps = {
     usersList: {userId: string}[];
@@ -14,25 +15,8 @@ type UsersListProps = {
 }
 
 const UsersListModal: React.FC<UsersListProps> = React.memo(({ usersList, descriptionLine, closeEvent }) => {
-    const [allUsers, setAllUsers] = useState<UserState[]>([]);
-    const userOnPage = useAppSelector(state => state.userOnPage.user);
-
-    useEffect(() => {
-        const getUsers = async () => {
-            if(!usersList.length){
-                return;
-            }
-
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("userId", "in", usersList.map(obj => obj.userId)));
-        
-            const querySnapshot = await getDocs(q);
-            setAllUsers(querySnapshot.docs.map(doc => doc.data()) as UserState[])
-        } 
-
-        getUsers();
-    }, [userOnPage.userId])
-
+    const allUsers = useUserList(usersList);
+    
     const users = allUsers.map(data => <UserSuggestion {...data} key={data.userId} />)
 
     const generateSkeletons = () => {

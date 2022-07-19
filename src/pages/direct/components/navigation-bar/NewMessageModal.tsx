@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import getUsers from 'helpers/other/get-users/getUsers';
 import { useAppSelector } from 'redux-setup/hooks';
 import Close from 'svgs/empty/Close'
-import UserState from 'types/user-state-type';
-import UserSuggestion from 'types/user-suggestion-type';
+import UserState from 'types/userStateType';
+import UserSuggestion from 'types/userSuggestionType';
 import UserToWriteTo from './UserToWriteTo';
 import useChatRoom from 'helpers/hooks/useChatRoom';
 

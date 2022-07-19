@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import RoutesTypes from "constants/routes-types"
 import isEmailAvailable from 'firebase-setup/isEmailAvailable';
 import isUsernameAvailable from "firebase-setup/isUsernameAvailable";
-import UserData from "types/user-data-type";
+import UserData from "types/userDataType";
 
 type SignUpOneProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>

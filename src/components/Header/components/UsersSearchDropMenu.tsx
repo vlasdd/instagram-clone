@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import UserSearchElement from './UserSearchElement'
-import UserState from 'types/user-state-type';
+import UserState from 'types/userStateType';
 import getUsers from 'helpers/other/get-users/getUsers';
 import UserLoader from 'components/other/UserLoader';
 

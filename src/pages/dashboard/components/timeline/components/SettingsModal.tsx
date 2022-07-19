@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useFollowers from 'helpers/hooks/useFollowers';
-import PostType from 'types/post-type';
+import PostType from 'types/postType';
 import { useNavigate } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import ProfileRoutes from 'constants/profile-routes';

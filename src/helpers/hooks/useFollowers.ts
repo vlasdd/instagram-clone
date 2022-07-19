@@ -4,7 +4,7 @@ import { db } from 'firebase-setup/firebaseConfig';
 import { setSignedUser } from 'redux-setup/features/signedUser';
 import { setUserOnPage } from 'redux-setup/features/userOnPage';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import UserState from 'types/user-state-type';
+import UserState from 'types/userStateType';
 
 const useFollowers = ({ userId }: { userId: string }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);

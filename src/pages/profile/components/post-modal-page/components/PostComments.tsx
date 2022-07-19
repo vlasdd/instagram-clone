@@ -2,7 +2,7 @@ import UserLoader from 'components/other/UserLoader'
 import RoutesTypes from 'constants/routes-types'
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import CommentType from 'types/comments-type'
+import CommentType from 'types/commentsType'
 import Comment from './Comment'
 
 type PostCommentProps = { 

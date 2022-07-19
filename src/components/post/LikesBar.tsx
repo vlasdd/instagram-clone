@@ -4,7 +4,7 @@ import Comment from 'svgs/empty/Comment'
 import Direct from 'svgs/empty/Direct'
 import FilledHeart from 'svgs/filled/FilledHeart'
 import Heart from 'svgs/empty/Heart'
-import PostType from 'types/post-type'
+import PostType from 'types/postType'
 import { motion } from "framer-motion"
 import Saved from 'svgs/empty/Saved'
 import useSavedPosts from 'pages/profile/hooks/useSavedPosts'

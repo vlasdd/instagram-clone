@@ -1,4 +1,4 @@
-import PostType from "./post-type";
+import PostType from "./postType";
 
 type MessageType = {
     text: string,

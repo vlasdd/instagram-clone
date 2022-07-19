@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "firebase-setup/firebaseConfig";
+import { auth } from "firebase-setup/firebaseConfig";
 import RoutesTypes from "constants/routes-types";
 import { useAppDispatch } from "redux-setup/hooks";
-import { setSignedUser } from "redux-setup/features/signedUser";
-import { doc, getDoc } from "firebase/firestore";
-import UserState from "types/user-state-type";
+import { fetchSignedUser } from "redux-setup/features/signedUser";
 
 const Login: React.FC = React.memo(() => {
     const navigate = useNavigate();
@@ -24,8 +22,7 @@ const Login: React.FC = React.memo(() => {
         
         try {
             const user = await signInWithEmailAndPassword(auth, email, password);
-            const currentDoc = await getDoc(doc(db, "users", user.user.uid))
-            dispatch(setSignedUser(currentDoc.data() as UserState));
+            await dispatch(fetchSignedUser(user.user.uid))
             navigate(RoutesTypes.DASHBOARD);
         } 
         catch (error: any) {

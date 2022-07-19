@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react';
-import UserData from "types/user-data-type";
-import BirthdateState from "types/birthdate-type";
+import UserData from "types/userDataType";
+import BirthdateState from "types/birthdateType";
 import { Link } from "react-router-dom";
 import RoutesTypes from "constants/routes-types";
+import { arrayOfMonths, generateArrayOfDays, generateArrayOfYears } from 'helpers/other/date-generation/dateGeneration';
 
 type SignUpTwoProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>
@@ -10,49 +11,6 @@ type SignUpTwoProps = {
 }
 
 const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) => {
-    let arrayOfMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
-    const generateArrayOfYears = () => {
-        let result = [];
-        for(let i = new Date().getFullYear(); i > 1919; i--){
-            result.push(i);
-        }
-
-        return result;
-    }
-
-    const generateArrayOfDays = () => {
-        let result = [];
-
-        let amountOfDays = 0;
-        switch(arrayOfMonths.indexOf(birthdate.month)){
-            case 0:
-            case 2: 
-            case 4: 
-            case 6: 
-            case 7: 
-            case 9: 
-            case 11: {
-                amountOfDays = 31;
-                break;
-            }
-            case 1: {
-                amountOfDays = birthdate.year % 4 ? 28 : 29;
-                break;
-            }
-            default: {
-                amountOfDays = 30;
-                break;
-            }
-        }
-
-        for(let i = 1; i <= amountOfDays; i++){
-            result.push(i);
-        }
-
-        return result;
-    }
-
     const [birthdate, setBirthdate] = useState<BirthdateState>({
         day: new Date().getDate() ,
         month: arrayOfMonths[new Date().getMonth()],
@@ -89,7 +47,7 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
                             value={birthdate.day}
                             onChange={(event) => setBirthdate(prevData => ({ ...prevData, day: Number(event.target.value) }))}
                         >
-                            {generateArrayOfDays().map((day, index) => <option key={index}>{day}</option>)}
+                            {generateArrayOfDays(birthdate).map((day, index) => <option key={index}>{day}</option>)}
                         </select>
                         <select
                             className="border rounded text-sm p-1"

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import SignUpOne from "pages/sign-up/components/SignUpOne";
 import SignUpTwo from "pages/sign-up/components/SignUpTwo";
-import BirthdateState from "types/birthdate-type";
-import UserData from "types/user-data-type";
+import BirthdateState from "types/birthdateType";
+import UserData from "types/userDataType";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "firebase-setup/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore"; 
 import { useAppDispatch } from "redux-setup/hooks";
 import { setSignedUser } from "redux-setup/features/signedUser";
-import UserState from "types/user-state-type";
+import UserState from "types/userStateType";
 import { Navigate, useNavigate } from "react-router-dom";
 import RoutesTypes from "constants/routes-types";
 

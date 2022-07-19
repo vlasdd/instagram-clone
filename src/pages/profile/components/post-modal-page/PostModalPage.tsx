@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import PostType from 'types/post-type'
+import PostType from 'types/postType'
 import PostsModalNavigation from 'pages/profile/components/post-modal-page/components/PostsModalNavigation'
 import CommentForm from "components/post/CommentForm";
 import LikesBar from 'components/post/LikesBar'
@@ -9,10 +9,10 @@ import ProfileRoutes from 'constants/profile-routes'
 import UserHeader from './components/UserHeader'
 import useWindowWidth from 'helpers/hooks/useWindowWidth'
 import PostComments from './components/PostComments'
-import CommentType from 'types/comments-type'
+import CommentType from 'types/commentsType'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from 'firebase-setup/firebaseConfig'
-import UserState from 'types/user-state-type'
+import UserState from 'types/userStateType'
 import { useAppSelector } from 'redux-setup/hooks';
 import Time from 'components/other/Time';
 

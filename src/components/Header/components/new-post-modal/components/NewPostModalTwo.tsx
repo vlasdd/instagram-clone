@@ -2,18 +2,11 @@ import React, { useState } from 'react';
 import ReturnBack from 'svgs/empty/ReturnBack';
 import { motion } from "framer-motion";
 import useWindowWidth from "helpers/hooks/useWindowWidth";
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, storage } from 'firebase-setup/firebaseConfig';
-import { v4 } from 'uuid';
-import { doc, updateDoc } from 'firebase/firestore';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import { setSignedUser } from 'redux-setup/features/signedUser';
-import { nanoid } from '@reduxjs/toolkit';
-import { setUserOnPage } from 'redux-setup/features/userOnPage';
-import { setIsBeingLoaded } from 'redux-setup/features/isBeingLoaded';
 import Smile from 'svgs/empty/Smile';
 import DropMenu from 'components/other/DropMenu';
 import Picker, { IEmojiData } from 'emoji-picker-react'
+import { addNewPost } from "redux-setup/features/signedUser";
 
 type NewPostModalTwoProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>,
@@ -21,7 +14,6 @@ type NewPostModalTwoProps = {
 }
 
 const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrentPageId, image }) => {
-    const userOnPage = useAppSelector(state => state.userOnPage.user);
     const user = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
 
@@ -30,34 +22,8 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
 
     const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
 
-    const createPost = async () => {
-        dispatch(setIsBeingLoaded(true));
-        const imageRef = ref(storage, `Images/${image[0].name + v4()}`)
-        await uploadBytes(imageRef, image[0])
-
-        const imageUrl = await getDownloadURL(imageRef);
-
-        const newPost = {
-            postId: nanoid(),
-            postImage: imageUrl,
-            likes: [],
-            comments: [],
-            text: text,
-            fromId: user.userId,
-            createdAt: (new Date()).getTime(),
-        }
-
-        await updateDoc(doc(db, "users", user.userId), {
-            posts: [...user.posts, newPost]
-        })
-
-        dispatch(setSignedUser({...user, posts: [...user.posts, newPost]}));
-
-        if(user.userId === userOnPage.userId){
-            dispatch(setUserOnPage({...user, posts: [...user.posts, newPost]}))
-        }
-
-        dispatch(setIsBeingLoaded(false));
+    const createPost = () => {
+        dispatch(addNewPost({ image, text }))
         setCurrentPageId(prevVal => prevVal + 1);
     }
 

@@ -1,54 +1,18 @@
-import { collection, getDocs, onSnapshot, query, where } from 'firebase/firestore';
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
-import { db } from 'firebase-setup/firebaseConfig';
 import { useAppSelector } from 'redux-setup/hooks'
 import Text from 'svgs/empty/Text';
 import ChatLink from './ChatLink';
-import ChatState from 'types/chat-state-type';
 import UserLoader from 'components/other/UserLoader';
+import useChats from 'pages/direct/hooks/useChats';
 
 const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModal }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const navigate = useNavigate();
     const { chatId } = useParams();
 
-    const [chats, setChats] = useState<ChatState[]>([]);
-
-    useEffect(() => {
-        const getChats = async () => {
-            const chatsRef = collection(db, "chats");
-            const q1 = query(chatsRef, where("firstUserId", "==", loggedUser.userId));
-            const q2 = query(chatsRef, where("secondUserId", "==", loggedUser.userId));
-
-            const querySnapshot1 = await getDocs(q1);
-            const querySnapshot2 = await getDocs(q2);
-            const querySnapshot = querySnapshot1.docs
-                .map(doc => doc.data())
-                .concat(querySnapshot2.docs.map(doc => doc.data()))
-                
-            const chatsObjs = querySnapshot.map(doc => {
-                return ({
-                    firstUserId: doc.firstUserId,
-                    secondUserId: doc.secondUserId, 
-                    messages: doc.messsages,
-                    lastMessage: doc.lastMessage,
-                    lastEdited: doc.lastEdited
-                })
-            })
-
-            setChats(chatsObjs.sort((a, b) => b.lastEdited - a.lastEdited))
-        }
-
-        onSnapshot(query(collection(db, "chats"), where("firstUserId", "==", loggedUser.userId)), async () => {
-            await getChats();
-        })
-
-        onSnapshot(query(collection(db, "chats"), where("secondUserId", "==", loggedUser.userId)), async () => {
-            await getChats();
-        })
-    }, [loggedUser.userId, chatId])
+    const chats = useChats(chatId as string)
 
     const generateSkeletons = () => {
         const skeletons = [];
@@ -63,7 +27,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
                 />
             );
         }
-
+        
         return skeletons
     }
 

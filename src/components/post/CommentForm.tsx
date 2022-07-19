@@ -5,12 +5,12 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import usePosts from 'pages/profile/hooks/usePosts';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { setSignedUser } from 'redux-setup/features/signedUser';
+import { createNewComment, setSignedUser } from 'redux-setup/features/signedUser';
 import { setUserOnPage } from 'redux-setup/features/userOnPage';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Smile from 'svgs/empty/Smile';
-import PostType from 'types/post-type';
-import UserState from 'types/user-state-type';
+import PostType from 'types/postType';
+import UserState from 'types/userStateType';
 import Picker, { IEmojiData } from "emoji-picker-react";
 
 type CommentFormProps = {
@@ -34,44 +34,8 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({ wordEntering, setW
 
     const sendComment = async () => {
         const text = wordEntering;
+        dispatch(createNewComment({ text, currentPostFromId, postId, uid: uid as string, usePostsObj }))
         setWordEntering("");
-
-        const hotPosts = ((await getDoc(doc(db, "users", currentPostFromId))).data() as UserState).posts
-
-        const hotPost = hotPosts.find(post => post.postId === postId) as PostType
-
-        const newComment = {
-            userId: loggedUser.userId,
-            text: text,
-            likes: [],
-            commentId: nanoid(),
-            createdAt: (new Date()).getTime()
-        } 
-        
-        const newPosts = hotPosts.map(post => {
-            if(post.postId === postId){
-                return { ...post, comments: [...hotPost.comments, newComment] }
-            }
-
-            return post
-        }) as PostType[]
-
-        await updateDoc(doc(db, "users", currentPostFromId), {
-            posts: newPosts
-        })
-
-        if (uid === currentPostFromId) {
-            dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
-        }
-
-        if (userOnPage.userId === loggedUser.userId) {
-            dispatch(setSignedUser({ ...loggedUser, posts: newPosts }))
-        }
-
-        if(usePostsObj?.changePosts){
-            usePostsObj.changePosts(newPosts)
-        }
-        console.log("here")
     }
 
     const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {

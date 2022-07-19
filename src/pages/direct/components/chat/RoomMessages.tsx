@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react'
-import MessageType from 'types/message-type'
+import MessageType from 'types/messageType'
 import ImageMessage from './ImageMessage';
 import PostMessage from './PostMessage';
 import TextMessage from './TextMessage';
