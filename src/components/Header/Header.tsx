@@ -3,13 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import RoutesTypes from "constants/routes-types"
 import { useAppSelector } from "redux-setup/hooks";
 import { useNavigate } from "react-router-dom";
-import ProfileDropMenuContainer from "./components/ProfileDropMenuContainer";
+import ProfileDropMenuContainer from "./components/profile-drop-menu/ProfileDropMenuContainer";
 import DropMenu from "components/other/DropMenu";
-import UsersSearchDropMenu from "./components/UsersSearchDropMenu";
+import UsersSearchDropMenu from "./components/search/UsersSearchDropMenu";
 import Home from "svgs/both/Home";
 import Direct from "svgs/empty/Direct";
 import useWindowWidth from "helpers/hooks/useWindowWidth";
-import SearchBar from "./components/SearchBar";
+import SearchBar from "./components/search/SearchBar";
 import NewPost from "svgs/both/NewPost";
 import Modal from "components/modal/Modal";
 import NewPostModal from "./components/new-post-modal/NewPostModal";

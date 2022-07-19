@@ -1,16 +1,10 @@
-import { nanoid } from '@reduxjs/toolkit';
 import DropMenu from 'components/other/DropMenu';
-import { db } from 'firebase-setup/firebaseConfig';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import usePosts from 'pages/profile/hooks/usePosts';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { createNewComment, setSignedUser } from 'redux-setup/features/signedUser';
-import { setUserOnPage } from 'redux-setup/features/userOnPage';
-import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
+import { createNewComment } from 'redux-setup/features/signedUser';
+import { useAppDispatch } from 'redux-setup/hooks';
 import Smile from 'svgs/empty/Smile';
-import PostType from 'types/postType';
-import UserState from 'types/userStateType';
 import Picker, { IEmojiData } from "emoji-picker-react";
 
 type CommentFormProps = {
@@ -21,9 +15,13 @@ type CommentFormProps = {
     postId: string
 }
 
-const CommentForm: React.FC<CommentFormProps> = React.memo(({ wordEntering, setWordEntering, commentsRef, currentPostFromId, postId }) => {
-    const loggedUser = useAppSelector(state => state.signedUser.user);
-    const userOnPage = useAppSelector(state => state.userOnPage.user);
+const CommentForm: React.FC<CommentFormProps> = React.memo(({ 
+    wordEntering, 
+    setWordEntering, 
+    commentsRef, 
+    currentPostFromId, 
+    postId 
+}) => {
 
     const dispatch = useAppDispatch();
 

@@ -34,7 +34,7 @@ const Sidebar: React.FC = React.memo(() => {
     const users = useMemo(() => suggestionsInfo.map(data => (
         <Suggestion
             {...data}
-            key={data.userId}
+            key={data.userId + "suggestion"}
             isFollowing={data.following.some(user => user.userId === loggedUser.userId)}
         />
     )), [suggestionsInfo])

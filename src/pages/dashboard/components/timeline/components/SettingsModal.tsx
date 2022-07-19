@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import useFollowers from 'helpers/hooks/useFollowers';
 import PostType from 'types/postType';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import ProfileRoutes from 'constants/profile-routes';
 import Modal from 'components/modal/Modal';
 import SharePostModal from 'components/modal/SharePostModal';
+import { removeFromFollowing } from 'redux-setup/features/signedUser';
+import { useAppDispatch } from 'redux-setup/hooks';
 
 type SettingsModalProps = {
     closeEvent: () => void;
@@ -14,8 +15,9 @@ type SettingsModalProps = {
 
 const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, post }) => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     
-    const { removeFromFollowing } = useFollowers({ userId: post.fromId })
+    const { uid } = useParams();
 
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
@@ -36,7 +38,7 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
                 <button
                     className="w-full active:bg-gray-300 h-12 flex items-center justify-center text-rose-600 font-medium text-sm rounded-t-xl"
                     onClick={() => {
-                        removeFromFollowing()
+                        dispatch(removeFromFollowing({ userId: post.fromId, uid: uid as string }))
                         closeEvent()
                     }}
                 >

@@ -1,67 +1,22 @@
-import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
-import React, { useCallback, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { db, storage } from 'firebase-setup/firebaseConfig';
-import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import ChatState from 'types/chatStateType';
-import UserState from 'types/userStateType';
-import { initialState as initialUser } from "redux-setup/features/signedUser";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from 'redux-setup/hooks';
 import Info from 'svgs/both/Info';
-import MessageType from 'types/messageType';
 import MessageForm from './MessageForm';
 import RoutesTypes from 'constants/routes-types';
 import RoomMessages from './RoomMessages';
 import RoomInfo from './RoomInfo';
-import createMessage from 'apis/createMessage';
+import useUserAndMessages from 'pages/direct/hooks/useUserAndMessages';
 
 const ChatRoom: React.FC = React.memo(() => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
 
-    const { chatId } = useParams();
     const navigate = useNavigate();
 
-    const [secondUser, setSecondUser] = useState<UserState>(initialUser.user)
-    const [wordEntering, setWordEntering] = useState<string>("");
     const [imageUpload, setImageUpload] = useState<File | null>(null);
-    const [messages, setMessages] = useState<MessageType[]>([]);
     const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
 
-    useEffect(() => {
-        const getUserAndMessages = async () => {
-            if (chatId) {
-                const uids = chatId.split("-");
-                const secondUserId = uids[1] === loggedUser.userId ? uids[0] : uids[1];
-
-                const dataBaseUser = await getDoc(doc(db, "users", secondUserId));
-                setSecondUser(dataBaseUser.data() as UserState);
-
-                onSnapshot(doc(db, "chats", chatId as string), (doc) => {
-                    const chatData = doc.data() as ChatState;
-                    setMessages(chatData.messages);
-                    setWordEntering("");
-                })
-            }
-        }
-
-        getUserAndMessages();
-    }, [chatId, loggedUser])
-
-    const sendMessage = async () => {
-        if(!wordEntering.length){
-            return;
-        }
-
-        createMessage({ 
-            imageUpload, 
-            wordEntering, 
-            loggedUserId: loggedUser.userId, 
-            chatId: chatId as string, 
-            messages 
-        })
-
-        setImageUpload(null);
-        setWordEntering("");
-    }
+    const { secondUser, wordEntering, setWordEntering, messages } = useUserAndMessages();
 
     return (
         <div className="w-full h-full flex flex-col items-center">
@@ -91,11 +46,7 @@ const ChatRoom: React.FC = React.memo(() => {
             {
                 isInfoOpen ?
                     <RoomInfo
-                        userId={secondUser.userId}
-                        username={secondUser.username}
-                        fullName={secondUser.fullName}
-                        profileImage={secondUser.profileImage}
-                        chatId={chatId as string}
+                        secondUser={secondUser}
                         messages={messages}
                     /> :
                     <div className="flex h-[calc(100%-60px)] flex-col justify-end w-full items-center">
@@ -107,7 +58,7 @@ const ChatRoom: React.FC = React.memo(() => {
                         <MessageForm
                             wordEntering={wordEntering}
                             setWordEntering={setWordEntering}
-                            sendMessage={sendMessage}
+                            messages={messages}
                             setImageUpload={setImageUpload}
                             imageUpload={imageUpload}
                         />

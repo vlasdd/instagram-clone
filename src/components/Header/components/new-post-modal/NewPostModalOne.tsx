@@ -13,7 +13,13 @@ type NewPostModalOneProps = {
     setCurrentImageIndex: React.Dispatch<React.SetStateAction<number>>,
 }
 
-const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({ image, setImage, setCurrentPageId, setCurrentImageIndex, currentImageIndex }) => {
+const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({ 
+    image, 
+    setImage, 
+    setCurrentPageId, 
+    setCurrentImageIndex, 
+    currentImageIndex 
+}) => {
     const [drag, setDrag] = useState<boolean>(false);
     const [errorFileName, setErrorFileName] = useState<null | string>(null);
     const [areImagesOpened, setAreImagesOpen] = useState<boolean>(false);
@@ -115,7 +121,13 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({ image, set
                         onDrop={(event) => onDropHandler(event)}
                     >
                         <img
-                            src={errorFileName ? process.env.PUBLIC_URL + "/images/error.jpg" : drag ? process.env.PUBLIC_URL + "/images/create-post-drag.jpg" : process.env.PUBLIC_URL + "/images/create-post.jpg"}
+                            src={
+                                errorFileName ?
+                                    process.env.PUBLIC_URL + "/images/error.jpg" :
+                                    drag ?
+                                        process.env.PUBLIC_URL + "/images/create-post-drag.jpg" :
+                                        process.env.PUBLIC_URL + "/images/create-post.jpg"
+                            }
                             className={drag ? "w-[106px]" : "w-[100px]"}
                         />
                         <p className="text-xl sm:text-2xl font-thin">

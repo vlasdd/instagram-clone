@@ -1,43 +1,40 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
 import AreYouSureModal from 'components/modal/AreYouSureModal'
 import Modal from 'components/modal/Modal'
 import MessageType from 'types/messageType'
 import useChatRoom from 'helpers/hooks/useChatRoom'
+import UserState from 'types/userStateType'
 
 type RoomInfoProps = {
-  userId: string,
-  username: string,
-  fullName: string,
-  profileImage: string,
-  chatId: string,
+  secondUser: UserState
   messages: MessageType[];
 }
 
-const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ userId, username, fullName, profileImage, chatId, messages }) => {
+const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ secondUser, messages }) => {
   const navigate = useNavigate();
+  const { chatId } = useParams();
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-
   const { deleteChatRoom } = useChatRoom();
 
   return (
     <div className="w-full flex flex-col justify-center py-4">
       <p className="font-medium text-sm tracking-wide whitespace-nowrap px-4">Members</p>
       <div className="flex w-full h-24 items-center gap-3 border-b px-4">
-        <Link to={RoutesTypes.DASHBOARD + userId}>
+        <Link to={RoutesTypes.DASHBOARD + secondUser.userId}>
           <img
-            src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+            src={secondUser.profileImage.length ? secondUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
             className="h-[60px] w-[60px] rounded-full object-cover"
           />
         </Link>
         <Link
           className="flex flex-col justify-center text-left"
-          to={RoutesTypes.DASHBOARD + userId}
+          to={RoutesTypes.DASHBOARD + secondUser.userId}
         >
-          <p className="font-medium text-sm tracking-wide whitespace-nowrap">{username}</p>
-          <p className="text-gray-400 text-sm">{fullName}</p>
+          <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>
+          <p className="text-gray-400 text-sm">{secondUser.fullName}</p>
         </Link>
       </div>
       <div className="w-full flex flex-col items-start border-b gap-4 py-1">
@@ -68,10 +65,10 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ userId, username, fullNa
           >
             <AreYouSureModal
               areYouSureEvent={() => {
-                deleteChatRoom({ messages, chatId });
+                deleteChatRoom({ messages, chatId: chatId as string });
                 navigate(RoutesTypes.DIRECT);
               }}
-              profileImage={profileImage}
+              profileImage={secondUser.profileImage}
               closeEvent={() => setIsDeleteModalOpen(false)}
               questionText="Delete Conversation"
               buttonText="Delete"

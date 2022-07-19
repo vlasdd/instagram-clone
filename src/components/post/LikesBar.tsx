@@ -7,13 +7,12 @@ import Heart from 'svgs/empty/Heart'
 import PostType from 'types/postType'
 import { motion } from "framer-motion"
 import Saved from 'svgs/empty/Saved'
-import useSavedPosts from 'pages/profile/hooks/useSavedPosts'
-import { useAppSelector } from 'redux-setup/hooks'
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks'
 import FilledSaved from 'svgs/filled/FilledSaved'
 import Modal from 'components/modal/Modal'
 import UsersListModal from 'pages/profile/components/users-list/UsersListModal'
-import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime'
 import SharePostModal from '../modal/SharePostModal'
+import { addToSaved, removeFromSaved } from 'redux-setup/features/signedUser'
 
 type LikesBarProps = {
     commentsRef: any,
@@ -24,6 +23,7 @@ type LikesBarProps = {
 
 const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost, changePostsAdd, changePostsRemove }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
+    const dispatch = useAppDispatch();
 
     const { addLike, removeLike } = usePostLikes({ 
         userId: currentPost.fromId,
@@ -31,7 +31,6 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
         changePostsAdd: changePostsAdd,
         changePostsRemove: changePostsRemove
     });
-    const { addToSaved, removeFromSaved } = useSavedPosts({ userId: currentPost.fromId, postId: currentPost.postId });
 
     const [isListModalOpen, setIsListModalOpen] = useState<boolean>(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
@@ -96,14 +95,14 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
                     {
                         loggedUser.savedPosts.some(post => post.postId === currentPost.postId) ?
                             <button
-                                onClick={removeFromSaved}
+                                onClick={() => dispatch(removeFromSaved({ userId: currentPost.fromId, postId: currentPost.postId }))}
                             >
                                 <FilledSaved
                                     styles="h-[25px] w-[25px]"
                                 />
                             </button> :
                             <button
-                                onClick={addToSaved}
+                                onClick={() => dispatch(addToSaved({ userId: currentPost.fromId, postId: currentPost.postId }))}
                             >
                                 <Saved
                                     styles="h-[25px] w-[25px]"

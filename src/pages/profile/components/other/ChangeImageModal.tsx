@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import { createNewProfileImage, deleteProfileImage, setSignedUser } from 'redux-setup/features/signedUser';
+import { createNewProfileImage, deleteProfileImage } from 'redux-setup/features/signedUser';
 
 type ChangeImageModalProps = {
     closeEvent: () => void

@@ -1,26 +1,51 @@
+import createMessage from 'apis/createMessage'
 import DropMenu from 'components/other/DropMenu'
 import Picker, { IEmojiData } from 'emoji-picker-react'
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useAppSelector } from 'redux-setup/hooks'
 import Heart from 'svgs/empty/Heart'
 import Photograph from 'svgs/empty/Photograph'
 import Smile from 'svgs/empty/Smile'
+import MessageType from 'types/messageType'
 
 type MessageFormProps = {
     wordEntering: string,
     setWordEntering: React.Dispatch<React.SetStateAction<string>>,
-    sendMessage: () => void,
     setImageUpload:React.Dispatch<React.SetStateAction<File | null>>,
     imageUpload: File | null,
+    messages: MessageType[]
 }
 
 const MessageForm: React.FC<MessageFormProps> = React.memo(({ 
     wordEntering, 
     setWordEntering, 
-    sendMessage, 
     setImageUpload, 
-    imageUpload 
+    imageUpload, 
+    messages,
 }) => {
+    const loggedUser = useAppSelector(state => state.signedUser.user);
+
     const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
+
+    const { chatId } = useParams();
+
+    const sendMessage = async () => {
+        if(!wordEntering.length){
+            return;
+        }
+
+        createMessage({ 
+            imageUpload, 
+            wordEntering, 
+            loggedUserId: loggedUser.userId, 
+            chatId: chatId as string, 
+            messages 
+        })
+
+        setImageUpload(null);
+        setWordEntering("");
+    }
 
     const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
         setWordEntering(prevText => prevText + emojiObject.emoji);

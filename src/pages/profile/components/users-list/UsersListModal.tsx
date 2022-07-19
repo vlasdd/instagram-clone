@@ -1,11 +1,7 @@
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
-import { db } from 'firebase-setup/firebaseConfig';
+import React from 'react'
 import Close from 'svgs/empty/Close';
-import UserState from 'types/userStateType';
 import UserLoader from 'components/other/UserLoader';
 import UserSuggestion from "./UserSuggestion";
-import { useAppSelector } from 'redux-setup/hooks';
 import useUserList from 'pages/profile/hooks/useUserList';
 
 type UsersListProps = {

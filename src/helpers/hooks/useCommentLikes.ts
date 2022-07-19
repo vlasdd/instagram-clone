@@ -1,7 +1,7 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "firebase-setup/firebaseConfig";
-import { setSignedUser } from "redux-setup/features/signedUser";
+import { setSignedUser, updatePosts } from "redux-setup/features/signedUser";
 import { setUserOnPage } from "redux-setup/features/userOnPage";
 import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
 import PostType from "types/postType";
@@ -37,22 +37,12 @@ const useCommentLikes = ({ userId, postId, changePosts, commentId }: UseCommentL
 
             return post
         }) as PostType[]
-
-        await updateDoc(doc(db, "users", userId), {
-            posts: newPosts
-        })
-
-        if (uid === userId) {
-            dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
-        }
-
-        if (uid === loggedUser.userId) {
-            dispatch(setSignedUser({ ...loggedUser, posts: newPosts }))
-        }
-
+        
         if(changePosts){
             changePosts(newPosts)
         }
+
+        await dispatch(updatePosts({ userId, newPosts, uid: uid as string }))
     } 
 
     const removeLike = async () => {
@@ -72,21 +62,11 @@ const useCommentLikes = ({ userId, postId, changePosts, commentId }: UseCommentL
             return post
         }) as PostType[]
 
-        if (uid === userId) {
-            dispatch(setUserOnPage({ ...userOnPage, posts: newPosts }))
-        }
-        
-        if (userOnPage.userId === loggedUser.userId) {
-            dispatch(setSignedUser({ ...loggedUser, posts: newPosts }))
-        }
-        
         if(changePosts){
             changePosts(newPosts)
         }
-
-        await updateDoc(doc(db, "users", userId), {
-            posts: newPosts
-        })
+        
+        await dispatch(updatePosts({ userId, newPosts, uid: uid as string }))
     } 
 
     return { addLike, removeLike }

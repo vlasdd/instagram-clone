@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
-import useFollowers from 'helpers/hooks/useFollowers';
 import { clearErrors, fetchUserOnPage } from 'redux-setup/features/userOnPage';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Additional from 'svgs/empty/Additional';
@@ -10,6 +9,7 @@ import Modal from 'components/modal/Modal';
 import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
 import useChatRoom from 'helpers/hooks/useChatRoom';
+import { addToFollowing, removeFromFollowing } from 'redux-setup/features/signedUser';
 
 const UserOnPageProfile: React.FC = React.memo(() => {
     const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);
@@ -22,7 +22,6 @@ const UserOnPageProfile: React.FC = React.memo(() => {
     const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
 
-    const { addToFollowing, removeFromFollowing } = useFollowers(userOnPage);
     const { createChatRoom } = useChatRoom();
 
     useEffect(() => {
@@ -77,7 +76,7 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                                                 className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
                                                 onClick={(event) => {
                                                     event.stopPropagation();
-                                                    addToFollowing();
+                                                    dispatch(addToFollowing({ userId: userOnPage.userId, uid: uid as string }));
                                                 }}
                                             >
                                                 Follow
@@ -127,7 +126,7 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                             <AreYouSureModal
                                 areYouSureEvent={() => {
                                     setIsUnfollowModalOpen(false)
-                                    removeFromFollowing()
+                                    dispatch(removeFromFollowing({ userId: userOnPage.userId, uid: uid as string }))
                                 }}
                                 profileImage={userOnPage.profileImage}
                                 closeEvent={() => setIsUnfollowModalOpen(false)}

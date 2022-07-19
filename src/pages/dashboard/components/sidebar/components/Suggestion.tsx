@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
-import useFollowers from 'helpers/hooks/useFollowers';
-import { useAppSelector } from 'redux-setup/hooks';
+import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import UserSuggestionType from 'types/userSuggestionType';
 import Modal from 'components/modal/Modal';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
+import { addToFollowing, removeFromFollowing } from 'redux-setup/features/signedUser';
 
 interface ISuggestionProps extends UserSuggestionType {
     isFollowing: boolean;
@@ -13,10 +13,12 @@ interface ISuggestionProps extends UserSuggestionType {
 
 const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, username, fullName, userId, isFollowing }) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
+    const dispatch = useAppDispatch();
+
     const navigate = useNavigate();
+    const { uid } = useParams();
 
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
-    const { addToFollowing, removeFromFollowing } = useFollowers({ userId })
 
     return (
         <div className="flex w-full h-8 mb-1 justify-between items-center my-[4px]">
@@ -50,7 +52,7 @@ const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, usern
                         className="font-medium text-cyan-500 rounded cursor-pointer text-sm tracking-wide"
                         onClick={(event) => {
                             event.stopPropagation();
-                            addToFollowing();
+                            dispatch(addToFollowing({ userId, uid: uid as string }));
                         }}
                     >
                         Follow
@@ -65,7 +67,7 @@ const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, usern
                         <AreYouSureModal
                             areYouSureEvent={() => {
                                 setIsUnfollowModalOpen(false)
-                                removeFromFollowing()
+                                dispatch(removeFromFollowing({ userId, uid: uid as string }))
                             }}
                             profileImage={profileImage}
                             closeEvent={() => setIsUnfollowModalOpen(false)}
