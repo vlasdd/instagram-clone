@@ -115,10 +115,7 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                     <button
                         disabled={isInvalid}
                         type="button"
-                        className={`
-                            bg-blue-500 w-4/5 text-white rounded h-8 mb-8 font-bold 
-                            ${isInvalid && "opacity-50"}
-                        `}
+                        className={`bg-blue-500 w-4/5 text-white rounded h-8 mb-8 font-bold ${isInvalid && "opacity-50"}`}
                         onClick={event => handleSignUp(event)}
                     >
                         Sign up

@@ -58,9 +58,7 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUs
                         closeEvent={() => setIsImageModalOpen(false)}
                         styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
                     >
-                        <ImageModal
-                            image={media}
-                        />
+                        <ImageModal image={media} />
                     </Modal> :
                     null
             }

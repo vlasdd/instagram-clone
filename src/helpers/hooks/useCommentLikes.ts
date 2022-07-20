@@ -1,8 +1,7 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "firebase-setup/firebaseConfig";
-import { setSignedUser, updatePosts } from "redux-setup/features/signedUser";
-import { setUserOnPage } from "redux-setup/features/userOnPage";
+import updatePosts from "redux-setup/features/signed-user/thunks/updatePosts";
 import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
 import PostType from "types/postType";
 import UserState from "types/userStateType";
@@ -16,7 +15,6 @@ type UseCommentLikesProps = {
 
 const useCommentLikes = ({ userId, postId, changePosts, commentId }: UseCommentLikesProps) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
-    const userOnPage = useAppSelector(state => state.userOnPage.user);
     const dispatch = useAppDispatch();
 
     const { uid } = useParams();

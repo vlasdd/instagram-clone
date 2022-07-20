@@ -2,7 +2,7 @@ import DropMenu from 'components/other/DropMenu';
 import usePosts from 'pages/profile/hooks/usePosts';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { createNewComment } from 'redux-setup/features/signedUser';
+import createNewComment from 'redux-setup/features/signed-user/thunks/createNewComment';
 import { useAppDispatch } from 'redux-setup/hooks';
 import Smile from 'svgs/empty/Smile';
 import Picker, { IEmojiData } from "emoji-picker-react";
@@ -46,6 +46,11 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({
         }
     }
 
+    const closeEvent = (event: any) => {
+        event.stopPropagation();
+        setAreEmojiOpen(false)
+    }
+
     return (
         <div className="flex justify-between items-center rounded-b-xl border h-[50px] w-full px-4 gap-4">
             <div className="relative">
@@ -58,10 +63,7 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({
                 {
                     areEmojiOpen ?
                         <DropMenu
-                            closeEvent={event => {
-                                event.stopPropagation();
-                                setAreEmojiOpen(false)
-                            }}
+                            closeEvent={event => closeEvent(event)}
                             styles="w-[200px] left-[-12px] bottom-[45px] h-64 z-20"
                             noAnimation={true}
                         >

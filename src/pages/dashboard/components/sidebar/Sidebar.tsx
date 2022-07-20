@@ -1,7 +1,7 @@
 import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
 import useSuggestions from 'pages/dashboard/hooks/useSuggestions';
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
 import Suggestion from './components/Suggestion';
@@ -14,7 +14,7 @@ const Sidebar: React.FC = React.memo(() => {
 
     const suggestionsInfo = useSuggestions(SUGGESTIONS_LENGTH)
 
-    const generateSkeletons = () => {
+    const generateSkeletons = useCallback(() => {
         const skeletons = [];
         for (let i = 0; i < SUGGESTIONS_LENGTH; i++) {
             skeletons.push(
@@ -29,7 +29,7 @@ const Sidebar: React.FC = React.memo(() => {
         }
 
         return skeletons
-    }
+    }, [])
 
     const users = useMemo(() => suggestionsInfo.map(data => (
         <Suggestion

@@ -76,6 +76,11 @@ const PostModalPage: React.FC = React.memo(() => {
         }
     }
 
+    const routePart = () => {
+        const locationArray = location.pathname.split("/");
+        return locationArray.slice(0, locationArray.indexOf(ProfileRoutes.POST) - 1).join("/")
+    }
+
     return (
         !currentPost || !posts ?
             <div className="w-full h-full flex items-center justify-center">
@@ -119,10 +124,7 @@ const PostModalPage: React.FC = React.memo(() => {
                 <PostsModalNavigation
                     currentIndex={currentIndex}
                     posts={posts}
-                    routePart={() => {
-                        const locationArray = location.pathname.split("/");
-                        return locationArray.slice(0, locationArray.indexOf(ProfileRoutes.POST) - 1).join("/")
-                    }}
+                    routePart={routePart}
                 />
             </div>
     )

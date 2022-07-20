@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
-import { removeSignedUser } from 'redux-setup/features/signedUser';
+import { removeSignedUser } from 'redux-setup/features/signed-user/signedUser';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import ProfileDropMenuElement from './ProfileDropMenuElement';
 import { signOut } from 'firebase/auth';

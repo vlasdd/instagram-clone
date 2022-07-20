@@ -45,6 +45,16 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
         }
     }
 
+    const onDragStartHandler = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setDrag(true);
+    }
+    
+    const onDragLeaveHandler = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setDrag(false);
+    }
+
     return (
         <motion.div
             className="flex flex-col h-full w-[300px] sm:w-[450px]"
@@ -106,18 +116,9 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
                     </div> :
                     <div
                         className={`w-full h-full flex flex-col justify-center items-center gap-2 rounded-b-xl ${(drag || errorFileName) && "back"}`}
-                        onDragStart={(event) => {
-                            event.preventDefault();
-                            setDrag(true);
-                        }}
-                        onDragLeave={(event) => {
-                            event.preventDefault();
-                            setDrag(false);
-                        }}
-                        onDragOver={(event) => {
-                            event.preventDefault();
-                            setDrag(true);
-                        }}
+                        onDragStart={(event) => onDragStartHandler(event)}
+                        onDragLeave={(event) => onDragLeaveHandler(event)}
+                        onDragOver={(event) => onDragStartHandler(event)}
                         onDrop={(event) => onDropHandler(event)}
                     >
                         <img

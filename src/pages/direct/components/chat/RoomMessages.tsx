@@ -49,9 +49,7 @@ const RoomMessages: React.FC<RoomMessagesProps> = React.memo(({ messages, logged
     }), [messages])
 
     return (
-        <div
-            className="max-h-[calc(100%-45px-18px)] overflow-hidden overflow-y-auto w-full no-bar flex flex-col items-center"
-        >
+        <div className="max-h-[calc(100%-45px-18px)] overflow-hidden overflow-y-auto w-full no-bar flex flex-col items-center">
             {messagesToRender}
         </div>
     )

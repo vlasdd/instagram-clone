@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import UserSearchElement from './UserSearchElement'
 import UserState from 'types/userStateType';
 import getUsers from 'helpers/other/get-users/getUsers';
@@ -15,7 +15,7 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = React.memo(({ wo
         return () => clearTimeout(handler);
     }, [wordEntering])
 
-    const generateSkeletons = () => {
+    const generateSkeletons = useCallback(() => {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
@@ -29,7 +29,7 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = React.memo(({ wo
         }
 
         return skeletons
-    }
+    }, [])
 
     const generateElements = useMemo(() => usersInfo.map(doc => <UserSearchElement
         profileImage={doc.profileImage}

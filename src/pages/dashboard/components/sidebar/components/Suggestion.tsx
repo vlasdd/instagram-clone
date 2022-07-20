@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import UserSuggestionType from 'types/userSuggestionType';
 import Modal from 'components/modal/Modal';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
-import { addToFollowing, removeFromFollowing } from 'redux-setup/features/signedUser';
+import addToFollowing from "redux-setup/features/signed-user/thunks/addToFollowing";
+import removeFromFollowing from "redux-setup/features/signed-user/thunks/removeFromFollowing";
 
 interface ISuggestionProps extends UserSuggestionType {
     isFollowing: boolean;
@@ -19,6 +20,21 @@ const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, usern
     const { uid } = useParams();
 
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
+
+    const handleFollowClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        dispatch(addToFollowing({ userId, uid: uid as string }));
+    }
+
+    const handleFollowingClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        setIsUnfollowModalOpen(true);
+    }
+
+    const areYouSureEvent = () => {
+        setIsUnfollowModalOpen(false)
+        dispatch(removeFromFollowing({ userId, uid: uid as string }))
+    }
 
     return (
         <div className="flex w-full h-8 mb-1 justify-between items-center my-[4px]">
@@ -41,19 +57,13 @@ const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, usern
                 loggedUser.following.some(data => data.userId === userId) ?
                     <button
                         className="rounded text-gray-800 text-sm font-medium cursor-pointer"
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            setIsUnfollowModalOpen(true);
-                        }}
+                        onClick={(event) => handleFollowingClick(event)}
                     >
                         Following
                     </button> :
                     <button
                         className="font-medium text-cyan-500 rounded cursor-pointer text-sm tracking-wide"
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            dispatch(addToFollowing({ userId, uid: uid as string }));
-                        }}
+                        onClick={(event) => handleFollowClick(event)}
                     >
                         Follow
                     </button>
@@ -65,10 +75,7 @@ const Suggestion: React.FC<ISuggestionProps> = React.memo(({ profileImage, usern
                         styles="h-72 top-[26.5%]"
                     >
                         <AreYouSureModal
-                            areYouSureEvent={() => {
-                                setIsUnfollowModalOpen(false)
-                                dispatch(removeFromFollowing({ userId, uid: uid as string }))
-                            }}
+                            areYouSureEvent={areYouSureEvent}
                             profileImage={profileImage}
                             closeEvent={() => setIsUnfollowModalOpen(false)}
                             questionText={`Unfollow ${username}`}

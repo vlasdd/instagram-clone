@@ -1,43 +1,13 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "firebase-setup/firebaseConfig";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import fetchUserOnPage from "./thunks/fetch-user-on-page";
 import BirthdateState from "types/birthdateType";
 import UserState from "types/userStateType";
-import { setIsBeingLoaded } from "./isBeingLoaded";
 
 type InitialStateType = {
     user: UserState,
     error: any,
     status: null | string,
 }
-
-export const fetchUserOnPage = createAsyncThunk(
-    "userOnPage/fetchUserOnPage",
-    async (uid: string, {rejectWithValue, dispatch}) => {
-       // dispatch(setIsBeingLoaded(true));
-        console.log("func page")
-
-        try {
-            const loggedUser = await getDoc(doc(db, "users", uid));
-
-            if(!loggedUser.data()){
-                throw new Error("No users registered with this ID");
-            }
-
-            dispatch(setUserOnPage(loggedUser.data() as UserState))
-        } 
-        catch (error) {
-            if(error instanceof Error){
-                return rejectWithValue(error.message)
-            }
-            else{
-                return rejectWithValue("Unknown error")
-            }
-        }
-
-        //dispatch(setIsBeingLoaded(false))
-    }
-)
 
 export const initialState: InitialStateType = {
     status: null,

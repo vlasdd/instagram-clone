@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "firebase-setup/firebaseConfig";
 import RoutesTypes from "constants/routes-types";
 import { useAppDispatch } from "redux-setup/hooks";
-import { fetchSignedUser } from "redux-setup/features/signedUser";
+import fetchSignedUser from "redux-setup/features/signed-user/thunks/fetchSignedUser";
 
 const Login: React.FC = React.memo(() => {
     const navigate = useNavigate();
@@ -91,10 +91,7 @@ const Login: React.FC = React.memo(() => {
                             <button
                                 disabled={isInvalid}
                                 type="submit"
-                                className={`
-                                    bg-blue-500 w-4/5 text-white rounded h-8 mb-8 font-bold 
-                                    ${isInvalid && "opacity-50"}
-                                `}
+                                className={`bg-blue-500 w-4/5 text-white rounded h-8 mb-8 font-bold ${isInvalid && "opacity-50"}`}
                                 onClick={(event) => handleLogin(event)}
                             >
                                 Log In

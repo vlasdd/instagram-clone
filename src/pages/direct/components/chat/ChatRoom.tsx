@@ -35,9 +35,7 @@ const ChatRoom: React.FC = React.memo(() => {
                             <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>
                         </button>
                 }
-                <button
-                    onClick={() => setIsInfoOpen(prevVal => !prevVal)}
-                >
+                <button onClick={() => setIsInfoOpen(prevVal => !prevVal)}>
                     <Info
                         isOpen={isInfoOpen}
                     />

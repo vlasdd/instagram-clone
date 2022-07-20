@@ -30,6 +30,11 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
 
     const { chatId } = useParams();
 
+    const closeEvent = (event: any) => {
+        event.stopPropagation();
+        setAreEmojiOpen(false)
+    }
+
     const sendMessage = async () => {
         if(!wordEntering.length){
             return;
@@ -75,10 +80,7 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
                 {
                     areEmojiOpen ?
                         <DropMenu
-                            closeEvent={event => {
-                                event.stopPropagation();
-                                setAreEmojiOpen(false)
-                            }}
+                            closeEvent={event => closeEvent(event)}
                             styles="w-[250px] bottom-12 h-64 z-20"
                             noAnimation={true}
                         >

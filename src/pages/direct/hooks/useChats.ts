@@ -6,7 +6,6 @@ import ChatState from "types/chatStateType";
 
 type UseChatsType = (chatId: string) => ChatState[]
 
-
 const useChats: UseChatsType = (chatId) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const [chats, setChats] = useState<ChatState[]>([]);

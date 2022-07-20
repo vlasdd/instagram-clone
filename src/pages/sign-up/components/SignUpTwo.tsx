@@ -19,6 +19,11 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
 
     const isInvalid = useMemo(() => new Date().getFullYear() - birthdate.year > 5 ? false: true, [birthdate])
 
+    const handleNextClick = () => {
+        setUserData(prevData => ({ ...prevData, birthdate }))
+        setCurrentPageId(prevVal => prevVal + 1)
+    }
+
     return (
         <div className="w-4/5 sm:w-3/5 lg:w-1/3">
             <div className="flex flex-col items-center w-full border bg-white px-2">
@@ -62,14 +67,8 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
                     <button
                         disabled={isInvalid}
                         type="button"
-                        className={`
-                            bg-blue-500 w-3/5 text-white rounded h-8 font-bold 
-                            ${isInvalid && "opacity-50"}
-                        `}
-                        onClick={() => {
-                            setUserData(prevData => ({ ...prevData, birthdate }))
-                            setCurrentPageId(prevVal => prevVal + 1)
-                        }}
+                        className={`bg-blue-500 w-3/5 text-white rounded h-8 font-bold ${isInvalid && "opacity-50"}`}
+                        onClick={handleNextClick}
                     >
                         Next
                     </button>

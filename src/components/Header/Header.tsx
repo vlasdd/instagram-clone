@@ -63,6 +63,11 @@ const Header: React.FC = React.memo(() => {
         }
     }
 
+    const closeEvent = (event: any) => {
+        event.stopPropagation();
+        setCurrentMenu(MenuTypes.NONE)
+    }
+
     return (
         <header className="w-screen py-2 flex items-center justify-center border-b border-gray-200 bg-white">
             <div className="w-11/12 flex items-center justify-evenly">
@@ -85,10 +90,7 @@ const Header: React.FC = React.memo(() => {
                             {
                                 currentMenu === MenuTypes.SEARCH ?
                                     <DropMenu
-                                        closeEvent={event => {
-                                            event.stopPropagation();
-                                            setCurrentMenu(MenuTypes.NONE)
-                                        }}
+                                        closeEvent={event => closeEvent(event)}
                                         styles="w-[375px] top-12 left-[-65px] h-96 z-20"
                                     >
                                         <UsersSearchDropMenu

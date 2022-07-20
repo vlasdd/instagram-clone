@@ -14,13 +14,15 @@ const Modal: React.FC<ModalProps> = React.memo(({ children, closeEvent, styles }
         return () => document.body.classList.remove("overflow-hidden");
     }, [])
 
+    const clickHandler = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation()
+        closeEvent()
+    }
+
     return (
         <div
             className="w-screen h-screen bg-[rgba(0,0,0,0.6)] fixed top-0 left-0 flex items-center justify-center z-50"
-            onClick={event => {
-                event.stopPropagation()
-                closeEvent()
-            }}
+            onClick={event => clickHandler(event)}
         >
             <motion.div
                 className={`${styles.includes("w-") ? "" : "w-64 sm:w-96"} absolute flex flex-col bg-white rounded-xl z-50 ${styles}`}

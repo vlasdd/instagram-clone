@@ -30,13 +30,25 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
         setCurrentTab(defineLocation());
     }, [location.pathname])
 
+    const handlePostNavigate = () => {
+        navigate(ProfileRoutes.POSTS);
+        setCurrentTab(0);
+    }
+
+    const handleSavedNavigate = () => {
+        navigate(ProfileRoutes.SAVED);
+        setCurrentTab(1);
+    }
+
+    const handleTaggedNavigate = () => {
+        navigate(ProfileRoutes.TAGGED);
+        setCurrentTab(2);
+    }
+
     return (
         <nav className="flex border-t justify-center items-center border-t-gray-300 gap-12 lg:gap-16 text-[12px] font-medium tracking-widest w-full sm:w-3/4 lg:w-2/3">
             <button
-                onClick={() => {
-                    navigate(ProfileRoutes.POSTS);
-                    setCurrentTab(0);
-                }}
+                onClick={handlePostNavigate}
                 className={`h-12 flex items-center text-gray-400 gap-1 ${currentTab === 0 && "border-t border-t-gray-900 text-black"}`}
             >
                 <Posts />
@@ -45,10 +57,7 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
             {
                 isUsersPage ?
                     <button
-                        onClick={() => {
-                            navigate(ProfileRoutes.SAVED);
-                            setCurrentTab(1);
-                        }}
+                        onClick={handleSavedNavigate}
                         className={`h-12 flex items-center text-gray-400 gap-1  ${currentTab === 1 && "border-t border-t-gray-900 text-black"}`}
                     >
                         <Saved
@@ -60,10 +69,7 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
                     null
             }
             <button
-                onClick={() => {
-                    navigate(ProfileRoutes.TAGGED);
-                    setCurrentTab(2);
-                }}
+                onClick={handleTaggedNavigate}
                 className={`h-12 flex items-center text-gray-400 gap-1 ${currentTab === 2 && "border-t border-t-gray-900 text-black"}`}
             >
                 <Profile styles="w-4 h-4" />

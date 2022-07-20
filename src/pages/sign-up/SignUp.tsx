@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "firebase-setup/firebaseConfig";
 import { doc, setDoc } from "firebase/firestore"; 
 import { useAppDispatch } from "redux-setup/hooks";
-import { setSignedUser } from "redux-setup/features/signedUser";
+import { setSignedUser } from "redux-setup/features/signed-user/signedUser";
 import UserState from "types/userStateType";
 import { Navigate, useNavigate } from "react-router-dom";
 import RoutesTypes from "constants/routes-types";

@@ -3,7 +3,8 @@ import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom
 import AccountsRoutes from 'constants/accounts-routes';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
-import { clearErrors, fetchSignedUser } from 'redux-setup/features/signedUser';
+import { clearErrors } from 'redux-setup/features/signed-user/signedUser';
+import fetchSignedUser from 'redux-setup/features/signed-user/thunks/fetchSignedUser';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Settings from 'svgs/empty/Settings';
 import Modal from 'components/modal/Modal';
@@ -30,6 +31,16 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
             setShouldRedirect(true);
         }
     }, [status])
+
+    const handleNavigateFollowers = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        navigate(ProfileRoutes.FOLLOWERS)
+    }
+
+    const handleNavigateFollowing = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        navigate(ProfileRoutes.FOLLOWING)
+    }
 
     return (
         shouldRedirect ?
@@ -64,20 +75,14 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
                                 <p>{`post${signedUser.posts.length === 1 ? "" : "s"}`}</p>
                             </div>
                             <button
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    navigate(ProfileRoutes.FOLLOWERS)
-                                }}
+                                onClick={(event) => handleNavigateFollowers(event)}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
                                 <p className="font-medium">{signedUser.followers.length}</p>
                                 <p>{`follower${signedUser.followers.length === 1 ? "" : "s"}`}</p>
                             </button>
                             <button
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    navigate(ProfileRoutes.FOLLOWING)
-                                }}
+                                onClick={(event) => handleNavigateFollowing(event)}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
                                 <p className="font-medium">{signedUser.following.length}</p>

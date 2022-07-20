@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import Close from 'svgs/empty/Close';
 import UserLoader from 'components/other/UserLoader';
 import UserSuggestion from "./UserSuggestion";
@@ -15,7 +15,7 @@ const UsersListModal: React.FC<UsersListProps> = React.memo(({ usersList, descri
     
     const users = allUsers.map(data => <UserSuggestion {...data} key={data.userId} />)
 
-    const generateSkeletons = () => {
+    const generateSkeletons = useCallback(() => {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
@@ -29,7 +29,7 @@ const UsersListModal: React.FC<UsersListProps> = React.memo(({ usersList, descri
         }
 
         return skeletons
-    }
+    }, [])
 
     return (
         <>

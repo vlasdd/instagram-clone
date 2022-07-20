@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
-import { clearErrors, fetchUserOnPage } from 'redux-setup/features/userOnPage';
+import { clearErrors } from 'redux-setup/features/user-on-page/userOnPage';
+import fetchUserOnPage from 'redux-setup/features/user-on-page/thunks/fetch-user-on-page';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Additional from 'svgs/empty/Additional';
 import Modal from 'components/modal/Modal';
 import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
 import useChatRoom from 'helpers/hooks/useChatRoom';
-import { addToFollowing, removeFromFollowing } from 'redux-setup/features/signedUser';
+import addToFollowing from "redux-setup/features/signed-user/thunks/addToFollowing";
+import removeFromFollowing from "redux-setup/features/signed-user/thunks/removeFromFollowing";
 
 const UserOnPageProfile: React.FC = React.memo(() => {
     const { user: userOnPage, status } = useAppSelector(state => state.userOnPage);
@@ -35,6 +37,36 @@ const UserOnPageProfile: React.FC = React.memo(() => {
         }
     }, [status])
 
+    const handleMessageClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        createChatRoom({ chosenUserId: userOnPage.userId });
+    }
+
+    const handleFollowingClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        setIsUnfollowModalOpen(true);
+    }
+
+    const handleFollowClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        dispatch(addToFollowing({ userId: userOnPage.userId, uid: uid as string }));
+    }
+
+    const handleNavigateFollowers = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        navigate(ProfileRoutes.FOLLOWERS)
+    }
+
+    const handleNavigateFollowing = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation();
+        navigate(ProfileRoutes.FOLLOWING)
+    }
+
+    const areYouSureEvent = () => {
+        setIsUnfollowModalOpen(false)
+        dispatch(removeFromFollowing({ userId: userOnPage.userId, uid: uid as string }))
+    }
+
     return (
         shouldRedirect ?
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
@@ -52,10 +84,7 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                             <div className="flex items-center gap-2">
                                 <button
                                     className="h-7 w-20 rounded border text-sm font-medium cursor-pointer"
-                                    onClick={(event) => {
-                                        event.stopPropagation();
-                                        createChatRoom({ chosenUserId: userOnPage.userId });
-                                    }}
+                                    onClick={(event) => handleMessageClick(event)}
                                 >
                                     Message
                                 </button>
@@ -65,19 +94,13 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                                         loggedUser.following.some(data => data.userId === userOnPage.userId) ?
                                             <button
                                                 className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    setIsUnfollowModalOpen(true);
-                                                }}
+                                                onClick={(event) => handleFollowingClick(event)}
                                             >
                                                 Following
                                             </button> :
                                             <button
                                                 className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    dispatch(addToFollowing({ userId: userOnPage.userId, uid: uid as string }));
-                                                }}
+                                                onClick={(event) => handleFollowClick(event)}
                                             >
                                                 Follow
                                             </button>
@@ -93,20 +116,14 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                                 <p>{`post${userOnPage.posts.length === 1 ? "" : "s"}`}</p>
                             </div>
                             <button
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    navigate(ProfileRoutes.FOLLOWERS)
-                                }}
+                                onClick={(event) => handleNavigateFollowers(event)}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
                                 <p className="font-medium">{userOnPage.followers.length}</p>
                                 <p>{`follower${userOnPage.followers.length === 1 ? "" : "s"}`}</p>
                             </button>
                             <button
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    navigate(ProfileRoutes.FOLLOWING)
-                                }}
+                                onClick={(event) => handleNavigateFollowing(event)}
                                 className="flex gap-1 items-center flex-col sm:flex-row"
                             >
                                 <p className="font-medium">{userOnPage.following.length}</p>
@@ -124,10 +141,7 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                             styles="h-72 top-[26.5%]"
                         >
                             <AreYouSureModal
-                                areYouSureEvent={() => {
-                                    setIsUnfollowModalOpen(false)
-                                    dispatch(removeFromFollowing({ userId: userOnPage.userId, uid: uid as string }))
-                                }}
+                                areYouSureEvent={areYouSureEvent}
                                 profileImage={userOnPage.profileImage}
                                 closeEvent={() => setIsUnfollowModalOpen(false)}
                                 questionText={`Unfollow @${userOnPage.username}`}

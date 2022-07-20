@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReturnBack from 'svgs/empty/ReturnBack';
 import { motion } from "framer-motion";
 import useWindowWidth from "helpers/hooks/useWindowWidth";
@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
 import Smile from 'svgs/empty/Smile';
 import DropMenu from 'components/other/DropMenu';
 import Picker, { IEmojiData } from 'emoji-picker-react'
-import { addNewPost } from "redux-setup/features/signedUser";
+import addNewPost from "redux-setup/features/signed-user/thunks/addNewPost";
 
 type NewPostModalTwoProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>,
@@ -30,6 +30,11 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
     const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
         setText(prevText => prevText + emojiObject.emoji);
     }
+
+    const closeEvent = useCallback((event: any) => {
+        event.stopPropagation();
+        setAreEmojiOpen(false)
+    }, [])
 
     return (
         <motion.div
@@ -68,10 +73,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
                     {
                         areEmojiOpen ?
                                 <DropMenu
-                                    closeEvent={event => {
-                                        event.stopPropagation();
-                                        setAreEmojiOpen(false)
-                                    }}
+                                    closeEvent={(event) => closeEvent(event)}
                                     styles="w-[calc(100%-10px)] sm:w-[250px] bottom-[calc(100%-221px)] right-[5px] sm:right-[2px] sm:bottom-[225px] h-[217px] sm:h-[233px] z-20 "
                                     noAnimation={true}
                                 >
@@ -126,20 +128,3 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
 })
 
 export default NewPostModalTwo
-{/* {
-    isCloseModalOpen ?
-        <Modal
-            closeEvent={() => setIsCloseModalOpen(false)}
-            styles="h-32 top-[26.5%]"
-        >
-            <AreYouSureModal
-                areYouSureEvent={() => null}
-                closeEvent={() => setIsCloseModalOpen(false)}
-                questionText="Discard post"
-                profileImage='adsd'
-                additionalText="If you leave, your edits won't be saved."
-                buttonText="Discard"
-            />
-        </Modal> :
-        null
-} */}

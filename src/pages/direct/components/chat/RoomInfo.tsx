@@ -19,6 +19,11 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ secondUser, messages }) 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const { deleteChatRoom } = useChatRoom();
 
+  const areYouSureEvent = () => {
+    deleteChatRoom({ messages, chatId: chatId as string });
+    navigate(RoutesTypes.DIRECT);
+  }
+
   return (
     <div className="w-full flex flex-col justify-center py-4">
       <p className="font-medium text-sm tracking-wide whitespace-nowrap px-4">Members</p>
@@ -64,10 +69,7 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ secondUser, messages }) 
             styles="h-72 top-[26.5%]"
           >
             <AreYouSureModal
-              areYouSureEvent={() => {
-                deleteChatRoom({ messages, chatId: chatId as string });
-                navigate(RoutesTypes.DIRECT);
-              }}
+              areYouSureEvent={areYouSureEvent}
               profileImage={secondUser.profileImage}
               closeEvent={() => setIsDeleteModalOpen(false)}
               questionText="Delete Conversation"

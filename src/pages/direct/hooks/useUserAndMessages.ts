@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import UserState from "types/userStateType";
-import { initialState as initialUser } from "redux-setup/features/signedUser";
+import { initialState as initialUser } from "redux-setup/features/signed-user/signedUser";
 import MessageType from "types/messageType";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "redux-setup/hooks";

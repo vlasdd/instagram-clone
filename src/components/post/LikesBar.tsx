@@ -12,7 +12,8 @@ import FilledSaved from 'svgs/filled/FilledSaved'
 import Modal from 'components/modal/Modal'
 import UsersListModal from 'pages/profile/components/users-list/UsersListModal'
 import SharePostModal from '../modal/SharePostModal'
-import { addToSaved, removeFromSaved } from 'redux-setup/features/signedUser'
+import addToSaved from "redux-setup/features/signed-user/thunks/addToSaved";
+import removeFromSaved from "redux-setup/features/signed-user/thunks/removeFromSaved";
 
 type LikesBarProps = {
     commentsRef: any,

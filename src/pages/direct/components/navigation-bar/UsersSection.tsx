@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import { useAppSelector } from 'redux-setup/hooks'
@@ -14,7 +14,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
 
     const chats = useChats(chatId as string)
 
-    const generateSkeletons = () => {
+    const generateSkeletons = useCallback(() => {
         const skeletons = [];
         for (let i = 0; i < 3; i++) {
             skeletons.push(
@@ -29,7 +29,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
         }
         
         return skeletons
-    }
+    }, [])
 
     const chatLinks = useMemo(() => chats.map(chat => <ChatLink
         chatId={chat.firstUserId + "-" + chat.secondUserId}

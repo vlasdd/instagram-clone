@@ -17,36 +17,36 @@ const NewPostModal: React.FC<NewPostModalProps> = React.memo(({ closeEvent }) =>
         }
     }, [currentPageId])
 
+    const generatePages = () => {
+        switch (currentPageId) {
+            case 0: {
+                return (
+                    <NewPostModalOne
+                        image={image}
+                        currentImageIndex={currentImageIndex}
+                        setCurrentImageIndex={setCurrentImageIndex}
+                        setImage={setImage}
+                        setCurrentPageId={setCurrentPageId}
+                    />
+                )
+            }
+            case 1: {
+                return (
+                    <NewPostModalTwo 
+                        setCurrentPageId={setCurrentPageId}
+                        image={image}
+                    />
+                )
+            }
+            default: {
+                return null
+            }
+        }
+    }
+
     return (
         <>
-            {
-                (() => {
-                    switch (currentPageId) {
-                        case 0: {
-                            return (
-                                <NewPostModalOne
-                                    image={image}
-                                    currentImageIndex={currentImageIndex}
-                                    setCurrentImageIndex={setCurrentImageIndex}
-                                    setImage={setImage}
-                                    setCurrentPageId={setCurrentPageId}
-                                />
-                            )
-                        }
-                        case 1: {
-                            return (
-                                <NewPostModalTwo 
-                                    setCurrentPageId={setCurrentPageId}
-                                    image={image}
-                                />
-                            )
-                        }
-                        default: {
-                            return null
-                        }
-                    }
-                })()
-            }
+            {generatePages()}
         </>
     )
 })

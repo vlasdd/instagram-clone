@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import signedUserReducers from "redux-setup/features/signedUser";
-import userOnPageReducers from "redux-setup/features/userOnPage";
-import isBeingLoadedReducers from "./features/isBeingLoaded";
+import signedUserReducers from "redux-setup/features/signed-user/signedUser";
+import userOnPageReducers from "redux-setup/features/user-on-page/userOnPage";
+import isBeingLoadedReducers from "./features/is-being-loaded/isBeingLoaded";
 
 const store = configureStore({
   reducer: {

@@ -55,6 +55,10 @@ const Comment: React.FC<ICommentsProps> = React.memo(({ userId, text, likes, com
         return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
     }
 
+    const handleLikes = () => {
+        likes.some(like => like.userId === loggedUser.userId) ? removeLike() : addLike()
+    }
+
     return (
         !userInfo.userId.length ?
             <div className="h-12 w-full flex items-center justify-start gap-2">
@@ -100,7 +104,7 @@ const Comment: React.FC<ICommentsProps> = React.memo(({ userId, text, likes, com
                     {
                         <div className="flex items-center justify-center h-[42px] w-[20px]">
                             <motion.div
-                                onClick={() => likes.some(like => like.userId === loggedUser.userId) ? removeLike() : addLike()}
+                                onClick={handleLikes}
                                 className="h-[15px] w-[15px] cursor-pointer"
                                 {...(
                                     likes.every(like => like.userId !== loggedUser.userId) ?

@@ -5,7 +5,7 @@ import RoutesTypes from 'constants/routes-types';
 import ProfileRoutes from 'constants/profile-routes';
 import Modal from 'components/modal/Modal';
 import SharePostModal from 'components/modal/SharePostModal';
-import { removeFromFollowing } from 'redux-setup/features/signedUser';
+import removeFromFollowing from "redux-setup/features/signed-user/thunks/removeFromFollowing";
 import { useAppDispatch } from 'redux-setup/hooks';
 
 type SettingsModalProps = {
@@ -20,6 +20,11 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
     const { uid } = useParams();
 
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+
+    const handleUnfollowClick = () => {
+        dispatch(removeFromFollowing({ userId: post.fromId, uid: uid as string }))
+        closeEvent()
+    }
 
     const handleCopy = () => {
         navigator.clipboard.writeText(
@@ -37,10 +42,7 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
             <div className="h-full w-full flex flex-col items-center">
                 <button
                     className="w-full active:bg-gray-300 h-12 flex items-center justify-center text-rose-600 font-medium text-sm rounded-t-xl"
-                    onClick={() => {
-                        dispatch(removeFromFollowing({ userId: post.fromId, uid: uid as string }))
-                        closeEvent()
-                    }}
+                    onClick={handleUnfollowClick}
                 >
                     Unfollow
                 </button>

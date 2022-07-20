@@ -12,7 +12,6 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ wordEntering, setWordE
     return (
         <button
             className="bg-gray-200 rounded-lg flex px-4 items-center h-full w-full"
-            onClick={() => console.log("div clicked")}
         >
             {
                 document.activeElement !== inputRef.current ?
@@ -26,7 +25,6 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ wordEntering, setWordE
                 ref={inputRef}
                 value={wordEntering}
                 onChange={(event) => setWordEntering(event.target.value)}
-                onClick={() => console.log("input cliked")}
             />
         </button>
     )
