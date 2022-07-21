@@ -15,11 +15,11 @@ const PostsModalNavigation: React.FC<PostsModalNavigationProps> = React.memo(({ 
     const navigate = useNavigate();
 
     const handleNavigateForward = () => {
-        navigate(routePart() + "/" + ProfileRoutes.POST + posts[currentIndex - 1].postId)
+        navigate(`../${ProfileRoutes.POST}${posts[currentIndex - 1].postId}`, { replace: true })
     }
 
     const handleNavigateBack = () => {
-        navigate(routePart() + "/" + ProfileRoutes.POST + posts[currentIndex + 1].postId)
+        navigate(`../${ProfileRoutes.POST}${posts[currentIndex + 1].postId}`, { replace: true })
     }
 
     return (

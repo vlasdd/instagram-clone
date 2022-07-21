@@ -31,7 +31,7 @@ const useSuggestions: (suggestionsLength: number) => UserState[] = (suggestionsL
                     docsContainer = [...docsContainer, currentDoc];
                 }
 
-                if(i > suggestionsLength * 100){
+                if(i > suggestionsLength * 1000){
                     break;
                 }
                 i++;

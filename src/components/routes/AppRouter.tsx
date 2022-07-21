@@ -5,7 +5,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
 import AccountsRoutes from 'constants/accounts-routes';
 
-const PrivateRoute = lazy(() => import("helpers/components/PrivateRoute"));
+const PrivateRoute = lazy(() => import("components/routes/PrivateRoute"));
 const PostsContainer = lazy(() => import("pages/profile/components/posts/PostsContainer"));
 const Modal = lazy(() => import("components/modal/Modal"));
 const UsersListModal = lazy(() => import("pages/profile/components/users-list/UsersListModal"));
@@ -22,6 +22,7 @@ const Accounts = lazy(() => import("pages/accounts/Accounts"));
 const DefineProfile = lazy(() => import("pages/profile/DefineProfile"));
 const Direct = lazy(() => import("pages/direct/Direct"));
 const People = lazy(() => import("pages/people/People"));
+const Explore = lazy(() => import("pages/explore/Explore"));
 
 const AppRouter: React.FC = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
@@ -98,7 +99,7 @@ const AppRouter: React.FC = () => {
                         path={`${ProfileRoutes.POST}:postId`}
                         element={
                             <Modal
-                                closeEvent={() => navigate(RoutesTypes.DASHBOARD + userOnPage.userId)}
+                                closeEvent={() => navigate(-1)}
                                 styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
                             >
                                 <PostModalPage />
@@ -114,7 +115,7 @@ const AppRouter: React.FC = () => {
                         path={`${ProfileRoutes.POST}:postId`}
                         element={
                             <Modal
-                                closeEvent={() => navigate(RoutesTypes.DASHBOARD + userOnPage.userId)}
+                                closeEvent={() => navigate(-1)}
                                 styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
                             >
                                 <PostModalPage />
@@ -153,6 +154,10 @@ const AppRouter: React.FC = () => {
             <Route
                 path={RoutesTypes.PEOPLE}
                 element={<People />}
+            />
+            <Route 
+                path={RoutesTypes.EXPLORE}
+                element={<Explore />}
             />
             <Route
                 path={RoutesTypes.NOT_FOUND}

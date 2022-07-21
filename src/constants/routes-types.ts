@@ -6,6 +6,7 @@ enum RoutesTypes{
     ACOUNTS = "/accounts",
     DIRECT = "/direct",
     PEOPLE = "/people",
+    EXPLORE = "/explore",
 }
 
 export default RoutesTypes;

@@ -6,7 +6,9 @@ import UserState from "types/userStateType";
 
 const SUGGESTIONS_AMOUNT = 30;
 
-const useSuggestions = () => {
+type UseSuggestionsType = () => UserState[]
+
+const useSuggestions: UseSuggestionsType = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const [suggestions, setSuggestions] = useState<UserState[]>([]);
 

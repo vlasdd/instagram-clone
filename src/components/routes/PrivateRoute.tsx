@@ -1,5 +1,4 @@
 import { Navigate } from 'react-router-dom';
-import RoutesTypes from 'constants/routes-types';
 
 type PrivateRouteProps = {
   children: JSX.Element,

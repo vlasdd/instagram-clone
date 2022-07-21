@@ -20,7 +20,7 @@ const People: React.FC = React.memo(() => {
       <>
         <div className="back flex flex-col items-center">
           <Header />
-          <div className={`min-h-[calc(100vh-60px)] w-full max-w-[550px] bg-blue-700 flex flex-col items-center back sm:pt-16 pb-16`}>
+          <div className="min-h-[calc(100vh-60px)] w-full max-w-[550px] bg-blue-700 flex flex-col items-center back sm:pt-16 pb-16">
             <div className="w-full flex justify-start font-medium h-8 flex items-center bg-white sm:bg-inherit px-4">
               Suggested
             </div>

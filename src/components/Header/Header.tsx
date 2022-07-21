@@ -13,6 +13,7 @@ import SearchBar from "./components/search/SearchBar";
 import NewPost from "svgs/both/NewPost";
 import Modal from "components/modal/Modal";
 import NewPostModal from "./components/new-post-modal/NewPostModal";
+import Fire from "svgs/both/Fire";
 
 enum MenuTypes{
     NONE = "",
@@ -121,6 +122,9 @@ const Header: React.FC = React.memo(() => {
                         <NewPost
                             isOpen={currentMenu === MenuTypes.NEW_POST}
                         />
+                    </button>
+                    <button onClick={() => navigate(RoutesTypes.EXPLORE)}>
+                        <Fire />
                     </button>
                     <div className="relative flex items-center">
                         <button
