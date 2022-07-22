@@ -14,6 +14,7 @@ import NewPost from "svgs/both/NewPost";
 import Modal from "components/modal/Modal";
 import NewPostModal from "./components/new-post-modal/NewPostModal";
 import Fire from "svgs/both/Fire";
+import FilledDirect from "svgs/filled/FilledDirect";
 
 enum MenuTypes{
     NONE = "",
@@ -111,10 +112,14 @@ const Header: React.FC = React.memo(() => {
                         className="pb-1 mr-[-3px]"
                         onClick={() => navigate(RoutesTypes.DIRECT)}
                     >
-                        <Direct
-                            styles="h-6 w-6 text-gray-800 rotate-[55deg]"
-                            includeHovering={false}
-                        />
+                        {
+                            location.pathname.includes(RoutesTypes.DIRECT) ?
+                                <FilledDirect styles="h-6 w-6 text-gray-800 rotate-[55deg]"/> :
+                                <Direct
+                                    styles="h-6 w-6 text-gray-800 rotate-[55deg]"
+                                    includeHovering={false}
+                                />
+                        }
                     </button>
                     <button
                         onClick={() => setCurrentMenu(MenuTypes.NEW_POST)}
@@ -132,7 +137,11 @@ const Header: React.FC = React.memo(() => {
                             onClick={() => setCurrentMenu(MenuTypes.PROFILE)}
                         >
                             <img
-                                src={user.profileImage.length ? user.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
+                                src={
+                                    user.profileImage.length ?
+                                        user.profileImage :
+                                        process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"
+                                }
                                 className="rounded-full h-7 w-7 object-cover"
                             />
                         </button>

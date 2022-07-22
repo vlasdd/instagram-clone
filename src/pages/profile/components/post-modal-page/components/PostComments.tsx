@@ -3,30 +3,30 @@ import RoutesTypes from 'constants/routes-types'
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CommentType from 'types/commentsType'
+import PostType from 'types/postType'
 import Comment from './Comment'
 
 type PostCommentProps = { 
-    comments: CommentType[], 
+    currentPost: PostType, 
     userInfo: {
         username: string,
         profileImage: string,
         userId: string
     },
-    currentPostText: string,
     changePostsAdd: (commentId: string) => void,
     changePostsRemove: (commentId: string) => void,
 }
 
-const PostComments: React.FC<PostCommentProps> = React.memo(({ comments, userInfo, currentPostText, changePostsAdd, changePostsRemove }) => {
+const PostComments: React.FC<PostCommentProps> = React.memo(({ currentPost, userInfo, changePostsAdd, changePostsRemove }) => {
     const navigate = useNavigate();
 
-    const commentsToRender = useMemo(() => comments.map((comment, index) => <Comment
+    const commentsToRender = useMemo(() => currentPost.comments.map((comment, index) => <Comment
         changePostsAdd={() => changePostsAdd(comment.commentId)}
         changePostsRemove={() => changePostsRemove(comment.commentId)}
         {...comment}
         fromId={userInfo.userId}
         key={index}
-    />), [comments, userInfo.userId])
+    />), [currentPost.comments, userInfo.userId])
 
     return (
         <div className="w-full h-[calc(100%-180px)] sm:h-[calc(100%-180px)] px-3 flex flex-col items-start overflow-hidden overflow-y-auto no-bar">
@@ -51,7 +51,7 @@ const PostComments: React.FC<PostCommentProps> = React.memo(({ comments, userInf
                                     >
                                         {userInfo.username}
                                     </span>
-                                    <span className="ml-2">{currentPostText}</span>
+                                    <span className="ml-2">{currentPost.text}</span>
                                 </p>
                             </div>
                         </div>

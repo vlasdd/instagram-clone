@@ -5,22 +5,20 @@ import PostMessage from './PostMessage';
 import TextMessage from './TextMessage';
 
 export interface IMessageProps extends MessageType {
-    loggedUserId: string,
     profileImage: string,
 }
 
 type RoomMessagesProps = {
     messages: MessageType[],
-    loggedUserId: string,
     profileImage: string,
 }
 
-const RoomMessages: React.FC<RoomMessagesProps> = React.memo(({ messages, loggedUserId, profileImage }) => {
+const RoomMessages: React.FC<RoomMessagesProps> = React.memo(({ messages, profileImage }) => {
     const messagesToRender = useMemo(() => messages.map(message => {
         if (!message.media && !message.post) {
             return (
-                <TextMessage {...message}
-                    loggedUserId={loggedUserId}
+                <TextMessage 
+                    {...message}
                     profileImage={profileImage}
                     key={message.createdAt}
                 />
@@ -29,8 +27,8 @@ const RoomMessages: React.FC<RoomMessagesProps> = React.memo(({ messages, logged
 
         if(message.post){
             return (
-                <PostMessage {...message}
-                    loggedUserId={loggedUserId}
+                <PostMessage 
+                    {...message}
                     profileImage={profileImage}
                     key={message.createdAt}
                 />
@@ -39,8 +37,8 @@ const RoomMessages: React.FC<RoomMessagesProps> = React.memo(({ messages, logged
         
         if (message.media) {
             return (
-                <ImageMessage {...message}
-                    loggedUserId={loggedUserId}
+                <ImageMessage 
+                    {...message}
                     profileImage={profileImage}
                     key={message.createdAt}
                 />

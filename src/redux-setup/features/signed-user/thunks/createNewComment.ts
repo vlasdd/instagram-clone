@@ -9,24 +9,21 @@ import updatePosts from "../../user-on-page/thunks/updatePosts";
 
 type CreateNewCommentProps = {
     text: string,
-    currentPostFromId: string,
+    fromId: string,
     postId: string
     uid: string,
-    usePostsObj: {
-        posts: PostType[];
-        changePosts: any;
-    },
+    changePosts: any,
 }
 
 const createNewComment = createAsyncThunk(
     "signedUser/createNewComment",
     async (
-        { text, currentPostFromId, postId, uid, usePostsObj }: CreateNewCommentProps, 
+        { text, fromId, postId, uid, changePosts }: CreateNewCommentProps, 
         { rejectWithValue, dispatch, getState }
     ) => {
         const loggedUser = (getState() as RootState).signedUser.user;
 
-        const hotPosts = ((await getDoc(doc(db, "users", currentPostFromId))).data() as UserState).posts
+        const hotPosts = ((await getDoc(doc(db, "users", fromId))).data() as UserState).posts
         const hotPost = hotPosts.find(post => post.postId === postId) as PostType
 
         const newComment = {
@@ -45,17 +42,15 @@ const createNewComment = createAsyncThunk(
             return post
         }) as PostType[]
 
-        await dispatch(updatePosts({ userId: currentPostFromId, newPosts, uid }))
+        await dispatch(updatePosts({ userId: fromId, newPosts, uid }))
 
-        if (usePostsObj?.changePosts) {
-            usePostsObj.changePosts((prevPosts: PostType[]) => prevPosts.map(post => {
-                if (post.postId === postId) {
-                    return { ...post, comments: [...hotPost.comments, newComment] }
-                }
-    
-                return post
-            }) as PostType[])
-        }
+        changePosts((prevPosts: PostType[]) => prevPosts.map(post => {
+            if (post.postId === postId) {
+                return { ...post, comments: [...hotPost.comments, newComment] }
+            }
+
+            return post
+        }) as PostType[])
     }
 )
 

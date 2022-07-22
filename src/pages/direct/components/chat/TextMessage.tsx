@@ -1,9 +1,11 @@
 import RoutesTypes from 'constants/routes-types';
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'redux-setup/hooks';
 import { IMessageProps } from './RoomMessages';
 
-const TextMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUserId, profileImage  }) => {
+const TextMessage: React.FC<IMessageProps> = React.memo(({ text, from, profileImage  }) => {
+    const loggedUser = useAppSelector(state => state.signedUser.user)
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -15,11 +17,14 @@ const TextMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUse
 
     return (
         <div
-            className={`flex items-center gap-2 w-11/12 sm:w-5/6 xl:w-3/4 my-[6px] ${from.userId === loggedUserId ? "justify-end" : "justify-start"}`}
+            className={`
+                flex items-center gap-2 w-11/12 sm:w-5/6 xl:w-3/4 my-[6px] 
+                ${from.userId === loggedUser.userId ? "justify-end" : "justify-start"}
+            `}
             ref={scrollRef}
         >
             {
-                from.userId !== loggedUserId ?
+                from.userId !== loggedUser.userId ?
                     <button
                         className="flex justify-center items-center gap-4 self-end"
                         onClick={() => navigate(RoutesTypes.DASHBOARD + from.userId)}
@@ -31,7 +36,10 @@ const TextMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUse
                     </button> :
                     null
             }
-            <div className={`inline-block max-w-[200px] ${from.userId === loggedUserId ? "bg-gray-200" : "border"} rounded-[25px] py-2 px-2`}>
+            <div className={`
+                inline-block max-w-[200px] rounded-[25px] py-2 px-2
+                ${from.userId === loggedUser.userId ? "bg-gray-200" : "border"} 
+            `}>
                 <p className="break-words mx-1">
                     <span>{text}</span>
                 </p>

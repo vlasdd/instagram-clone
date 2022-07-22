@@ -5,7 +5,6 @@ import ProfileRoutes from 'constants/profile-routes'
 import RoutesTypes from 'constants/routes-types'
 import { db } from 'firebase-setup/firebaseConfig'
 import { doc, getDoc } from 'firebase/firestore'
-import usePosts from 'pages/profile/hooks/usePosts'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks'
@@ -103,11 +102,11 @@ const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
             </div>
             <Time createdAt={currentPost.createdAt} />
             <CommentForm
-                postId={currentPost.postId}
                 wordEntering={wordEntering}
                 setWordEntering={setWordEntering}
                 commentsRef={commentsRef}
-                currentPostFromId={currentPost.fromId}
+                currentPost={currentPost}
+                changePosts={changePosts}
             />
         </article>
     )

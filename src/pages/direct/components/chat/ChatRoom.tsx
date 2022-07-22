@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAppSelector } from 'redux-setup/hooks';
 import Info from 'svgs/both/Info';
 import MessageForm from './MessageForm';
 import RoutesTypes from 'constants/routes-types';
@@ -9,8 +8,6 @@ import RoomInfo from './RoomInfo';
 import useUserAndMessages from 'pages/direct/hooks/useUserAndMessages';
 
 const ChatRoom: React.FC = React.memo(() => {
-    const loggedUser = useAppSelector(state => state.signedUser.user);
-
     const navigate = useNavigate();
 
     const [imageUpload, setImageUpload] = useState<File | null>(null);
@@ -19,6 +16,7 @@ const ChatRoom: React.FC = React.memo(() => {
     const { secondUser, wordEntering, setWordEntering, messages } = useUserAndMessages();
 
     return (
+
         <div className="w-full h-full flex flex-col items-center">
             <div className="flex justify-between items-center border-b h-[60px] pl-8 pr-6 w-full">
                 {
@@ -50,7 +48,6 @@ const ChatRoom: React.FC = React.memo(() => {
                     <div className="flex h-[calc(100%-60px)] flex-col justify-end w-full items-center">
                         <RoomMessages
                             messages={messages}
-                            loggedUserId={loggedUser.userId}
                             profileImage={secondUser.profileImage}
                         />
                         <MessageForm

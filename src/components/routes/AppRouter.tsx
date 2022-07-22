@@ -161,6 +161,17 @@ const AppRouter: React.FC = () => {
                     path={`${RoutesTypes.DIRECT}:chatId`}
                     element={<ChatRoom />}
                 >
+                    <Route
+                    path={`${ProfileRoutes.POST}:postId`}
+                    element={
+                        <Modal
+                            closeEvent={() => navigate(-1)}
+                            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
+                        >
+                            <PostModalPage />
+                        </Modal>
+                    }
+                />
                 </Route>
             </Route>
             <Route

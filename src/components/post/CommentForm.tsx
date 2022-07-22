@@ -1,38 +1,43 @@
 import DropMenu from 'components/other/DropMenu';
-import usePosts from 'pages/profile/hooks/usePosts';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import createNewComment from 'redux-setup/features/signed-user/thunks/createNewComment';
 import { useAppDispatch } from 'redux-setup/hooks';
 import Smile from 'svgs/empty/Smile';
 import Picker, { IEmojiData } from "emoji-picker-react";
+import PostType from 'types/postType';
 
 type CommentFormProps = {
     wordEntering: string,
     setWordEntering: React.Dispatch<React.SetStateAction<string>>,
     commentsRef: any,
-    currentPostFromId: string,
-    postId: string
+    currentPost: PostType,
+    changePosts: any,
 }
 
 const CommentForm: React.FC<CommentFormProps> = React.memo(({ 
     wordEntering, 
     setWordEntering, 
     commentsRef, 
-    currentPostFromId, 
-    postId 
+    currentPost,
+    changePosts 
 }) => {
 
     const dispatch = useAppDispatch();
 
     const { uid } = useParams();
-    const usePostsObj = usePosts();
 
     const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
 
     const sendComment = async () => {
         const text = wordEntering;
-        dispatch(createNewComment({ text, currentPostFromId, postId, uid: uid as string, usePostsObj }))
+        dispatch(createNewComment({ 
+            text, 
+            fromId: currentPost.fromId, 
+            postId: currentPost.postId, 
+            uid: uid as string, 
+            changePosts 
+        }))
         setWordEntering("");
     }
 

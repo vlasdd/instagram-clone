@@ -2,10 +2,12 @@ import Modal from 'components/modal/Modal';
 import RoutesTypes from 'constants/routes-types';
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'redux-setup/hooks';
 import ImageModal from './ImageModal';
 import { IMessageProps } from './RoomMessages'
 
-const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUserId, media, profileImage }) => {
+const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, media, profileImage }) => {
+    const loggedUser = useAppSelector(state => state.signedUser.user)
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -20,11 +22,14 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUs
     return (
         <>
             <div
-                className={`flex items-center gap-2 w-11/12 sm:w-5/6 xl:w-3/4 my-[6px] ${from.userId === loggedUserId ? "justify-end" : "justify-start"}`}
+                className={`
+                    flex items-center gap-2 w-11/12 sm:w-5/6 xl:w-3/4 my-[6px] 
+                    ${from.userId === loggedUser.userId ? "justify-end" : "justify-start"}
+                `}
                 ref={scrollRef}
             >
                 {
-                    from.userId !== loggedUserId ?
+                    from.userId !== loggedUser.userId ?
                         <button
                             className="flex justify-center items-center gap-4 self-end"
                             onClick={() => navigate(RoutesTypes.DASHBOARD + from.userId)}
@@ -36,7 +41,11 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, loggedUs
                         </button> :
                         null
                 }
-                <div className={`inline-block ${from.userId === loggedUserId ? "bg-gray-200" : "border"} rounded-[10px] ${text.length ? "pb-1" : ""} w-[200px]`}>
+                <div className={`
+                    inline-block rounded-[10px] 
+                    ${from.userId === loggedUser.userId ? "bg-gray-200" : "border"} 
+                    ${text.length ? "pb-1" : ""} w-[200px]
+                `}>
                     <button onClick={() => setIsImageModalOpen(true)}>
                         <img
                             src={media}

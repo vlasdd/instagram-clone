@@ -9,11 +9,9 @@ import ProfileRoutes from 'constants/profile-routes'
 import UserHeader from './components/UserHeader'
 import useWindowWidth from 'helpers/hooks/useWindowWidth'
 import PostComments from './components/PostComments'
-import CommentType from 'types/commentsType'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from 'firebase-setup/firebaseConfig'
 import UserState from 'types/userStateType'
-import { useAppSelector } from 'redux-setup/hooks';
 import Time from 'components/other/Time';
 import useUIChanges from 'pages/profile/hooks/useUIChanges';
 
@@ -84,8 +82,7 @@ const PostModalPage: React.FC = React.memo(() => {
                 <div className="w-full h-2/3 sm:h-full sm:w-2/5 flex flex-col justify-between">
                     <UserHeader userInfo={userInfo} />
                     <PostComments
-                        comments={currentPost.comments as CommentType[]}
-                        currentPostText={currentPost.text as string}
+                        currentPost={currentPost}
                         userInfo={userInfo}
                         changePostsAdd={addLikeToComment}
                         changePostsRemove={removeLikeFromComment}
@@ -98,11 +95,11 @@ const PostModalPage: React.FC = React.memo(() => {
                     />
                     <Time createdAt={currentPost.createdAt}/>
                     <CommentForm
-                        postId={postId as string}
                         wordEntering={wordEntering}
                         setWordEntering={setWordEntering}
                         commentsRef={commentsRef}
-                        currentPostFromId={currentPost.fromId as string}
+                        currentPost={currentPost}
+                        changePosts={changePosts}
                     />
                 </div>
                 <PostsModalNavigation
