@@ -46,7 +46,7 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
         shouldRedirect ?
             <Navigate to={RoutesTypes.NOT_FOUND} /> :
             <div className="min-h-[calc(100vh-60px)] w-screen flex flex-col items-center back">
-                <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1">
+                <div className="flex items-center flex-col sm:flex-row w-full sm:w-3/4 lg:w-5/6 xl:w-4/5 justify-center gap-2 pt-4 pb-3 px-1 max-w-[1000px]">
                     <div className="w-full sm:w-2/5 sm:h-60 flex justify-center items-center">
                         <img
                             src={signedUser.profileImage.length ? signedUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}

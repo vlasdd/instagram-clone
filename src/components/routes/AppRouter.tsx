@@ -34,7 +34,19 @@ const AppRouter: React.FC = () => {
             <Route
                 path={RoutesTypes.DASHBOARD}
                 element={<Dashboard />}
-            />
+            >
+                <Route
+                    path={`${ProfileRoutes.POST}:postId`}
+                    element={
+                        <Modal
+                            closeEvent={() => navigate(-1)}
+                            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
+                        >
+                            <PostModalPage />
+                        </Modal>
+                    }
+                />
+            </Route>
             <Route
                 path={RoutesTypes.LOGIN}
                 element={
@@ -155,10 +167,22 @@ const AppRouter: React.FC = () => {
                 path={RoutesTypes.PEOPLE}
                 element={<People />}
             />
-            <Route 
+            <Route
                 path={RoutesTypes.EXPLORE}
                 element={<Explore />}
-            />
+            >
+                <Route
+                    path={`${ProfileRoutes.POST}:postId`}
+                    element={
+                        <Modal
+                            closeEvent={() => navigate(-1)}
+                            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
+                        >
+                            <PostModalPage />
+                        </Modal>
+                    }
+                />
+            </Route>
             <Route
                 path={RoutesTypes.NOT_FOUND}
                 element={<NotFound />}

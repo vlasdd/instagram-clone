@@ -46,7 +46,7 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
     }
 
     return (
-        <nav className="flex border-t justify-center items-center border-t-gray-300 gap-12 lg:gap-16 text-[12px] font-medium tracking-widest w-full sm:w-3/4 lg:w-2/3">
+        <nav className="flex border-t justify-center items-center border-t-gray-300 gap-12 lg:gap-16 text-[12px] font-medium tracking-widest w-full sm:w-3/4 lg:w-2/3 max-w-[1000px]">
             <button
                 onClick={handlePostNavigate}
                 className={`h-12 flex items-center text-gray-400 gap-1 ${currentTab === 0 && "border-t border-t-gray-900 text-black"}`}

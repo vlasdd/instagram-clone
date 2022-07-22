@@ -16,16 +16,26 @@ import Modal from 'components/modal/Modal';
 import UsersListModal from '../../users-list/UsersListModal';
 
 interface ICommentsProps extends CommentsType {
-    fromId: string
+    fromId: string,
+    changePostsAdd: () => void,
+    changePostsRemove: () => void,
 }
 
-const Comment: React.FC<ICommentsProps> = React.memo(({ userId, text, likes, commentId, fromId, createdAt }) => {
+const Comment: React.FC<ICommentsProps> = React.memo(({ 
+    userId, 
+    text, 
+    likes, 
+    commentId, 
+    fromId, 
+    createdAt, 
+    changePostsAdd,
+    changePostsRemove, 
+}) => {
     const loggedUser = useAppSelector(state => state.signedUser.user); 
 
     const navigate = useNavigate();
 
     const { postId } = useParams();
-    const { changePosts } = usePosts();
 
     const [userInfo, setUserInfo] = useState<{
         username: string,
@@ -48,7 +58,7 @@ const Comment: React.FC<ICommentsProps> = React.memo(({ userId, text, likes, com
         getUser();
     }, [])
 
-    const { addLike, removeLike } = useCommentLikes({ userId: fromId, postId: postId as string, changePosts, commentId })
+    const { addLike, removeLike } = useCommentLikes({ userId: fromId, postId: postId as string, commentId, changePostsAdd, changePostsRemove })
 
     const generateTime = () => {
         let time = convertUnixTime(createdAt)

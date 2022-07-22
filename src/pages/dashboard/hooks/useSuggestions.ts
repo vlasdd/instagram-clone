@@ -22,11 +22,11 @@ const useSuggestions: (suggestionsLength: number) => UserState[] = (suggestionsL
                 const index = random(0, querySnapshot.docs.length);
                 const currentDoc = querySnapshot.docs[index].data() as UserState;
 
-                if (
-                    docsContainer.every(user => user.userId !== currentDoc.userId) &&
-                    loggedUser.following.every(user => user.userId !== currentDoc.userId) &&
-                    currentDoc.userId !== loggedUser.userId
-                ) {
+                const isUserIncluded = docsContainer.some(user => user.userId === currentDoc.userId)
+                const isUserFollowed = loggedUser.following.some(user => user.userId === currentDoc.userId)
+                const isUserCurrent = currentDoc.userId === loggedUser.userId;
+
+                if (!isUserIncluded && !isUserFollowed && !isUserCurrent) {
                     setSuggestionsInfo(prevUsers => [...prevUsers, currentDoc])
                     docsContainer = [...docsContainer, currentDoc];
                 }

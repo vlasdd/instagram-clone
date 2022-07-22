@@ -1,6 +1,7 @@
 import useWindowWidth from 'helpers/hooks/useWindowWidth'
 import usePostsToRender from 'pages/dashboard/hooks/usePostsToRender';
 import React, { useMemo } from 'react'
+import { Outlet } from 'react-router-dom';
 import Post from './components/Post';
 
 const POSTS_AMOUNT = 20;
@@ -28,19 +29,22 @@ const Timeline: React.FC = React.memo(() => {
                             className="w-16 h-16 border-4 border-gray-700 border-dashed rounded-full animate-spin"
                         ></div>
                     </div> :
-                    <div>
-                        <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]" : "w-full"}`}>
-                            {postsComponents}
-                            <div className="w-full flex flex-col items-center mt-8 mb-14">
-                                <img
-                                    src={process.env.PUBLIC_URL + "/images/done.jpg"}
-                                    className="w-16"
-                                />
-                                <p className="text-lg">You're all caught up</p>
-                                <p className="text-sm text-gray-400">You've seen all new posts from the past days</p>
+                    <>
+                        <div>
+                            <div className={`flex flex-col items-center gap-4 ${width > 500 ? "w-[470px]" : "w-full"}`}>
+                                {postsComponents}
+                                <div className="w-full flex flex-col items-center mt-8 mb-14">
+                                    <img
+                                        src={process.env.PUBLIC_URL + "/images/done.jpg"}
+                                        className="w-16"
+                                    />
+                                    <p className="text-lg">You're all caught up</p>
+                                    <p className="text-sm text-gray-400">You've seen all new posts from the past days</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <Outlet context={{ posts: [...postsToRender].reverse(), changePosts: setPostsToRender }}/>
+                    </>
             }
         </div>
     )

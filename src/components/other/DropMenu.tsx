@@ -16,7 +16,7 @@ const DropMenu: React.FC<DropMenuProps> = React.memo(({ children, closeEvent, st
         onClick={closeEvent}
       ></div>
       <motion.div
-        className={`bg-white flex items-center rounded-lg drop-shadow-md absolute flex-col ${styles}`}
+        className={`bg-white flex items-center rounded-lg drop-shadow-md absolute flex-col z-50 ${styles}`}
         {...(
           !noAnimation ?
             {

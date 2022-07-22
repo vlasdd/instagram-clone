@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
 import PostType from 'types/postType'
-import PostImage from './PostImage'
+import PostImage from '../../../../components/post/PostImage'
 
 const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React.memo(({ posts, changePosts }) => {
     const postsImageElements = useMemo(() => [...posts].reverse().map(post => (
@@ -21,7 +21,7 @@ const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React
                             <p className="text-3xl font-extralight">No Posts Yet</p>
                         </div>
                     </div> :
-                    <div className="w-full grid grid-cols-3 auto-rows-fr gap-1 sm:gap-6 sm:w-3/4 lg:w-2/3 mt-2">
+                    <div className="w-full grid grid-cols-3 auto-rows-fr gap-1 sm:gap-6 sm:w-3/4 lg:w-2/3 mt-2 max-w-[1000px]">
                         {postsImageElements}
                     </div>
             }

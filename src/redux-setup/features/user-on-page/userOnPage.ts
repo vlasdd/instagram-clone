@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import fetchUserOnPage from "./thunks/fetch-user-on-page";
+import fetchUserOnPage from "./thunks/fetchUserOnPage";
 import BirthdateState from "types/birthdateType";
 import UserState from "types/userStateType";
+import updatePosts from "./thunks/updatePosts";
 
 type InitialStateType = {
     user: UserState,
@@ -55,6 +56,10 @@ const userOnPageSlice = createSlice({
         builder.addCase(fetchUserOnPage.rejected, (state, action) => {
             state.error = action.payload;
             state.status = "rejected";
+        })
+        builder.addCase(updatePosts.fulfilled, (state, action) => {
+            state.error = null;
+            state.status = "resolved";
         })
     }
 })

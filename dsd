@@ -1,0 +1,179 @@
+[33mcommit b851f2d1d8283fd98484f9414e992f8700cea61d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Fri Jul 22 00:36:20 2022 +0300
+
+    fixed a bug with redirection
+
+[33mcommit 3306d7bc470d14f1efb1144e009d62d8c954edac[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Wed Jul 20 18:00:58 2022 +0300
+
+    made some folder decomposition
+
+[33mcommit e401a984b9a2ec5e68a86c4122caa0b0fba1dc2e[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Wed Jul 20 00:56:15 2022 +0300
+
+    fixed some stuff with redux thunk
+
+[33mcommit 420cf3b3a6e0da15fe28277ce2d06a9b6f5f10cd[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Tue Jul 19 21:24:27 2022 +0300
+
+    made some refactoring
+
+[33mcommit 577bb7904e23e46af306630d029482b2082ef01c[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Tue Jul 19 21:22:46 2022 +0300
+
+    made some refactoring
+
+[33mcommit d60f3f6164e90d6f8a9083bf93856858e3306601[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Tue Jul 19 00:06:38 2022 +0300
+
+    test5
+
+[33mcommit 0f381c0701b2d2514a89b47636749e812800c163[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 21:23:34 2022 +0300
+
+    fixed a bug
+
+[33mcommit c6f824164c9fc5691ccd3dd5c8a0a7d897c21cbe[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:40:42 2022 +0300
+
+    test4
+
+[33mcommit 797ccd37736cbac4b05bb3ef033cf684c6b437de[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:38:35 2022 +0300
+
+    test
+
+[33mcommit e8c6a18905e28d74396dbcaa395345d783a39280[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:24:39 2022 +0300
+
+    finally deployed it via gh pages
+
+[33mcommit de6380c046cb830b5fd28d0f7c0eef488be35b9a[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:21:16 2022 +0300
+
+    test3
+
+[33mcommit ca801604880772f3e8ede6f6193da5a7fd891130[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:17:38 2022 +0300
+
+    test
+
+[33mcommit cc3b6f35f929a90753c0a9faa79accfef1d60496[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:14:16 2022 +0300
+
+    test2
+
+[33mcommit 597aa3eaf3556a345afb29c5420b6e435722ce31[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 19:10:43 2022 +0300
+
+    test
+
+[33mcommit 1d4fd147c8c3269a4ba54bc9063485ba495b0209[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 17:50:22 2022 +0300
+
+    idk
+
+[33mcommit 2a22e71fc4588f731a9743ea80162147485cdf36[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 17:45:06 2022 +0300
+
+    test
+
+[33mcommit 01dbad6144728703b15a8b033612007494655ea7[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 17:17:34 2022 +0300
+
+    test
+
+[33mcommit 9c794ba6b09fe9b1057f5e51d7567145adfdd9de[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Mon Jul 18 17:10:10 2022 +0300
+
+    gh pages
+
+[33mcommit cae031285f7bba315859c2bfc0b3bb8cb3003655[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Sun Jul 17 21:40:23 2022 +0300
+
+    read me
+
+[33mcommit bd8d94385afb7ada6d586e1e500cdd3abe89d449[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Sun Jul 17 21:36:53 2022 +0300
+
+    optimized search
+
+[33mcommit cfc3ae8000dd1380743cc30f93fc2a9828dd7280[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Sun Jul 17 01:25:32 2022 +0300
+
+    made some refactoring and optimization
+
+[33mcommit 7016b07b687d1892c38f61fe084e83f9d81026da[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Fri Jul 15 23:16:47 2022 +0300
+
+    dashboard - done
+
+[33mcommit c38279a0d25abbfc10e44912eefef0c5dfe11864[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Thu Jul 14 22:25:29 2022 +0300
+
+    implemented most of dashboard functionality
+
+[33mcommit 823d5c07782ec5b37e4a8ed9172867806337dbf6[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Thu Jul 14 01:29:56 2022 +0300
+
+    read me
+
+[33mcommit fa99d67a0ea22ae5f5be5db439ccca2dbde19a6e[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Thu Jul 14 00:43:08 2022 +0300
+
+    'Allow user to send other people's posts via direct' - done, but I should fix some bugs
+
+[33mcommit 37fc5d3cc60e740ef3e3eb444d4ad30f12d39857[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Tue Jul 12 15:05:54 2022 +0300
+
+    read me
+
+[33mcommit 0a77de77ee9952225757954a78ac8fbe0510fc43[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Tue Jul 12 02:21:11 2022 +0300
+
+    some issues with read me
+
+[33mcommit c4d32b5fea06e3af64b632e3c8852fa533cd5f27[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Tue Jul 12 02:20:00 2022 +0300
+
+    added read me file and the sidebar part of dashboard
+
+[33mcommit 46d4f7e2600536c677534e3c0c17997a3cca20e0[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Sat Jul 9 00:07:28 2022 +0300
+
+    added some stuff
+
+[33mcommit b373f8b6b1e96c70cd71f0006da6f0131a9aa7cb[m
+Author: Vlased <vladyslav.boriatynskyi.pz.2021@lpnu.ua>
+Date:   Thu Jul 7 18:16:42 2022 +0300
+
+    added emojis

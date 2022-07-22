@@ -15,11 +15,11 @@ import { db } from 'firebase-setup/firebaseConfig'
 import UserState from 'types/userStateType'
 import { useAppSelector } from 'redux-setup/hooks';
 import Time from 'components/other/Time';
+import useUIChanges from 'pages/profile/hooks/useUIChanges';
 
 const PostModalPage: React.FC = React.memo(() => {
     const { posts, changePosts } = usePosts();
 
-    const loggedUser = useAppSelector(state => state.signedUser.user);
     const commentsRef = useRef<React.RefObject<HTMLInputElement>>(null);
 
     const { postId } = useParams();
@@ -41,6 +41,12 @@ const PostModalPage: React.FC = React.memo(() => {
     })
 
     const innerWidth = useWindowWidth();
+    const { 
+        addLikeToPost, 
+        removeLikeFromPost, 
+        addLikeToComment,
+        removeLikeFromComment 
+    } = useUIChanges(changePosts, postId as string)
 
     useEffect(() => {
         const getUser = async () => {
@@ -51,30 +57,6 @@ const PostModalPage: React.FC = React.memo(() => {
         setUserInfo({ username: "", profileImage: "", userId: "" })
         getUser();
     }, [currentPost?.fromId])
-
-    const changePostsAdd = () => {
-        if(changePosts){
-            changePosts(posts.map(post => {
-                if (post.postId === postId) {
-                    return { ...post, likes: [...post.likes, { userId: loggedUser.userId }] }
-                }
-
-                return post
-            }) as PostType[])
-        }
-    }
-
-    const changePostsRemove = () => {
-        if(changePosts){
-            changePosts(posts.map(post => {
-                if (post.postId === postId) {
-                    return { ...post, likes: post.likes.filter(obj => obj.userId !== loggedUser.userId) }
-                }
-
-                return post
-            }) as PostType[])
-        }
-    }
 
     const routePart = () => {
         const locationArray = location.pathname.split("/");
@@ -105,12 +87,14 @@ const PostModalPage: React.FC = React.memo(() => {
                         comments={currentPost.comments as CommentType[]}
                         currentPostText={currentPost.text as string}
                         userInfo={userInfo}
+                        changePostsAdd={addLikeToComment}
+                        changePostsRemove={removeLikeFromComment}
                     />
                     <LikesBar
                         currentPost={currentPost}
                         commentsRef={commentsRef}
-                        changePostsAdd={changePostsAdd}
-                        changePostsRemove={changePostsRemove}
+                        changePostsAdd={addLikeToPost}
+                        changePostsRemove={removeLikeFromPost}
                     />
                     <Time createdAt={currentPost.createdAt}/>
                     <CommentForm

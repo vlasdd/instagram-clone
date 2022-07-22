@@ -6,7 +6,7 @@ import SavedPostType from "types/savePostType";
 import UserState from "types/userStateType";
 
 type UseSavedPostsDataType = (savedPosts: SavedPostType[]) => {
-    savedPostsData: PostType[], 
+    savedPostsData: PostType[],
     setSavedPostsData: React.Dispatch<React.SetStateAction<PostType[]>>
 }
 
@@ -19,15 +19,15 @@ const useSavedPostsData: UseSavedPostsDataType = (savedPosts) => {
                 const savedUserData = await getDoc(doc(db, "users", savedPost.fromId))
                 const savedPostData = (savedUserData.data() as UserState).posts.find(post => post.postId === savedPost.postId)
 
-                if(savedPostData){
+                if (savedPostData) {
                     setSavedPostsData(prevPosts => [...prevPosts, savedPostData])
                 }
-              }));
-        } 
+            }));
+        }
 
         getSavedPosts();
     }, [])
-    
+
     return { savedPostsData, setSavedPostsData }
 }
 

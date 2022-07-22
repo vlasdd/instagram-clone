@@ -6,7 +6,6 @@ import addNewPost from "./thunks/addNewPost";
 import createNewComment from "./thunks/createNewComment";
 import createNewProfileImage from "./thunks/createNewProfileImage";
 import deleteProfileImage from "./thunks/deleteProfileImage";
-import updatePosts from "./thunks/updatePosts";
 import addToFollowing from "./thunks/addToFollowing";
 import removeFromFollowing from "./thunks/removeFromFollowing";
 import removeFromSaved from "./thunks/removeFromSaved";
@@ -78,10 +77,6 @@ const signedUserSlice = createSlice({
             state.status = "resolved";
         })
         builder.addCase(deleteProfileImage.fulfilled, (state, action) => {
-            state.error = null;
-            state.status = "resolved";
-        })
-        builder.addCase(updatePosts.fulfilled, (state, action) => {
             state.error = null;
             state.status = "resolved";
         })

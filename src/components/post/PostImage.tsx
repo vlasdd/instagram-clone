@@ -5,10 +5,10 @@ import FilledComment from 'svgs/filled/FilledComment';
 import FilledHeart from 'svgs/filled/FilledHeart';
 import PostType from 'types/postType'
 
-const PostImage: React.FC<PostType> = React.memo(({ postImage, postId, likes, comments }) => {
+const PostImage: React.FC<PostType> = React.memo(({ postImage, postId, likes, comments, }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const navigate = useNavigate();
-
+//RoutesTypes.DASHBOARD + fromId + "/" + ProfileRoutes.POST + postId
     return (
         <div 
             className="relative z-10 w-full h-full aspect-square cursor-pointer rounded-sm"

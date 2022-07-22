@@ -5,7 +5,7 @@ import { RootState } from "redux-setup";
 import PostType from "types/postType";
 import UserState from "types/userStateType";
 import { nanoid } from "nanoid";
-import updatePosts from "./updatePosts";
+import updatePosts from "../../user-on-page/thunks/updatePosts";
 
 type CreateNewCommentProps = {
     text: string,
@@ -48,7 +48,13 @@ const createNewComment = createAsyncThunk(
         await dispatch(updatePosts({ userId: currentPostFromId, newPosts, uid }))
 
         if (usePostsObj?.changePosts) {
-            usePostsObj.changePosts(newPosts)
+            usePostsObj.changePosts((prevPosts: PostType[]) => prevPosts.map(post => {
+                if (post.postId === postId) {
+                    return { ...post, comments: [...hotPost.comments, newComment] }
+                }
+    
+                return post
+            }) as PostType[])
         }
     }
 )

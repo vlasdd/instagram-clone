@@ -27,7 +27,6 @@ const usePostsToRender: UsePostsToRenderType = (postsAmount) => {
             }, [])
 
             const currentPosts = allPosts.sort((a, b) => b.createdAt - a.createdAt).slice(0, postsAmount);
-            console.log(currentPosts)
             setPostsToRender(currentPosts)
         }
 

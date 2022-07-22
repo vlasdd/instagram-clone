@@ -13,12 +13,16 @@ type PostCommentProps = {
         userId: string
     },
     currentPostText: string,
+    changePostsAdd: (commentId: string) => void,
+    changePostsRemove: (commentId: string) => void,
 }
 
-const PostComments: React.FC<PostCommentProps> = React.memo(({ comments, userInfo, currentPostText }) => {
+const PostComments: React.FC<PostCommentProps> = React.memo(({ comments, userInfo, currentPostText, changePostsAdd, changePostsRemove }) => {
     const navigate = useNavigate();
 
     const commentsToRender = useMemo(() => comments.map((comment, index) => <Comment
+        changePostsAdd={() => changePostsAdd(comment.commentId)}
+        changePostsRemove={() => changePostsRemove(comment.commentId)}
         {...comment}
         fromId={userInfo.userId}
         key={index}

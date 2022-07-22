@@ -4,7 +4,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { RootState } from "redux-setup";
 import { setUserOnPage } from "redux-setup/features/user-on-page/userOnPage";
 import PostType from "types/postType";
-import { setSignedUser } from "../signedUser";
+import { setSignedUser } from "../../signed-user/signedUser";
 
 type UpdatePostsProps = {
     userId: string,

@@ -5,6 +5,7 @@ import ProfileRoutes from 'constants/profile-routes'
 import RoutesTypes from 'constants/routes-types'
 import { db } from 'firebase-setup/firebaseConfig'
 import { doc, getDoc } from 'firebase/firestore'
+import usePosts from 'pages/profile/hooks/usePosts'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks'
@@ -93,7 +94,7 @@ const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
                 </p>
                 <Link
                     className="pl-1"
-                    to={RoutesTypes.DASHBOARD + currentPost.fromId + "/" + ProfileRoutes.POST + currentPost.postId}
+                    to={RoutesTypes.DASHBOARD + ProfileRoutes.POST + currentPost.postId}
                 >
                     <p className="text-sm text-gray-400 mt-1 tracking-wide">
                         {handleCommentsAmount()}

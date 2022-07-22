@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "firebase-setup/firebaseConfig";
-import updatePosts from "redux-setup/features/signed-user/thunks/updatePosts";
+import updatePosts from "redux-setup/features/user-on-page/thunks/updatePosts";
 import { useAppDispatch, useAppSelector } from "redux-setup/hooks";
 import PostType from "types/postType";
 import UserState from "types/userStateType";
