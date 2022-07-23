@@ -1,5 +1,5 @@
 import DropMenu from 'components/other/DropMenu';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import createNewComment from 'redux-setup/features/signed-user/thunks/createNewComment';
 import { useAppDispatch } from 'redux-setup/hooks';
@@ -24,10 +24,13 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({
 }) => {
 
     const dispatch = useAppDispatch();
-
     const { uid } = useParams();
 
     const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
+
+    const toggleEmojisOpen = useCallback(() => {
+        setAreEmojiOpen(prevVal => !prevVal)
+    }, [])
 
     const sendComment = async () => {
         const text = wordEntering;
@@ -41,9 +44,13 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({
         setWordEntering("");
     }
 
-    const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
+    const handleEmojiClick = useCallback((event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
         setWordEntering(prevText => prevText + emojiObject.emoji);
-    }
+    }, [])
+
+    const handleWordEntering = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setWordEntering(event.target.value)
+    }, [])
 
     const handleKey = (event: React.KeyboardEvent<HTMLInputElement> | React.KeyboardEvent<HTMLButtonElement>) => {
         if (event.key === "Enter") {
@@ -51,25 +58,25 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({
         }
     }
 
-    const closeEvent = (event: any) => {
+    const closeEvent = useCallback((event: any) => {
         event.stopPropagation();
         setAreEmojiOpen(false)
-    }
+    }, [])
 
     return (
         <div className="flex justify-between items-center rounded-b-xl border h-[50px] w-full px-4 gap-4">
             <div className="relative">
                 <button
                     className="h-full flex items-center"
-                    onClick={() => setAreEmojiOpen(prevVal => !prevVal)}
+                    onClick={toggleEmojisOpen}
                 >
                     <Smile styles="h-7 w-7"/>
                 </button>
                 {
                     areEmojiOpen ?
                         <DropMenu
-                            closeEvent={event => closeEvent(event)}
-                            styles="w-[200px] left-[-12px] bottom-[45px] h-64 z-20"
+                            closeEvent={closeEvent}
+                            styles="w-[240px] left-[-12px] bottom-[45px] h-64 z-20"
                             noAnimation={true}
                         >
                             <Picker
@@ -86,14 +93,14 @@ const CommentForm: React.FC<CommentFormProps> = React.memo(({
                 className="w-full h-8 placeholder:text-sm"
                 ref={commentsRef}
                 value={wordEntering}
-                onChange={event => setWordEntering(event.target.value)}
-                onKeyDown={event => handleKey(event)}
+                onChange={handleWordEntering}
+                onKeyDown={handleKey}
             />
             <button
                 className={`font-semibold ${wordEntering.length ? "text-blue-500": "text-blue-200"}`}
                 onClick={sendComment}
                 disabled={!wordEntering.length}
-                onKeyDown={event => handleKey(event)}
+                onKeyDown={handleKey}
             >
                 <p>Post</p>
             </button>

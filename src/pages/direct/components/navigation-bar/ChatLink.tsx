@@ -1,9 +1,8 @@
-import { doc, getDoc } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
-import { db } from 'firebase-setup/firebaseConfig'
 import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime'
+import useUserInfo from 'helpers/hooks/useUserInfo'
 
 type ChatLinkProps = {
     userId: string,
@@ -15,45 +14,33 @@ type ChatLinkProps = {
     lastEdited: number;
 }
 
-type UserInfoType = { 
-    profileImage: string, 
-    username: string 
-}
-
 const ChatLink: React.FC<ChatLinkProps> = React.memo(({ userId, chatId, lastMessage, lastEdited }) => {
     const navigate = useNavigate();
     const { chatId: chatParam } = useParams();
 
-    const [userInfo, setUserInfo] = useState<UserInfoType>({
-        profileImage: "",
-        username: "",
-    })
+    const userInfo = useUserInfo(userId)
 
-    useEffect(() => {
-        const getUser = async () => {
-            const user = await getDoc(doc(db, "users", userId));
-            setUserInfo({
-                profileImage: (user.data() as UserInfoType).profileImage,
-                username: (user.data() as UserInfoType).username,
-            })
-        }
-
-        getUser();
-    }, [])
-
-    const generateTime = () => {
+    const generateTime = useCallback(() => {
         let time = convertUnixTime(lastEdited)
         return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
-    }
+    }, [lastEdited])
+
+    const navigateToChat = useCallback(() => {
+        navigate(RoutesTypes.DIRECT + "/" + chatId)
+    }, [chatId])
 
     return (
         <button
             className={`flex h-20 px-2 pr-6 items-center justify-center py-1 ${chatParam === chatId && "back"}`}
-            onClick={() => navigate(RoutesTypes.DIRECT + "/" + chatId)}
+            onClick={navigateToChat}
         >
             <div className="w-full h-16 py-[0.5px] gap-4 flex items-center px-3">
                 <img
-                    src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+                    src={
+                        userInfo.profileImage.length ?
+                            userInfo.profileImage :
+                            process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"
+                    }
                     className="h-[60px] w-[60px] rounded-full object-cover"
                 />
                 <div className="flex flex-col justify-center text-left w-full">

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ProfileRoutes from 'constants/profile-routes'
 import ArrowToLeft from 'svgs/empty/ArrowToLeft'
@@ -14,13 +14,13 @@ type PostsModalNavigationProps = {
 const PostsModalNavigation: React.FC<PostsModalNavigationProps> = React.memo(({ currentIndex, posts, routePart }) => {
     const navigate = useNavigate();
 
-    const handleNavigateForward = () => {
+    const handleNavigateForward = useCallback(() => {
         navigate(`../${ProfileRoutes.POST}${posts[currentIndex - 1].postId}`, { replace: true })
-    }
+    }, [currentIndex])
 
-    const handleNavigateBack = () => {
+    const handleNavigateBack = useCallback(() => {
         navigate(`../${ProfileRoutes.POST}${posts[currentIndex + 1].postId}`, { replace: true })
-    }
+    }, [currentIndex])
 
     return (
         <>

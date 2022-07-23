@@ -1,5 +1,5 @@
 import RoutesTypes from 'constants/routes-types';
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
 import { IMessageProps } from './RoomMessages';
@@ -15,6 +15,10 @@ const TextMessage: React.FC<IMessageProps> = React.memo(({ text, from, profileIm
         }
     }, [])
 
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + from.userId)
+    }, [from.userId])
+
     return (
         <div
             className={`
@@ -27,10 +31,14 @@ const TextMessage: React.FC<IMessageProps> = React.memo(({ text, from, profileIm
                 from.userId !== loggedUser.userId ?
                     <button
                         className="flex justify-center items-center gap-4 self-end"
-                        onClick={() => navigate(RoutesTypes.DASHBOARD + from.userId)}
+                        onClick={navigateToProfile}
                     >
                         <img
-                            src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+                            src={
+                                profileImage.length ?
+                                    profileImage :
+                                    process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"
+                            }
                             className="h-8 w-8 rounded-full object-cover"
                         />
                     </button> :

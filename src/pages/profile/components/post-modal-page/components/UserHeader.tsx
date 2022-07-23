@@ -2,7 +2,7 @@ import AreYouSureModal from 'components/modal/AreYouSureModal';
 import Modal from 'components/modal/Modal';
 import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import addToFollowing from "redux-setup/features/signed-user/thunks/addToFollowing";
 import removeFromFollowing from "redux-setup/features/signed-user/thunks/removeFromFollowing";
@@ -25,20 +25,28 @@ const UserHeader: React.FC<UserHeaderProps> = React.memo(({ userInfo }) => {
 
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
 
-    const handleFollowingClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleFollowingClick = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         setIsUnfollowModalOpen(true);
-    }
+    }, [])
 
-    const handleFollowClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleFollowClick = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         dispatch(addToFollowing({ userId: userInfo.userId, uid: uid as string }));
-    }
+    }, [userInfo.userId, uid])
 
-    const areYouSureEvent = () => {
+    const areYouSureEvent = useCallback(() => {
         setIsUnfollowModalOpen(false)
         dispatch(removeFromFollowing({ userId: userInfo.userId, uid: uid as string }))
-    }
+    }, [userInfo.userId, uid])
+
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + userInfo.userId)
+    }, [userInfo.userId])
+
+    const closeUnfollowModal = useCallback(() => {
+        setIsUnfollowModalOpen(false)
+    }, [])
 
     return (
         <>
@@ -47,10 +55,14 @@ const UserHeader: React.FC<UserHeaderProps> = React.memo(({ userInfo }) => {
                     userInfo.userId.length ?
                         <button
                             className="h-14 py-[0.5px] gap-4 flex items-center px-3"
-                            onClick={() => navigate(RoutesTypes.DASHBOARD + userInfo.userId)}
+                            onClick={navigateToProfile}
                         >
                             <img
-                                src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
+                                src={
+                                    userInfo.profileImage.length ?
+                                        userInfo.profileImage :
+                                        process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"
+                                }
                                 className="h-9 w-9 rounded-full object-cover"
                             />
                             <p className="font-medium text-[14px] tracking-wide whitespace-nowrap">{userInfo.username}</p>
@@ -70,13 +82,13 @@ const UserHeader: React.FC<UserHeaderProps> = React.memo(({ userInfo }) => {
                                 loggedUser.following.some(data => data.userId === userInfo.userId) ?
                                     <button
                                         className="rounded text-gray-800 text-sm font-medium cursor-pointer"
-                                        onClick={(event) => handleFollowingClick(event)}
+                                        onClick={handleFollowingClick}
                                     >
                                         Following
                                     </button> :
                                     <button
                                         className="font-medium text-cyan-500 rounded cursor-pointer text-sm tracking-wide"
-                                        onClick={(event) => handleFollowClick(event)}
+                                        onClick={handleFollowClick}
                                     >
                                         Follow
                                     </button>
@@ -88,13 +100,13 @@ const UserHeader: React.FC<UserHeaderProps> = React.memo(({ userInfo }) => {
             {
                 isUnfollowModalOpen ?
                     <Modal
-                        closeEvent={() => setIsUnfollowModalOpen(false)}
+                        closeEvent={closeUnfollowModal}
                         styles="h-72 top-[26.5%]"
                     >
                         <AreYouSureModal
                             areYouSureEvent={areYouSureEvent}
                             profileImage={userInfo.profileImage}
-                            closeEvent={() => setIsUnfollowModalOpen(false)}
+                            closeEvent={closeUnfollowModal}
                             questionText={`Unfollow @${userInfo.username}`}
                             buttonText="Unfollow"
                         />

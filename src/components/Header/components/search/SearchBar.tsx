@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import Search from 'svgs/empty/Search';
 
 type SearchBarProps = {
@@ -8,6 +8,10 @@ type SearchBarProps = {
 
 const SearchBar: React.FC<SearchBarProps> = React.memo(({ wordEntering, setWordEntering }) => {
     const inputRef = useRef<any>();
+
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setWordEntering(event.target.value)
+    }, [])
 
     return (
         <button
@@ -24,7 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ wordEntering, setWordE
                 placeholder="Search"
                 ref={inputRef}
                 value={wordEntering}
-                onChange={(event) => setWordEntering(event.target.value)}
+                onChange={handleChange}
             />
         </button>
     )

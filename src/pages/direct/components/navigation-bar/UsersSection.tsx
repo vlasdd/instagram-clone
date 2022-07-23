@@ -39,6 +39,10 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
         key={loggedUser.userId === chat.firstUserId ? chat.secondUserId : chat.firstUserId}
     />), [chats, loggedUser.userId])
 
+    const navigateToDirect = useCallback(() => {
+        navigate(RoutesTypes.DIRECT)
+    }, [])
+
     return (
         <aside className="w-full sm:w-[520px] h-full border-r flex flex-col">
             <div className="flex justify-end items-center h-[60px] border-b pr-4">
@@ -47,7 +51,7 @@ const UsersSection: React.FC<{ openModal: () => void }> = React.memo(({ openModa
                 >
                     <button
                         className="font-medium"
-                        onClick={() => navigate(RoutesTypes.DIRECT)}
+                        onClick={navigateToDirect}
                     >
                         <p>@{loggedUser.username}</p>
                     </button>

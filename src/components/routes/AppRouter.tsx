@@ -1,15 +1,14 @@
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
 import React, { lazy } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
 import AccountsRoutes from 'constants/accounts-routes';
 
+const ListModalRoute = lazy(() => import("components/routes/ListModalRoute"));
 const PrivateRoute = lazy(() => import("components/routes/PrivateRoute"));
 const PostsContainer = lazy(() => import("pages/profile/components/posts/PostsContainer"));
-const Modal = lazy(() => import("components/modal/Modal"));
-const UsersListModal = lazy(() => import("pages/profile/components/users-list/UsersListModal"));
-const PostModalPage = lazy(() => import("pages/profile/components/post-modal-page/PostModalPage"));
+const PostModalPageRoute = lazy(() => import("components/routes/PostModalPageRoute"));
 const SavedPosts = lazy(() => import("pages/profile/components/posts/SavedPosts"));
 const EditProfile = lazy(() => import("pages/accounts/components/EditProfile"));
 const ChangePassword = lazy(() => import("pages/accounts/components/ChangePassword"));
@@ -27,7 +26,6 @@ const Explore = lazy(() => import("pages/explore/Explore"));
 const AppRouter: React.FC = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const userOnPage = useAppSelector(state => state.userOnPage.user);
-    const navigate = useNavigate();
 
     return (
         <Routes>
@@ -37,14 +35,7 @@ const AppRouter: React.FC = () => {
             >
                 <Route
                     path={`${ProfileRoutes.POST}:postId`}
-                    element={
-                        <Modal
-                            closeEvent={() => navigate(-1)}
-                            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
-                        >
-                            <PostModalPage />
-                        </Modal>
-                    }
+                    element={<PostModalPageRoute/>}
                 />
             </Route>
             <Route
@@ -79,44 +70,15 @@ const AppRouter: React.FC = () => {
                 >
                     <Route
                         path={ProfileRoutes.FOLLOWERS}
-                        element={
-                            <Modal
-                                closeEvent={() => navigate(-1)}
-                                styles="h-96 top-[20%]"
-                            >
-                                <UsersListModal
-                                    descriptionLine="Followers"
-                                    usersList={userOnPage.followers}
-                                    closeEvent={() => navigate(-1)}
-                                />
-                            </Modal>
-                        }
+                        element={<ListModalRoute usersList={userOnPage.followers} descriptionLine="Followers" />}
                     />
                     <Route
                         path={ProfileRoutes.FOLLOWING}
-                        element={
-                            <Modal
-                                closeEvent={() => navigate(-1)}
-                                styles="h-96 top-[20%]"
-                            >
-                                <UsersListModal
-                                    descriptionLine="Following"
-                                    usersList={userOnPage.following}
-                                    closeEvent={() => navigate(-1)}
-                                />
-                            </Modal>
-                        }
+                        element={<ListModalRoute usersList={userOnPage.following} descriptionLine="Following" />}
                     />
                     <Route
                         path={`${ProfileRoutes.POST}:postId`}
-                        element={
-                            <Modal
-                                closeEvent={() => navigate(-1)}
-                                styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
-                            >
-                                <PostModalPage />
-                            </Modal>
-                        }
+                        element={<PostModalPageRoute />}
                     />
                 </Route>
                 <Route
@@ -125,14 +87,7 @@ const AppRouter: React.FC = () => {
                 >
                     <Route
                         path={`${ProfileRoutes.POST}:postId`}
-                        element={
-                            <Modal
-                                closeEvent={() => navigate(-1)}
-                                styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
-                            >
-                                <PostModalPage />
-                            </Modal>
-                        }
+                        element={<PostModalPageRoute/>}
                     />
                 </Route>
                 <Route
@@ -160,19 +115,7 @@ const AppRouter: React.FC = () => {
                 <Route
                     path={`${RoutesTypes.DIRECT}:chatId`}
                     element={<ChatRoom />}
-                >
-                    <Route
-                    path={`${ProfileRoutes.POST}:postId`}
-                    element={
-                        <Modal
-                            closeEvent={() => navigate(-1)}
-                            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
-                        >
-                            <PostModalPage />
-                        </Modal>
-                    }
                 />
-                </Route>
             </Route>
             <Route
                 path={RoutesTypes.PEOPLE}
@@ -184,14 +127,7 @@ const AppRouter: React.FC = () => {
             >
                 <Route
                     path={`${ProfileRoutes.POST}:postId`}
-                    element={
-                        <Modal
-                            closeEvent={() => navigate(-1)}
-                            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
-                        >
-                            <PostModalPage />
-                        </Modal>
-                    }
+                    element={<PostModalPageRoute/>}
                 />
             </Route>
             <Route

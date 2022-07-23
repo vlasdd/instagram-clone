@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Info from 'svgs/both/Info';
 import MessageForm from './MessageForm';
@@ -15,8 +15,15 @@ const ChatRoom: React.FC = React.memo(() => {
 
     const { secondUser, wordEntering, setWordEntering, messages } = useUserAndMessages();
 
-    return (
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + secondUser.userId)
+    }, [secondUser.userId])
 
+    const toggleInfoOpen = useCallback(() => {
+        setIsInfoOpen(prevVal => !prevVal)
+    }, [])
+
+    return (
         <div className="w-full h-full flex flex-col items-center">
             <div className="flex justify-between items-center border-b h-[60px] pl-8 pr-6 w-full">
                 {
@@ -24,16 +31,20 @@ const ChatRoom: React.FC = React.memo(() => {
                         <p className="font-medium whitespace-nowrap ml-[45%]">Details</p> :
                         <button
                             className="flex gap-4"
-                            onClick={() => navigate(RoutesTypes.DASHBOARD + secondUser.userId)}
+                            onClick={navigateToProfile}
                         >
                             <img
-                                src={secondUser.profileImage.length ? secondUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+                                src={
+                                    secondUser.profileImage.length ?
+                                        secondUser.profileImage :
+                                        process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"
+                                }
                                 className="h-6 w-6 rounded-full object-cover"
                             />
                             <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>
                         </button>
                 }
-                <button onClick={() => setIsInfoOpen(prevVal => !prevVal)}>
+                <button onClick={toggleInfoOpen}>
                     <Info
                         isOpen={isInfoOpen}
                     />

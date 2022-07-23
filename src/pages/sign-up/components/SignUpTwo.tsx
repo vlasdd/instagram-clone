@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import UserData from "types/userDataType";
 import BirthdateState from "types/birthdateType";
 import { Link } from "react-router-dom";
@@ -19,10 +19,14 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
 
     const isInvalid = useMemo(() => new Date().getFullYear() - birthdate.year > 5 ? false: true, [birthdate])
 
-    const handleNextClick = () => {
+    const handleNextClick = useCallback(() => {
         setUserData(prevData => ({ ...prevData, birthdate }))
         setCurrentPageId(prevVal => prevVal + 1)
-    }
+    }, [birthdate])
+
+    const incrementPageId = useCallback(() => {
+        setCurrentPageId(prevVal => prevVal - 1)
+    }, [])
 
     return (
         <div className="w-4/5 sm:w-3/5 lg:w-1/3">
@@ -75,7 +79,7 @@ const SignUpTwo: React.FC<SignUpTwoProps> = ({ setCurrentPageId, setUserData }) 
                 </form>
                 <button 
                     className="w-1/5 mb-6 font-bold text-blue-400"
-                    onClick={() => setCurrentPageId(prevVal => prevVal - 1)}
+                    onClick={incrementPageId}
                 >
                     Go Back
                 </button>

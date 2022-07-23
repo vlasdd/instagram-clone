@@ -1,6 +1,6 @@
 import Modal from 'components/modal/Modal';
 import RoutesTypes from 'constants/routes-types';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux-setup/hooks';
 import ImageModal from './ImageModal';
@@ -19,6 +19,19 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, media, p
         }
     }, [])
 
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + from.userId)
+    }, [from.userId])
+
+    const openImageModal = useCallback(() => {
+        setIsImageModalOpen(true);
+    }, [])
+
+    const closeImageModal = useCallback(() => {
+        setIsImageModalOpen(false);
+    }, [])
+
+
     return (
         <>
             <div
@@ -32,10 +45,14 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, media, p
                     from.userId !== loggedUser.userId ?
                         <button
                             className="flex justify-center items-center gap-4 self-end"
-                            onClick={() => navigate(RoutesTypes.DASHBOARD + from.userId)}
+                            onClick={navigateToProfile}
                         >
                             <img
-                                src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+                                src={
+                                    profileImage.length ?
+                                        profileImage :
+                                        process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"
+                                }
                                 className="h-8 w-8 rounded-full object-cover"
                             />
                         </button> :
@@ -46,7 +63,7 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, media, p
                     ${from.userId === loggedUser.userId ? "bg-gray-200" : "border"} 
                     ${text.length ? "pb-1" : ""} w-[200px]
                 `}>
-                    <button onClick={() => setIsImageModalOpen(true)}>
+                    <button onClick={openImageModal}>
                         <img
                             src={media}
                             className="h-[190px] w-full rounded rounded-t-[10px] object-cover mb-[-5px]"
@@ -64,7 +81,7 @@ const ImageMessage: React.FC<IMessageProps> = React.memo(({ text, from, media, p
             {
                 isImageModalOpen ?
                     <Modal
-                        closeEvent={() => setIsImageModalOpen(false)}
+                        closeEvent={closeImageModal}
                         styles="w-[70%] sm:w-5/6 h-[60%] lg:h-[90%] top-[20%] lg:top-[5%]"
                     >
                         <ImageModal image={media} />

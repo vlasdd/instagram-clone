@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from "react-router-dom";
 import RoutesTypes from "constants/routes-types"
 import isEmailAvailable from 'firebase-setup/isEmailAvailable';
 import isUsernameAvailable from "firebase-setup/isUsernameAvailable";
 import UserData from "types/userDataType";
+import isEmailValid from 'helpers/other/is-email-valid/isEmailValid';
 
 type SignUpOneProps = {
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>
@@ -34,17 +35,18 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
             return;
         }
 
-        const isEmailValid = userData.emailOrPhoneNumber.match(
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-
-        if (!isEmailValid) {
+        if (!isEmailValid(userData.emailOrPhoneNumber)) {
             setError("Enter a valid email address.");
             return;
         }
 
         setCurrentPageId(prevVal => prevVal + 1)
     }
+
+
+    const toggleShowPassword = useCallback(() => {
+        setShowPassword(prevVal => !prevVal)
+    }, [])
 
     return (
         <div className="w-4/5 sm:w-1/2 lg:w-1/3">
@@ -102,7 +104,7 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                             userData.password.length !== 0 &&
                             <button
                                 type="button"
-                                onClick={() => setShowPassword(prevVal => !prevVal)}
+                                onClick={toggleShowPassword}
                                 className="w-1/5 h-1/2 text-sm bg-red font-medium rounded"
                             >
                                 {showPassword ? "Hide" : "Show"}
@@ -116,7 +118,7 @@ const SignUpOne: React.FC<SignUpOneProps> = ({ setCurrentPageId, userData, setUs
                         disabled={isInvalid}
                         type="button"
                         className={`bg-blue-500 w-4/5 text-white rounded h-8 mb-8 font-bold ${isInvalid && "opacity-50"}`}
-                        onClick={event => handleSignUp(event)}
+                        onClick={handleSignUp}
                     >
                         Sign up
                     </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
@@ -17,26 +17,34 @@ const UserSuggestion: React.FC<UserSuggestionType> = React.memo(({ profileImage,
 
     const [isUnfollowModalOpen, setIsUnfollowModalOpen] = useState<boolean>(false);
 
-    const handleFollowingClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleFollowingClick = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         setIsUnfollowModalOpen(true);
-    }
+    }, [])
 
-    const handleFollowClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleFollowClick = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.stopPropagation();
         dispatch(addToFollowing({ userId, uid: uid as string }));
-    }
+    }, [userId, uid])
 
-    const areYouSureEvent = () => {
+    const areYouSureEvent = useCallback(() => {
         setIsUnfollowModalOpen(false)
         dispatch(removeFromFollowing({ userId, uid: uid as string }))
-    }
+    }, [userId, uid])
+
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + userId)
+    }, [userId])
+
+    const closeUnfollowModal = useCallback(() => {
+        setIsUnfollowModalOpen(false)
+    }, [])
 
     return (
         <div className="flex w-full h-13 mb-1 px-2 justify-between items-center my-[4px]">
             <button 
                 className="w-full h-full py-[0.5px] gap-2 flex items-center"
-                onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
+                onClick={navigateToProfile}
             >
                 <img
                     src={profileImage.length ? profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
@@ -53,13 +61,13 @@ const UserSuggestion: React.FC<UserSuggestionType> = React.memo(({ profileImage,
                     loggedUser.following.some(data => data.userId === userId) ?
                         <button
                             className="h-7 w-28 rounded border text-sm font-medium cursor-pointer"
-                            onClick={(event) => handleFollowingClick(event)}
+                            onClick={handleFollowingClick}
                         >
                             Following
                         </button> :
                         <button
                             className="h-7 w-20 bg-blue-500 font-medium text-white rounded cursor-pointer text-sm tracking-wide"
-                            onClick={(event) => handleFollowClick(event)}
+                            onClick={handleFollowClick}
                         >
                             Follow
                         </button>
@@ -67,13 +75,13 @@ const UserSuggestion: React.FC<UserSuggestionType> = React.memo(({ profileImage,
             {
                 isUnfollowModalOpen ?
                     <Modal
-                        closeEvent={() => setIsUnfollowModalOpen(false)}
+                        closeEvent={closeUnfollowModal}
                         styles="h-72 top-[26.5%]"
                     >
                         <AreYouSureModal
                             areYouSureEvent={areYouSureEvent}
                             profileImage={profileImage}
-                            closeEvent={() => setIsUnfollowModalOpen(false)}
+                            closeEvent={closeUnfollowModal}
                             questionText={`Unfollow ${username}`}
                             buttonText="Unfollow"
                         />

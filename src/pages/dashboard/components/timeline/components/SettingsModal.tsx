@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import PostType from 'types/postType';
 import { useNavigate, useParams } from 'react-router-dom';
 import RoutesTypes from 'constants/routes-types';
@@ -14,19 +14,19 @@ type SettingsModalProps = {
 }
 
 const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, post }) => {
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     
+    const navigate = useNavigate();
     const { uid } = useParams();
 
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
-    const handleUnfollowClick = () => {
+    const handleUnfollowClick = useCallback(() => {
         dispatch(removeFromFollowing({ userId: post.fromId, uid: uid as string }))
         closeEvent()
-    }
+    }, [post.fromId, uid])
 
-    const handleCopy = () => {
+    const handleCopy = useCallback(() => {
         navigator.clipboard.writeText(
             window.location.origin +
             RoutesTypes.DASHBOARD +
@@ -35,7 +35,19 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
             post.postId
         );
         closeEvent();
-    }
+    }, [window.location.origin, post.fromId, post.postId])
+
+    const navigateToPost = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + post.fromId + "/" + ProfileRoutes.POST + post.postId)
+    }, [post.fromId, post.postId])
+
+    const openShareModal = useCallback(() => {
+        setIsShareModalOpen(true)
+    }, [])
+
+    const closeShareModal = useCallback(() => {
+        setIsShareModalOpen(false)
+    }, [])
 
     return (
         <>
@@ -48,13 +60,13 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
                 </button>
                 <button
                     className="w-full active:bg-gray-300 h-12 border-t-2 flex items-center justify-center text-sm"
-                    onClick={() => navigate(RoutesTypes.DASHBOARD + post.fromId + "/" + ProfileRoutes.POST + post.postId)}
+                    onClick={navigateToPost}
                 >
                     Go to post
                 </button>
                 <button
                     className="w-full active:bg-gray-300 h-12 border-t-2 flex items-center justify-center text-sm"
-                    onClick={() => setIsShareModalOpen(true)}
+                    onClick={openShareModal}
                 >
                     Share to
                 </button>
@@ -74,11 +86,11 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
             {
                 isShareModalOpen ?
                     <Modal
-                        closeEvent={() => setIsShareModalOpen(false)}
+                        closeEvent={closeShareModal}
                         styles="h-[450px] top-[20%]"
                     >
                         <SharePostModal
-                            closeEvent={() => setIsShareModalOpen(false)}
+                            closeEvent={closeShareModal}
                             currentPost={post}
                         />
                     </Modal> :

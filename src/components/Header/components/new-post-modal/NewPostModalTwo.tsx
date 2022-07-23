@@ -22,18 +22,30 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
 
     const [areEmojiOpen, setAreEmojiOpen] = useState<boolean>(false);
 
-    const createPost = () => {
+    const decrementPageId = useCallback(() => {
+        setCurrentPageId(prevVal => prevVal - 1)
+    }, [])
+
+    const createPost = useCallback(() => {
         dispatch(addNewPost({ image, text }))
         setCurrentPageId(prevVal => prevVal + 1);
-    }
+    }, [image, text])
 
-    const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
+    const handleEmojiClick = useCallback((event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
         setText(prevText => prevText + emojiObject.emoji);
-    }
+    }, [])
 
     const closeEvent = useCallback((event: any) => {
         event.stopPropagation();
         setAreEmojiOpen(false)
+    }, [])
+
+    const handleTextChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setText(event.target.value)
+    }, [])
+
+    const toggleEmojisOpen = useCallback(() => {
+        setAreEmojiOpen(prevVal => !prevVal)
     }, [])
 
     return (
@@ -52,7 +64,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
         >
             <div className="h-10 w-full flex justify-center items-center font-medium border-b relative">
                 <div className="w-full h-12 flex justify-between items-center px-4">
-                    <button onClick={() => setCurrentPageId(prevVal => prevVal - 1)}>
+                    <button onClick={decrementPageId}>
                         <ReturnBack />
                     </button>
                     <p>Create new post</p>
@@ -73,7 +85,7 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
                     {
                         areEmojiOpen ?
                                 <DropMenu
-                                    closeEvent={(event) => closeEvent(event)}
+                                    closeEvent={closeEvent}
                                     styles="w-[calc(100%-10px)] sm:w-[250px] bottom-[calc(100%-221px)] right-[5px] sm:right-[2px] sm:bottom-[225px] h-[217px] sm:h-[233px] z-20 "
                                     noAnimation={true}
                                 >
@@ -101,21 +113,25 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
                         className="w-full h-14 py-[0.5px] gap-2 flex items-center px-3"
                     >
                         <img
-                            src={user.profileImage.length ? user.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
+                            src={
+                                user.profileImage.length ?
+                                    user.profileImage :
+                                    process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"
+                            }
                             className="h-9 w-9 rounded-full object-cover"
                         />
                         <p className="font-medium text-sm tracking-wide whitespace-nowrap">{user.username}</p>
                     </div>
-                    <textarea 
+                    <textarea
                         className="resize-none h-36 overflow-hidden overflow-y-auto px-3 focus:outline-none text-sm text-sm"
                         placeholder='Write a caption...'
-                        onChange={(event) => setText(event.target.value)}
+                        onChange={handleTextChange}
                         value={text}
                     />
                     <div className="w-full flex justify-between sm:border-b px-2 pb-2">
                         <button
                             className="h-full flex items-center"
-                            onClick={() => setAreEmojiOpen(prevVal => !prevVal)}
+                            onClick={toggleEmojisOpen}
                         >
                             <Smile styles="w-6 h-6 text-gray-400"/>
                         </button>

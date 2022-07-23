@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import getUsers from 'helpers/other/get-users/getUsers';
 import { useAppSelector } from 'redux-setup/hooks';
 import Close from 'svgs/empty/Close'
@@ -27,12 +27,12 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = React.memo(({ clos
     return () => clearTimeout(handler);
   }, [wordEntering])
 
-  const handleChosenClick = (chosenUser: UserSuggestion) => {
+  const handleChosenClick = useCallback((chosenUser: UserSuggestion) => {
     setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== chosenUser.username))
     if (inputRef.current !== null) {
       inputRef.current.focus();
     }
-  }
+  }, [inputRef.current])
 
   const chosenUsersElements = useMemo(() => chosenUsers.map(chosenUser => (
     <div
@@ -77,6 +77,14 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = React.memo(({ clos
     key={doc.userId}
   />), [filteredUsers, chosenUsers])
 
+  const createChat = useCallback(() => {
+    createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: closeEvent })
+  }, [chosenUsers])
+
+  const handleWordEntering = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setWordEntering(event.target.value)
+  }, [])
+
   return (
     <>
       <div className="h-11 w-full flex justify-center items-center font-medium border-b relative ">
@@ -92,7 +100,7 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = React.memo(({ clos
         <button
           className={`absolute right-3 font-bold ${chosenUsers.length === 0 ? "text-blue-300" : "text-blue-500"}`}
           disabled={chosenUsers.length === 0}
-          onClick={() => createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: closeEvent })}
+          onClick={createChat}
         >
           <p>Next</p>
         </button>
@@ -106,7 +114,7 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = React.memo(({ clos
             type="text"
             placeholder="Search..."
             value={wordEntering}
-            onChange={(event) => setWordEntering(event.target.value)}
+            onChange={handleWordEntering}
             ref={inputRef}
           />
         </div>

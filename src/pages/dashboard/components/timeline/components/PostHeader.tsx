@@ -1,7 +1,7 @@
 import Modal from 'components/modal/Modal';
 import UserLoader from 'components/other/UserLoader';
 import RoutesTypes from 'constants/routes-types';
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Additional from 'svgs/empty/Additional';
 import PostType from 'types/postType';
@@ -20,16 +20,32 @@ const PostHeader: React.FC<PostHeaderProps> = React.memo(({ userInfo, post }) =>
     const navigate = useNavigate();
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
 
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + userInfo.userId)
+    }, [userInfo.userId])
+
+    const openSettingsModal = useCallback(() => {
+        setIsSettingsModalOpen(true)
+    }, [])
+
+    const closeSettingsModal = useCallback(() => {
+        setIsSettingsModalOpen(false)
+    }, [])
+
     return (
         <div className="w-full flex justify-between border-b items-center">
             {
                 userInfo.userId.length ?
                     <button
                         className="h-14 py-[0.5px] gap-4 flex items-center px-3"
-                        onClick={() => navigate(RoutesTypes.DASHBOARD + userInfo.userId)}
+                        onClick={navigateToProfile}
                     >
                         <img
-                            src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
+                            src={
+                                userInfo.profileImage.length ?
+                                    userInfo.profileImage :
+                                    process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"
+                            }
                             className="h-9 w-9 rounded-full object-cover"
                         />
                         <p className="font-medium text-[14px] tracking-wide whitespace-nowrap">{userInfo.username}</p>
@@ -43,18 +59,18 @@ const PostHeader: React.FC<PostHeaderProps> = React.memo(({ userInfo, post }) =>
             }
             <button
                 className="mr-4"
-                onClick={() => setIsSettingsModalOpen(true)}
+                onClick={openSettingsModal}
             >
                 <Additional styles="h-5 w-5" />
             </button>
             {
                 isSettingsModalOpen ?
                     <Modal
-                        closeEvent={() => setIsSettingsModalOpen(false)}
+                        closeEvent={closeSettingsModal}
                         styles="top-[35%] h-60"
                     >
                         <SettingsModal
-                            closeEvent={() => setIsSettingsModalOpen(false)}
+                            closeEvent={closeSettingsModal}
                             post={post}
                         />
                     </Modal> :

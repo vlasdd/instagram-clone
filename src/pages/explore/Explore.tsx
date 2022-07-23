@@ -12,6 +12,7 @@ const Explore: React.FC = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
 
     const { postsSuggestions, setPostsSuggestions }  = useSuggestions();
+    
     const postsImageElements = useMemo(() => [...postsSuggestions].reverse().map(post => (
         <PostImage {...post} key={post.postId}/>
     )), [postsSuggestions])

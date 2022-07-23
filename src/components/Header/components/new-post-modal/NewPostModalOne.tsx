@@ -1,31 +1,29 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { motion } from "framer-motion";
 import useWindowWidth from 'helpers/hooks/useWindowWidth';
 import Copy from 'svgs/empty/Copy';
 import DropMenu from 'components/other/DropMenu';
-import GalleryDropMenu from './GalleryDropMenu';
 
 type NewPostModalOneProps = { 
     image: any[], 
     setImage: React.Dispatch<React.SetStateAction<any[]>>,
     setCurrentPageId: React.Dispatch<React.SetStateAction<number>>,
-    currentImageIndex: number
-    setCurrentImageIndex: React.Dispatch<React.SetStateAction<number>>,
 }
 
 const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({ 
     image, 
     setImage, 
     setCurrentPageId, 
-    setCurrentImageIndex, 
-    currentImageIndex 
 }) => {
     const [drag, setDrag] = useState<boolean>(false);
     const [errorFileName, setErrorFileName] = useState<null | string>(null);
-    const [areImagesOpened, setAreImagesOpen] = useState<boolean>(false);
     const innerWidth = useWindowWidth();
 
-    const onDropHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    const incrementPageId = useCallback(() => {
+        setCurrentPageId(prevVal => prevVal + 1)
+    }, [])
+
+    const onDropHandler = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
 
         const file = event.dataTransfer.files[0]
@@ -36,24 +34,24 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
         }
         
         setImage(prevFiles => [...prevFiles, file])
-    }
+    }, [])
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         const { files } = event.target
         if (files && files[0]) {
             setImage(prevFiles => [...prevFiles, files[0]]);
         }
-    }
+    }, [])
 
-    const onDragStartHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    const onDragStartHandler = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setDrag(true);
-    }
+    }, [])
     
-    const onDragLeaveHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    const onDragLeaveHandler = useCallback((event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setDrag(false);
-    }
+    }, [])
 
     return (
         <motion.div
@@ -74,7 +72,7 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
                     image.length ?
                         <button
                             className="absolute right-3 font-bold text-blue-500"
-                            onClick={() => setCurrentPageId(prevVal => prevVal + 1)}
+                            onClick={incrementPageId}
                         >
                             <p>Next</p>
                         </button> :
@@ -83,43 +81,21 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
             </div>
             {
                 image.length ?
-                    <div className="relative h-[calc(100%-40px)] w-full">
+                    <div className="h-[calc(100%-40px)] w-full">
                         <img
                             src={URL.createObjectURL(image[0])}
                             className="h-full w-full object-cover rounded-b-xl"
                         />
-                        <button
-                            className={`
-                                absolute right-4 bottom-4 rounded-full w-8 h-8 flex items-center justify-center
-                                ${areImagesOpened ? "bg-white text-zinc-700 shadow-xl" : "bg-zinc-700 text-white"}
-                            `}
-                            onClick={() => setAreImagesOpen(prevVal => !prevVal)}
-                        >
-                            <Copy />
-                        </button>
-                        {
-                            areImagesOpened ?
-                                <DropMenu
-                                    closeEvent={() => setAreImagesOpen(false)}
-                                    styles="max-w-[calc(100%-31px)] right-4 bottom-16 bg-zinc-700"
-                                    noAnimation={true}
-                                >
-                                    <GalleryDropMenu
-                                        images={image}
-                                        setImage={setImage}
-                                        currentImageIndex={currentImageIndex}
-                                        setCurrentImageIndex={setCurrentImageIndex}
-                                    />
-                                </DropMenu> :
-                                null
-                        }
                     </div> :
                     <div
-                        className={`w-full h-full flex flex-col justify-center items-center gap-2 rounded-b-xl ${(drag || errorFileName) && "back"}`}
-                        onDragStart={(event) => onDragStartHandler(event)}
-                        onDragLeave={(event) => onDragLeaveHandler(event)}
-                        onDragOver={(event) => onDragStartHandler(event)}
-                        onDrop={(event) => onDropHandler(event)}
+                        className={`
+                            w-full h-full flex flex-col justify-center items-center gap-2 rounded-b-xl 
+                            ${(drag || errorFileName) ? "back": ""}
+                        `}
+                        onDragStart={onDragStartHandler}
+                        onDragLeave={onDragLeaveHandler}
+                        onDragOver={onDragStartHandler}
+                        onDrop={onDropHandler}
                     >
                         <img
                             src={
@@ -149,7 +125,7 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
                                 type="file"
                                 accept="image/png, image/jpg, image/jpeg"
                                 className="hidden"
-                                onChange={(event) => handleChange(event)}
+                                onChange={handleChange}
                             />
                             <p>{errorFileName ? "Select other files" : "Select from computer"}</p>
                         </label>

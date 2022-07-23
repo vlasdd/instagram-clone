@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "firebase-setup/firebaseConfig";
@@ -17,7 +17,7 @@ const Login: React.FC = React.memo(() => {
 
     const isInvalid = password.length < 6 || !email;
 
-    const handleLogin = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleLogin = useCallback(async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         
         try {
@@ -31,7 +31,19 @@ const Login: React.FC = React.memo(() => {
             setError(error.message);
             console.log(error);
         }
-    }
+    }, [auth, email, password])
+
+    const handleEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value)
+    }, [])
+
+    const handlePassword = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value)
+    }, [])
+
+    const toggleShowPassword = useCallback(() => {
+        setShowPassword(prevVal => !prevVal)
+    }, [])
 
     return (
         <div className="h-screen w-screen back">
@@ -65,7 +77,7 @@ const Login: React.FC = React.memo(() => {
                                 type="text"
                                 placeholder="Email address"
                                 value={email}
-                                onChange={(event) => setEmail(event.target.value)}
+                                onChange={handleEmail}
                             />
                             <div className="w-4/5 border rounded mb-6 flex items-center bg-[#fcfafa]">
                                 <input
@@ -75,13 +87,13 @@ const Login: React.FC = React.memo(() => {
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
                                     value={password}
-                                    onChange={(event) => setPassword(event.target.value)}
+                                    onChange={handlePassword}
                                 />
                                 {
                                     password.length !== 0 &&
                                     <button
                                         type="button"
-                                        onClick={() => setShowPassword(prevVal => !prevVal)}
+                                        onClick={toggleShowPassword}
                                         className="w-1/5 h-1/2 text-sm bg-red font-medium rounded"
                                     >
                                         {showPassword ? "Hide" : "Show"}
@@ -92,7 +104,7 @@ const Login: React.FC = React.memo(() => {
                                 disabled={isInvalid}
                                 type="submit"
                                 className={`bg-blue-500 w-4/5 text-white rounded h-8 mb-8 font-bold ${isInvalid && "opacity-50"}`}
-                                onClick={(event) => handleLogin(event)}
+                                onClick={handleLogin}
                             >
                                 Log In
                             </button>

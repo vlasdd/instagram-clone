@@ -1,5 +1,5 @@
 import RoutesTypes from 'constants/routes-types';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks';
 import Heart from 'svgs/empty/Heart';
@@ -7,13 +7,10 @@ import FilledHeart from 'svgs/filled/FilledHeart';
 import CommentsType from 'types/commentsType';
 import { motion } from "framer-motion";
 import useCommentLikes from 'helpers/hooks/useCommentLikes';
-import usePosts from 'pages/profile/hooks/usePosts';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from 'firebase-setup/firebaseConfig';
-import UserState from 'types/userStateType';
 import convertUnixTime from 'helpers/other/convert-unix-time/convertUnixTime';
 import Modal from 'components/modal/Modal';
 import UsersListModal from '../../users-list/UsersListModal';
+import useUserInfo from 'helpers/hooks/useUserInfo';
 
 interface ICommentsProps extends CommentsType {
     fromId: string,
@@ -34,40 +31,33 @@ const Comment: React.FC<ICommentsProps> = React.memo(({
     const loggedUser = useAppSelector(state => state.signedUser.user); 
 
     const navigate = useNavigate();
-
     const { postId } = useParams();
-
-    const [userInfo, setUserInfo] = useState<{
-        username: string,
-        profileImage: string,
-        userId: string
-    }>({
-        username: "",
-        profileImage: "",
-        userId: ""
-    })
+ 
+    const userInfo = useUserInfo(userId)
+    const { addLike, removeLike } = useCommentLikes({ userId: fromId, postId: postId as string, commentId, changePostsAdd, changePostsRemove })
+    
     const [isListModalOpen, setIsListModalOpen] = useState<boolean>(false);
 
-    useEffect(() => {
-        const getUser = async () => {
-            const user = (await getDoc(doc(db, "users", userId))).data() as UserState;
-            setUserInfo({ ...user })
-        }
-
-        setUserInfo({ username: "", profileImage: "", userId: "" })
-        getUser();
-    }, [])
-
-    const { addLike, removeLike } = useCommentLikes({ userId: fromId, postId: postId as string, commentId, changePostsAdd, changePostsRemove })
-
-    const generateTime = () => {
+    const generateTime = useCallback(() => {
         let time = convertUnixTime(createdAt)
         return time === "Now" ? time : time.split(" ")[0] + time.split(" ")[1][0]
-    }
+    }, [createdAt])
 
     const handleLikes = () => {
         likes.some(like => like.userId === loggedUser.userId) ? removeLike() : addLike()
     }
+
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + userId)
+    }, [userId])
+
+    const openListModal = useCallback(() => {
+        setIsListModalOpen(true)
+    }, [])
+
+    const closeListModal = useCallback(() => {
+        setIsListModalOpen(false)
+    }, [])
 
     return (
         !userInfo.userId.length ?
@@ -82,10 +72,14 @@ const Comment: React.FC<ICommentsProps> = React.memo(({
                     <div className="flex w-[calc(100%-30px)] gap-4">
                         <button
                             className="h-12 py-[0.5px] flex items-center"
-                            onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
+                            onClick={navigateToProfile}
                         >
                             <img
-                                src={userInfo.profileImage.length ? userInfo.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"}
+                                src={
+                                    userInfo.profileImage.length ?
+                                        userInfo.profileImage :
+                                        process.env.PUBLIC_URL + "/images/default-avatar-image.jpg"
+                                }
                                 className="h-9 w-9 rounded-full object-cover"
                             />
                         </button>
@@ -94,7 +88,7 @@ const Comment: React.FC<ICommentsProps> = React.memo(({
                                 <p className="break-words text-[14px]">
                                     <span
                                         className="font-medium text-sm tracking-wide whitespace-nowrap cursor-pointer"
-                                        onClick={() => navigate(RoutesTypes.DASHBOARD + userId)}
+                                        onClick={navigateToProfile}
                                     >
                                         {userInfo.username}
                                     </span>
@@ -105,7 +99,7 @@ const Comment: React.FC<ICommentsProps> = React.memo(({
                                 <p>
                                     {generateTime()}
                                 </p>
-                                <button onClick={() => setIsListModalOpen(true)}>
+                                <button onClick={openListModal}>
                                     <p className="font-medium">{`${likes.length} like${likes.length === 1 ? "" : "s"}`}</p>
                                 </button>
                             </div>
@@ -145,13 +139,13 @@ const Comment: React.FC<ICommentsProps> = React.memo(({
                 {
                     isListModalOpen ?
                         <Modal
-                            closeEvent={() => setIsListModalOpen(false)}
+                            closeEvent={closeListModal}
                             styles="h-96 top-[20%]"
                         >
                             <UsersListModal
                                 descriptionLine="Likes"
                                 usersList={likes}
-                                closeEvent={() => setIsListModalOpen(false)}
+                                closeEvent={closeListModal}
                             />
                         </Modal> :
                         null

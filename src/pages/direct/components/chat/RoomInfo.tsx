@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import RoutesTypes from 'constants/routes-types'
 import AreYouSureModal from 'components/modal/AreYouSureModal'
@@ -24,13 +24,25 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ secondUser, messages }) 
     navigate(RoutesTypes.DIRECT);
   }
 
+  const openDeleteModal = useCallback(() => {
+    setIsDeleteModalOpen(true)
+  }, [])
+
+  const closeDeleteModal = useCallback(() => {
+    setIsDeleteModalOpen(false)
+  }, [])
+
   return (
     <div className="w-full flex flex-col justify-center py-4">
       <p className="font-medium text-sm tracking-wide whitespace-nowrap px-4">Members</p>
       <div className="flex w-full h-24 items-center gap-3 border-b px-4">
         <Link to={RoutesTypes.DASHBOARD + secondUser.userId}>
           <img
-            src={secondUser.profileImage.length ? secondUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+            src={
+              secondUser.profileImage.length ?
+                secondUser.profileImage :
+                process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"
+            }
             className="h-[60px] w-[60px] rounded-full object-cover"
           />
         </Link>
@@ -45,7 +57,7 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ secondUser, messages }) 
       <div className="w-full flex flex-col items-start border-b gap-4 py-1">
         <button
           className="py-1 text-rose-600 font-medium text-sm px-4"
-          onClick={() => setIsDeleteModalOpen(true)}
+          onClick={openDeleteModal}
         >
           Delete chat
         </button>
@@ -65,13 +77,13 @@ const RoomInfo: React.FC<RoomInfoProps> = React.memo(({ secondUser, messages }) 
       {
         isDeleteModalOpen ?
           <Modal
-            closeEvent={() => setIsDeleteModalOpen(false)}
+            closeEvent={closeDeleteModal}
             styles="h-72 top-[26.5%]"
           >
             <AreYouSureModal
               areYouSureEvent={areYouSureEvent}
               profileImage={secondUser.profileImage}
-              closeEvent={() => setIsDeleteModalOpen(false)}
+              closeEvent={closeDeleteModal}
               questionText="Delete Conversation"
               buttonText="Delete"
               additionalText="Deleting removes the conversation from everyone's inbox"

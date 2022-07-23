@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react'
+import React, { useMemo } from 'react'
 import MessageType from 'types/messageType'
 import ImageMessage from './ImageMessage';
 import PostMessage from './PostMessage';

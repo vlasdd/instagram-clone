@@ -1,10 +1,11 @@
+import { useCallback } from "react";
 import { useAppSelector } from "redux-setup/hooks"
 import PostType from "types/postType"
 
 const useUIChanges = (changePosts: any, postId: string) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
 
-    const addLikeToPost = () => {
+    const addLikeToPost = useCallback(() => {
         if(changePosts){
             changePosts((posts: PostType[]) => posts.map(post => {
                 if (post.postId === postId) {
@@ -14,9 +15,9 @@ const useUIChanges = (changePosts: any, postId: string) => {
                 return post
             }) as PostType[])
         }
-    }
+    }, [changePosts, postId])
 
-    const removeLikeFromPost = () => {
+    const removeLikeFromPost = useCallback(() => {
         if(changePosts){
             changePosts((posts: PostType[]) => posts.map(post => {
                 if (post.postId === postId) {
@@ -26,9 +27,9 @@ const useUIChanges = (changePosts: any, postId: string) => {
                 return post
             }) as PostType[])
         }
-    }
+    }, [changePosts, postId])
 
-    const addLikeToComment = (commentId: string) => {
+    const addLikeToComment = useCallback((commentId: string) => {
         if(changePosts){
             changePosts((posts: PostType[]) => posts.map(post => {
                 if(post.postId === postId){
@@ -44,9 +45,9 @@ const useUIChanges = (changePosts: any, postId: string) => {
                 return post
             }) as PostType[])
         }
-    }
+    }, [changePosts, postId])
 
-    const removeLikeFromComment = (commentId: string) => {
+    const removeLikeFromComment = useCallback((commentId: string) => {
         if(changePosts){
             changePosts((posts: PostType[]) => posts.map(post => {
                 if(post.postId === postId){
@@ -62,7 +63,7 @@ const useUIChanges = (changePosts: any, postId: string) => {
                 return post
             }) as PostType[])
         }
-    }
+    }, [changePosts, postId])
 
     return { addLikeToPost, removeLikeFromPost, addLikeToComment, removeLikeFromComment }
 }

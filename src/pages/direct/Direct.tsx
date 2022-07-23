@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Outlet, useParams } from 'react-router-dom'
 import NewMessageModal from 'pages/direct/components/navigation-bar/NewMessageModal'
 import NoChatSelected from 'pages/direct/components/chat/NoChatSelected'
@@ -13,6 +13,14 @@ const Direct: React.FC = React.memo(() => {
 
     const innerWidth = useWindowWidth();
 
+    const openModal = useCallback(() => {
+        setIsModalOpen(true)
+    }, [])
+
+    const closeModal = useCallback(() => {
+        setIsModalOpen(false)
+    }, [])
+
     return (
         <div className="back w-screen h-screen flex flex-col items-center ">
             <Header />
@@ -20,26 +28,26 @@ const Direct: React.FC = React.memo(() => {
                 {
                     innerWidth > 640 ?
                         <>
-                            <UsersSection openModal={() => setIsModalOpen(true)} />
+                            <UsersSection openModal={openModal} />
                             {
                                 chatId ?
                                     <Outlet /> :
-                                    <NoChatSelected openModal={() => setIsModalOpen(true)} />
+                                    <NoChatSelected openModal={openModal} />
                             }
                         </> :
                         chatId ?
                             <Outlet /> :
-                            <UsersSection openModal={() => setIsModalOpen(true)} />
+                            <UsersSection openModal={openModal} />
                 }
 
                 {
                     isModalOpen ?
                         <Modal
-                            closeEvent={() => setIsModalOpen(false)}
+                            closeEvent={closeModal}
                             styles="h-[450px] top-[20%]"
                         >
                             <NewMessageModal
-                                closeEvent={() => setIsModalOpen(false)}
+                                closeEvent={closeModal}
                             />
                         </Modal> :
                         null

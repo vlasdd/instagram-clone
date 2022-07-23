@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import PostType from 'types/postType'
 import PostsModalNavigation from 'pages/profile/components/post-modal-page/components/PostsModalNavigation'
@@ -9,11 +9,9 @@ import ProfileRoutes from 'constants/profile-routes'
 import UserHeader from './components/UserHeader'
 import useWindowWidth from 'helpers/hooks/useWindowWidth'
 import PostComments from './components/PostComments'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from 'firebase-setup/firebaseConfig'
-import UserState from 'types/userStateType'
 import Time from 'components/other/Time';
 import useUIChanges from 'pages/profile/hooks/useUIChanges';
+import useUserInfo from 'helpers/hooks/useUserInfo';
 
 const PostModalPage: React.FC = React.memo(() => {
     const { posts, changePosts } = usePosts();
@@ -28,16 +26,6 @@ const PostModalPage: React.FC = React.memo(() => {
 
     const [wordEntering, setWordEntering] = useState<string>("");
 
-    const [userInfo, setUserInfo] = useState<{
-        username: string,
-        profileImage: string,
-        userId: string
-    }>({
-        username: "",
-        profileImage: "",
-        userId: ""
-    })
-
     const innerWidth = useWindowWidth();
     const { 
         addLikeToPost, 
@@ -45,21 +33,12 @@ const PostModalPage: React.FC = React.memo(() => {
         addLikeToComment,
         removeLikeFromComment 
     } = useUIChanges(changePosts, postId as string)
+    const userInfo = useUserInfo(currentPost?.fromId as string)
 
-    useEffect(() => {
-        const getUser = async () => {
-            const user = (await getDoc(doc(db, "users", currentPost?.fromId as string))).data() as UserState;
-            setUserInfo({ ...user })
-        }
-
-        setUserInfo({ username: "", profileImage: "", userId: "" })
-        getUser();
-    }, [currentPost?.fromId])
-
-    const routePart = () => {
+    const routePart = useCallback(() => {
         const locationArray = location.pathname.split("/");
         return locationArray.slice(0, locationArray.indexOf(ProfileRoutes.POST) - 1).join("/")
-    }
+    }, [location.pathname])
 
     return (
         !currentPost || !posts ?

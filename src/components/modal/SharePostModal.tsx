@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import getUsers from 'helpers/other/get-users/getUsers';
 import { useAppSelector } from 'redux-setup/hooks';
 import Close from 'svgs/empty/Close'
@@ -40,12 +40,12 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
         closeEvent();
     }
 
-    const handleChosenClick = (chosenUser: UserSuggestion) => {
+    const handleChosenClick = useCallback((chosenUser: UserSuggestion) => {
         setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== chosenUser.username))
         if (inputRef.current !== null) {
             inputRef.current.focus();
         }
-    }
+    }, [inputRef.current])
 
     const chosenUsersElements = useMemo(() => chosenUsers.map(chosenUser => (
         <div
@@ -64,29 +64,26 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
         </div>
     )), [chosenUsers])
 
-    const addUserToList = (doc: UserState) => {
+    const addUserToList = useCallback((doc: UserState) => {
         setChosenUsers(prevUsers => [...prevUsers, doc]);
         setWordEntering("");
         if (inputRef.current !== null) {
             inputRef.current.focus();
         }
-    }
+    }, [inputRef.current])
 
-    const removeUserFromList = (doc: UserState) => {
+    const removeUserFromList = useCallback((doc: UserState) => {
         setChosenUsers(prevUsers => prevUsers.filter(user => user.username !== doc.username))
         if (inputRef.current !== null) {
             inputRef.current.focus();
         }
-    }
+    }, [inputRef.current])
 
     const filteredUsersElements = useMemo(() => filteredUsers.map(doc => <UserToWriteTo
         addUserToList={() => addUserToList(doc)}
         removeUserFromList={() => removeUserFromList(doc)}
         isUserInList={chosenUsers.some(user => user.username === doc.username)}
-        profileImage={doc.profileImage}
-        username={doc.username}
-        fullName={doc.fullName}
-        userId={doc.userId}
+        {...doc}
         key={doc.userId}
     />), [filteredUsers, inputRef, chosenUsers])
 
@@ -94,6 +91,18 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
         if (event.key === "Enter") {
             createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages });
         }
+    }
+
+    const handleWordEntering = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setWordEntering(event.target.value)
+    }, [])
+
+    const handleMessageEntering = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setMessageEntering(event.target.value)
+    }, [])
+
+    const createRoom = () => {
+        createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages })
     }
 
     return (
@@ -119,7 +128,7 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
                             type="text"
                             placeholder="Search..."
                             value={wordEntering}
-                            onChange={(event) => setWordEntering(event.target.value)}
+                            onChange={handleWordEntering}
                             ref={inputRef}
                         />
                     </div>
@@ -137,13 +146,13 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
                     type="text"
                     value={messageEntering}
                     placeholder="Write a message..."
-                    onChange={event => setMessageEntering(event.target.value)}
-                    onKeyDown={event => handleKeyDown(event)}
+                    onChange={handleMessageEntering}
+                    onKeyDown={handleKeyDown}
                     className="mx-[15px] my-[10px] placeholder:font-light placeholder:text-gray-400 placeholder:text-sm text-sm"
                 />
                 <button
                     className={`${chosenUsers.length === 0 ? "bg-blue-300" : "bg-blue-500"} h-10 mx-[15px] mb-[15px] mt-[10px] rounded flex justify-center items-center font-medium text-white`}
-                    onClick={() => createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages })}
+                    onClick={createRoom}
                     disabled={chosenUsers.length === 0}
                 >
                     Send

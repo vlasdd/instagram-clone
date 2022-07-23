@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import FilledComment from 'svgs/filled/FilledComment';
@@ -8,13 +8,25 @@ import PostType from 'types/postType'
 const PostImage: React.FC<PostType> = React.memo(({ postImage, postId, likes, comments, }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const navigate = useNavigate();
-//RoutesTypes.DASHBOARD + fromId + "/" + ProfileRoutes.POST + postId
+
+    const makeHoveredTrue = useCallback(() => {
+        setIsHovered(true)
+    }, [])
+
+    const makeHoveredFalse = useCallback(() => {
+        setIsHovered(false)
+    }, [])
+
+    const navigateToPost = useCallback(() => {
+        navigate(ProfileRoutes.POST + postId)
+    }, [postId])
+
     return (
         <div 
             className="relative z-10 w-full h-full aspect-square cursor-pointer rounded-sm"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={() => navigate(ProfileRoutes.POST + postId)}
+            onMouseEnter={makeHoveredTrue}
+            onMouseLeave={makeHoveredFalse}
+            onClick={navigateToPost}
         >
             <img
                 src={postImage}

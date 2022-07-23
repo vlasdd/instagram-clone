@@ -1,7 +1,7 @@
 import createMessage from 'apis/createMessage'
 import DropMenu from 'components/other/DropMenu'
 import Picker, { IEmojiData } from 'emoji-picker-react'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks'
 import Heart from 'svgs/empty/Heart'
@@ -30,10 +30,10 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
 
     const { chatId } = useParams();
 
-    const closeEvent = (event: any) => {
+    const closeEvent = useCallback((event: any) => {
         event.stopPropagation();
         setAreEmojiOpen(false)
-    }
+    }, [])
 
     const sendMessage = async () => {
         if(!wordEntering.length){
@@ -52,35 +52,48 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
         setWordEntering("");
     }
 
-    const handleEmojiClick = (event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
+    const handleEmojiClick = useCallback((event: React.MouseEvent<Element, MouseEvent>, emojiObject: IEmojiData) => {
         setWordEntering(prevText => prevText + emojiObject.emoji);
-    }
+    }, [])
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        console.log('here')
         if (event.key === "Enter") {
             sendMessage();
         }
     }
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             setImageUpload(event.target.files[0])
         }
-    }
+    }, [])
+
+    const toggleEmojisOpen = useCallback(() => {
+        setAreEmojiOpen(prevVal => !prevVal)
+    }, [])
+
+    const handleWordEntering = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setWordEntering(event.target.value)
+    }, [])
+
+    const addHeart = useCallback(() => {
+        setWordEntering(prevText => prevText + "❤️")
+    }, [])
 
     return (
         <div className="flex justify-between items-center mb-[18px] rounded-full border h-[45px] w-3/4 sm:w-5/6 xl:w-3/4 px-4 gap-2">
             <div className="relative">
                 <button
                     className="h-full flex items-center"
-                    onClick={() => setAreEmojiOpen(prevVal => !prevVal)}
+                    onClick={toggleEmojisOpen}
                 >
                     <Smile styles="h-7 w-7"/>
                 </button>
                 {
                     areEmojiOpen ?
                         <DropMenu
-                            closeEvent={event => closeEvent(event)}
+                            closeEvent={closeEvent}
                             styles="w-[250px] bottom-12 h-64 z-20"
                             noAnimation={true}
                         >
@@ -97,8 +110,8 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
                 placeholder="Message..."
                 className="w-full h-8 placeholder:text-sm"
                 value={wordEntering}
-                onChange={event => setWordEntering(event.target.value)}
-                onKeyDown={event => handleKeyDown(event)}
+                onChange={handleWordEntering}
+                onKeyDown={handleKeyDown}
             />
             {
                 ((wordEntering.length && wordEntering.split("").some(letter => letter !== " ")) || imageUpload) ?
@@ -110,7 +123,7 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
                     </button> :
                     <>
                         <button
-                            onClick={() => setWordEntering(prevText => prevText + "❤️")}
+                            onClick={addHeart}
                         >
                             <Heart
                                 styles="h-7 w-7"
@@ -129,7 +142,7 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
                                 id="img"
                                 accept="image/*"
                                 className="hidden "
-                                onChange={(event) => handleChange(event)}
+                                onChange={handleChange}
                             />
                         </div>
                     </>

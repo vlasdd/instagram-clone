@@ -32,10 +32,7 @@ const UsersSearchDropMenu: React.FC<{ wordEntering: string }> = React.memo(({ wo
     }, [])
 
     const generateElements = useMemo(() => usersInfo.map(doc => <UserSearchElement
-        profileImage={doc.profileImage}
-        username={doc.username}
-        fullName={doc.fullName}
-        userId={doc.userId}
+        {...doc}
         key={doc.userId}
     />), [usersInfo])
 

@@ -66,14 +66,14 @@ const useChatRoom = () => {
     }
 
     const deleteChatRoom = async ({ messages, chatId }: DeleteChatRoomProps) => {
+        deleteDoc(doc(db, "chats", chatId));
+
         for (const message of messages) {
           if (message.media.length) {
             const imageRef = ref(storage, message.media);
             await deleteObject(imageRef);
           }
         }
-    
-        deleteDoc(doc(db, "chats", chatId));
       }
 
     return { createChatRoom, deleteChatRoom }

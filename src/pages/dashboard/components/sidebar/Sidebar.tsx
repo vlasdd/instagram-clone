@@ -39,15 +39,23 @@ const Sidebar: React.FC = React.memo(() => {
         />
     )), [suggestionsInfo])
 
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + loggedUser.userId)
+    }, [loggedUser.userId])
+
     return (
         <aside className="flex flex-col gap-4 w-[325px]">
             <div className="flex w-full h-13 mb-1 px-3 justify-between items-center my-[4px]">
                 <button
                     className="w-full h-full py-[0.5px] gap-2 flex items-center"
-                    onClick={() => navigate(RoutesTypes.DASHBOARD + loggedUser.userId)}
+                    onClick={navigateToProfile}
                 >
                     <img
-                        src={loggedUser.profileImage.length ? loggedUser.profileImage : process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"}
+                        src={
+                            loggedUser.profileImage.length ?
+                                loggedUser.profileImage :
+                                process.env.PUBLIC_URL + "/images/default-avatar-gray.jpg"
+                        }
                         className="h-11 w-11 rounded-full object-cover"
                     />
                     <div className="flex flex-col items-start">

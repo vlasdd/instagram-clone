@@ -3,13 +3,11 @@ import CommentForm from 'components/post/CommentForm'
 import LikesBar from 'components/post/LikesBar'
 import ProfileRoutes from 'constants/profile-routes'
 import RoutesTypes from 'constants/routes-types'
-import { db } from 'firebase-setup/firebaseConfig'
-import { doc, getDoc } from 'firebase/firestore'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import useUserInfo from 'helpers/hooks/useUserInfo'
+import React, { useCallback, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppSelector } from 'redux-setup/hooks'
 import PostType from 'types/postType'
-import UserState from 'types/userStateType'
 import PostHeader from './PostHeader'
 
 type PostProps = {
@@ -22,25 +20,8 @@ const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
 
     const commentsRef = useRef<React.RefObject<HTMLInputElement>>(null);
 
-    const [userInfo, setUserInfo] = useState<{
-        username: string,
-        profileImage: string,
-        userId: string
-    }>({
-        username: "",
-        profileImage: "",
-        userId: ""
-    })
     const [wordEntering, setWordEntering] = useState<string>("");
-
-    useEffect(() => {
-        const getUser = async () => {
-            const user = (await getDoc(doc(db, "users", currentPost.fromId))).data() as UserState;
-            setUserInfo({ ...user })
-        }
-
-        getUser();
-    }, [])
+    const userInfo = useUserInfo(currentPost.fromId);
 
     const changePostsAdd = useCallback(() => changePosts((posts: PostType[]) => posts.map(post => {
         if (post.postId === currentPost.postId) {
@@ -58,10 +39,10 @@ const Post: React.FC<PostProps> = React.memo(({ currentPost, changePosts }) => {
         return post
     }) as PostType[]), [currentPost.postId, loggedUser.userId])
 
-    const handleCommentsAmount = () => {
+    const handleCommentsAmount = useCallback(() => {
         const commentsAmount = currentPost.comments.length
         return `View all ${commentsAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} comment${commentsAmount === 1 ? "" : "s"}`
-    }
+    }, [currentPost.comments.length])
 
     return (
         <article className="w-full h-full flex flex-col bg-white border rounded-xl">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import usePostLikes from 'helpers/hooks/usePostLikes'
 import Comment from 'svgs/empty/Comment'
 import Direct from 'svgs/empty/Direct'
@@ -22,7 +22,12 @@ type LikesBarProps = {
     changePostsRemove: any,
 }
 
-const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost, changePostsAdd, changePostsRemove }) => {
+const LikesBar: React.FC<LikesBarProps> = React.memo(({ 
+    commentsRef, 
+    currentPost,
+    changePostsAdd, 
+    changePostsRemove
+}) => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const dispatch = useAppDispatch();
 
@@ -36,10 +41,38 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
     const [isListModalOpen, setIsListModalOpen] = useState<boolean>(false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
 
-    const handleLikesAmount = () => {
+    const handleLikesAmount = useCallback(() => {
         const likesAmount = currentPost.likes.length
         return `${likesAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} like${likesAmount === 1 ? "" : "s"}`
-    }
+    }, [currentPost.likes.length])
+
+    const focusInput = useCallback(() => {
+        commentsRef.current.focus()
+    }, [commentsRef.current])
+
+    const openShareModal = useCallback(() => {
+        setIsShareModalOpen(true)
+    }, [])
+
+    const openListModal = useCallback(() => {
+        setIsListModalOpen(true)
+    }, [])
+
+    const closeShareModal = useCallback(() => {
+        setIsShareModalOpen(false)
+    }, [])
+
+    const closeListModal = useCallback(() => {
+        setIsListModalOpen(false)
+    }, [])
+
+    const removeSaved = useCallback(() => {
+        dispatch(removeFromSaved({ userId: currentPost.fromId, postId: currentPost.postId }))
+    }, [currentPost.fromId, currentPost.postId])
+
+    const addSaved = useCallback(() => {
+        dispatch(addToSaved({ userId: currentPost.fromId, postId: currentPost.postId }))
+    }, [currentPost.fromId, currentPost.postId])
 
     return (
         <>
@@ -75,9 +108,7 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
                                     </motion.div>
                                 </div>
                         }
-                        <button
-                            onClick={() => commentsRef.current.focus()}
-                        >
+                        <button onClick={focusInput}>
                             <Comment
                                 styles="h-[28px] w-[28px]"
                                 includeHovering={true}
@@ -85,7 +116,7 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
                         </button>
                         <button
                             className="pb-1 mr-[-3px]"
-                            onClick={() => setIsShareModalOpen(true)}
+                            onClick={openShareModal}
                         >
                             <Direct
                                 styles="h-[23px] w-[23px] rotate-[55deg]"
@@ -95,16 +126,12 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
                     </div>
                     {
                         loggedUser.savedPosts.some(post => post.postId === currentPost.postId) ?
-                            <button
-                                onClick={() => dispatch(removeFromSaved({ userId: currentPost.fromId, postId: currentPost.postId }))}
-                            >
+                            <button onClick={removeSaved}>
                                 <FilledSaved
                                     styles="h-[25px] w-[25px]"
                                 />
                             </button> :
-                            <button
-                                onClick={() => dispatch(addToSaved({ userId: currentPost.fromId, postId: currentPost.postId }))}
-                            >
+                            <button onClick={addSaved}>
                                 <Saved
                                     styles="h-[25px] w-[25px]"
                                     includeHovering={true}
@@ -113,7 +140,7 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
                     }
                 </div>
                 <button
-                    onClick={() => setIsListModalOpen(true)}
+                    onClick={openListModal}
                     className="flex flex-start"
                 >
                     <p className="font-medium text-sm tracking-wide whitespace-nowrap">
@@ -124,13 +151,13 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
             {
                 isListModalOpen ?
                     <Modal
-                        closeEvent={() => setIsListModalOpen(false)}
+                        closeEvent={closeListModal}
                         styles="h-96 top-[20%]"
                     >
                         <UsersListModal
                             descriptionLine="Likes"
                             usersList={currentPost.likes}
-                            closeEvent={() => setIsListModalOpen(false)}
+                            closeEvent={closeListModal}
                         />
                     </Modal> :
                     null
@@ -138,11 +165,11 @@ const LikesBar: React.FC<LikesBarProps> = React.memo(({ commentsRef, currentPost
             {
                 isShareModalOpen ?
                     <Modal
-                        closeEvent={() => setIsShareModalOpen(false)}
+                        closeEvent={closeShareModal}
                         styles="h-[450px] top-[20%]"
                     >
                         <SharePostModal
-                            closeEvent={() => setIsShareModalOpen(false)}
+                            closeEvent={closeShareModal}
                             currentPost={currentPost}
                         />
                     </Modal> :

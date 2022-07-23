@@ -24,12 +24,24 @@ const ProfileDropMenuContainer: React.FC = React.memo(() => {
         navigate(RoutesTypes.LOGIN);
     }, [auth])
 
+    const navigateToProfile = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + user.userId)
+    }, [user.userId])
+
+    const navigateToSaved = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)
+    }, [user.userId])
+
+    const navigateToEdit = useCallback(() => {
+        navigate(RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE)
+    }, [])
+
     return (
         <>
             <ProfileDropMenuElement
                 image={<Profile styles="h-5 w-5 text-gray-700" />}
                 text="Profile"
-                callback={() => navigate(RoutesTypes.DASHBOARD + user.userId)}
+                callback={navigateToProfile}
             />
             <ProfileDropMenuElement
                 image={(
@@ -39,12 +51,12 @@ const ProfileDropMenuContainer: React.FC = React.memo(() => {
                     />
                 )}
                 text="Saved"
-                callback={() => navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)}
+                callback={navigateToSaved}
             />
             <ProfileDropMenuElement
                 image={<Settings styles="h-5 w-5 text-gray-700" />}
                 text="Settings"
-                callback={() => navigate(RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE)}
+                callback={navigateToEdit}
             />
             <ProfileDropMenuElement
                 image={<SwitchAccounts />} 

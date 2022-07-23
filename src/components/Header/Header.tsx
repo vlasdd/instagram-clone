@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import RoutesTypes from "constants/routes-types"
 import { useAppSelector } from "redux-setup/hooks";
@@ -65,10 +65,34 @@ const Header: React.FC = React.memo(() => {
         }
     }
 
-    const closeEvent = (event: any) => {
+    const closeEvent = useCallback((event: any) => {
         event.stopPropagation();
         setCurrentMenu(MenuTypes.NONE)
-    }
+    }, [])
+
+    const setMenuToSearch = useCallback(() => {
+        setCurrentMenu(MenuTypes.SEARCH)
+    }, [])
+
+    const navigateToDashboard = useCallback(() => {
+        navigate(RoutesTypes.DASHBOARD)
+    }, [])
+
+    const navigateToDirect = useCallback(() => {
+        navigate(RoutesTypes.DIRECT)
+    }, [])
+
+    const setMenuToNewPost = useCallback(() => {
+        setCurrentMenu(MenuTypes.NEW_POST)
+    }, [])
+
+    const navigateToExplore = useCallback(() => {
+        navigate(RoutesTypes.EXPLORE)
+    }, [])
+
+    const setMenuToProfile = useCallback(() => {
+        setCurrentMenu(MenuTypes.PROFILE)
+    }, [])
 
     return (
         <header className="w-screen py-2 flex items-center justify-center border-b border-gray-200 bg-white">
@@ -81,10 +105,7 @@ const Header: React.FC = React.memo(() => {
                 </Link>
                 {
                     innerWidth > 640 ?
-                        <div
-                            className="w-64 h-9 relative"
-                            onClick={() => setCurrentMenu(MenuTypes.SEARCH)}
-                        >
+                        <div className="w-64 h-9 relative" onClick={setMenuToSearch}>
                             <SearchBar
                                 wordEntering={wordEntering}
                                 setWordEntering={setWordEntering}
@@ -92,12 +113,10 @@ const Header: React.FC = React.memo(() => {
                             {
                                 currentMenu === MenuTypes.SEARCH ?
                                     <DropMenu
-                                        closeEvent={event => closeEvent(event)}
+                                        closeEvent={closeEvent}
                                         styles="w-[375px] top-12 left-[-65px] h-96 z-20"
                                     >
-                                        <UsersSearchDropMenu
-                                            wordEntering={wordEntering}
-                                        />
+                                        <UsersSearchDropMenu wordEntering={wordEntering} />
                                     </DropMenu> :
                                     null
                             }
@@ -105,36 +124,29 @@ const Header: React.FC = React.memo(() => {
                         null
                 }
                 <div className="flex gap-4">
-                    <button onClick={() => navigate(RoutesTypes.DASHBOARD)}>
+                    <button onClick={navigateToDashboard}>
                         <Home />
                     </button>
-                    <button
-                        className="pb-1 mr-[-3px]"
-                        onClick={() => navigate(RoutesTypes.DIRECT)}
-                    >
+                    <button className="pb-1 mr-[-3px]" onClick={navigateToDirect}>
                         {
                             location.pathname.includes(RoutesTypes.DIRECT) ?
-                                <FilledDirect styles="h-6 w-6 text-gray-800 rotate-[55deg]"/> :
+                                <FilledDirect styles="h-6 w-6 text-gray-800 rotate-[55deg]" /> :
                                 <Direct
                                     styles="h-6 w-6 text-gray-800 rotate-[55deg]"
                                     includeHovering={false}
                                 />
                         }
                     </button>
-                    <button
-                        onClick={() => setCurrentMenu(MenuTypes.NEW_POST)}
-                    >
-                        <NewPost
-                            isOpen={currentMenu === MenuTypes.NEW_POST}
-                        />
+                    <button onClick={setMenuToNewPost}>
+                        <NewPost isOpen={currentMenu === MenuTypes.NEW_POST} />
                     </button>
-                    <button onClick={() => navigate(RoutesTypes.EXPLORE)}>
+                    <button onClick={navigateToExplore}>
                         <Fire />
                     </button>
                     <div className="relative flex items-center">
                         <button
                             className="h-7 w-7 cursor-pointer rounded-full"
-                            onClick={() => setCurrentMenu(MenuTypes.PROFILE)}
+                            onClick={setMenuToProfile}
                         >
                             <img
                                 src={

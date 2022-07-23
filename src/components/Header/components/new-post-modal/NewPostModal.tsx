@@ -9,7 +9,6 @@ type NewPostModalProps = {
 const NewPostModal: React.FC<NewPostModalProps> = React.memo(({ closeEvent }) => {
     const [currentPageId, setCurrentPageId] = useState<number>(0);
     const [image, setImage] = useState<any[]>([]);
-    const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
 
     useEffect(() => {
         if(currentPageId === 2){
@@ -23,8 +22,6 @@ const NewPostModal: React.FC<NewPostModalProps> = React.memo(({ closeEvent }) =>
                 return (
                     <NewPostModalOne
                         image={image}
-                        currentImageIndex={currentImageIndex}
-                        setCurrentImageIndex={setCurrentImageIndex}
                         setImage={setImage}
                         setCurrentPageId={setCurrentPageId}
                     />
