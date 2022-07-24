@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkinstagram_clone=self.webpackChunkinstagram_clone||[]).push([[694],{7694:function(e,n,i){i.r(n);var r=i(2791),t=i(184),a=r.memo((function(){return(0,t.jsx)("div",{children:"EditProfile"})}));n.default=a}}]);
+//# sourceMappingURL=694.f7d880cb.chunk.js.map

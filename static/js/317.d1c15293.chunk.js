@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkinstagram_clone=self.webpackChunkinstagram_clone||[]).push([[317],{3317:function(n,e,a){a.r(e);var s=a(2791),r=a(184),c=s.memo((function(){return(0,r.jsx)("div",{children:"ChangePassword"})}));e.default=c}}]);
+//# sourceMappingURL=317.d1c15293.chunk.js.map

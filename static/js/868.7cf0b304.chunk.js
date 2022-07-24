@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkinstagram_clone=self.webpackChunkinstagram_clone||[]).push([[868],{2868:function(n,e,t){t.r(e);var a=t(6871),c=t(184);e.default=function(n){var e=n.children,t=n.condition,i=n.link;return t?(0,c.jsx)(a.Fg,{to:i}):e}}}]);
+//# sourceMappingURL=868.7cf0b304.chunk.js.map
