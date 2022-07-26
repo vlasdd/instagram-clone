@@ -28,7 +28,7 @@ const Header: React.FC = React.memo(() => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const [currentMenu, setCurrentMenu] = useState<string>(MenuTypes.NONE);
+    const [currentMenu, setCurrentMenu] = useState<MenuTypes>(MenuTypes.NONE);
     const [wordEntering, setWordEntering] = useState<string>("");
 
     const innerWidth = useWindowWidth();

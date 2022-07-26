@@ -4,6 +4,7 @@ import ProfileRoutes from 'constants/profile-routes'
 import ArrowToLeft from 'svgs/empty/ArrowToLeft'
 import ArrowToRight from 'svgs/empty/ArrowToRight'
 import PostType from 'types/postType'
+import useWindowWidth from 'helpers/hooks/useWindowWidth'
 
 type PostsModalNavigationProps = {
     currentIndex: number, 
@@ -13,6 +14,7 @@ type PostsModalNavigationProps = {
 
 const PostsModalNavigation: React.FC<PostsModalNavigationProps> = React.memo(({ currentIndex, posts, routePart }) => {
     const navigate = useNavigate();
+    const width = useWindowWidth();
 
     const handleNavigateForward = useCallback(() => {
         navigate(`../${ProfileRoutes.POST}${posts[currentIndex - 1].postId}`, { replace: true })
@@ -27,7 +29,10 @@ const PostsModalNavigation: React.FC<PostsModalNavigationProps> = React.memo(({ 
             {
                 currentIndex !== 0 ?
                     <button
-                        className="w-8 h-8 rounded-full bg-white absolute flex justify-center items-center left-[calc(100%+15px)] top-[46%]"
+                        className={`
+                            w-8 h-8 rounded-full bg-white absolute flex justify-center items-center top-[46%] 
+                            ${width < 640 ? "left-[calc(100%+8px)]": "left-[calc(100%+15px)]"} 
+                        `}
                         onClick={handleNavigateForward}
                     >
                         <ArrowToRight />
@@ -37,7 +42,10 @@ const PostsModalNavigation: React.FC<PostsModalNavigationProps> = React.memo(({ 
             {
                 currentIndex !== posts.length - 1 ?
                     <button
-                        className="w-8 h-8 rounded-full bg-white absolute flex justify-center items-center right-[calc(100%+15px)] top-[46%]"
+                        className={`
+                            w-8 h-8 rounded-full bg-white absolute flex justify-center items-center top-[46%] 
+                            ${width < 640 ? "right-[calc(100%+8px)]": "right-[calc(100%+15px)]"} 
+                        `}
                         onClick={handleNavigateBack}
                     >
                         <ArrowToLeft />

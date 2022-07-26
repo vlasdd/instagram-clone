@@ -29,6 +29,7 @@ const SettingsModal: React.FC<SettingsModalProps> = React.memo(({ closeEvent, po
     const handleCopy = useCallback(() => {
         navigator.clipboard.writeText(
             window.location.origin +
+            "/instagram-clone#" +
             RoutesTypes.DASHBOARD +
             post.fromId + "/" +
             ProfileRoutes.POST +

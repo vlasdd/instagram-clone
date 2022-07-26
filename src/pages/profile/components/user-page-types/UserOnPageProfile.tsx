@@ -86,7 +86,7 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                             className="rounded-full w-[170px] h-[170px] object-cover"
                         />
                     </div>
-                    <div className="flex flex-col w-5/6 sm:w-3/5 py-4 gap-6">
+                    <div className="flex flex-col w-5/6 sm:w-3/5 pt-4 gap-3 sm:gap-6">
                         <div className="flex gap-4">
                             <p className="text-3xl font-extralight">{userOnPage.username}</p>
                             <div className="flex items-center gap-2">

@@ -6,8 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-setup/firebaseConfig";
 import { setIsBeingLoaded } from "redux-setup/features/is-being-loaded/isBeingLoaded";
 import AppRouter from "components/routes/AppRouter";
-
-const Loading = lazy(() => import("pages/loading/Loading"));
+import Loading from "pages/loading/Loading";
 
 const App: React.FC = () => {
   const isBeingLoaded = useAppSelector(state => state.isBeingLoaded.isBeingLoaded);

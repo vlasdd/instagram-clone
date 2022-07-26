@@ -27,13 +27,13 @@ const PostModalPage: React.FC = React.memo(() => {
     const [wordEntering, setWordEntering] = useState<string>("");
 
     const innerWidth = useWindowWidth();
+    const userInfo = useUserInfo(currentPost?.fromId as string)
     const { 
         addLikeToPost, 
         removeLikeFromPost, 
         addLikeToComment,
         removeLikeFromComment 
     } = useUIChanges(changePosts, postId as string)
-    const userInfo = useUserInfo(currentPost?.fromId as string)
 
     const routePart = useCallback(() => {
         const locationArray = location.pathname.split("/");
@@ -49,9 +49,14 @@ const PostModalPage: React.FC = React.memo(() => {
                 />
             </div> :
             <div className="w-full h-full flex flex-col sm:flex-row relative">
+                {
+                    innerWidth < 641 ?
+                        <UserHeader userInfo={userInfo} /> :
+                        null
+                }
                 <div className={`
                     w-full sm:w-3/5 bg-black h-1/3 sm:h-full flex items-center justify-center overflow-hidden
-                    ${innerWidth > 640 ? "rounded-l-xl" : "rounded-t-xl"}
+                    ${innerWidth > 640 ? "rounded-l-xl" : ""}
                 `}>
                     <img
                         src={currentPost.postImage}
@@ -59,7 +64,11 @@ const PostModalPage: React.FC = React.memo(() => {
                     />
                 </div>
                 <div className="w-full h-2/3 sm:h-full sm:w-2/5 flex flex-col justify-between">
-                    <UserHeader userInfo={userInfo} />
+                    {
+                        innerWidth > 640 ? 
+                        <UserHeader userInfo={userInfo} />:
+                        null
+                    }
                     <PostComments
                         currentPost={currentPost}
                         userInfo={userInfo}

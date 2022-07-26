@@ -13,7 +13,7 @@ const PostModalPageRoute: React.FC = () => {
     return (
         <Modal
             closeEvent={navigateBack}
-            styles="w-[70%] sm:w-5/6 h-[70%] lg:h-[90%] top-[15%] lg:top-[5%]"
+            styles="w-[75%] sm:w-5/6 h-[80%] lg:h-[90%] top-[10%] lg:top-[5%]"
         >
             <PostModalPage />
         </Modal>

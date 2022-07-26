@@ -66,7 +66,7 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
                             onClick={openImageModal}
                         />
                     </div>
-                    <div className="flex flex-col w-5/6 sm:w-3/5 py-4 gap-6">
+                    <div className="flex flex-col w-5/6 sm:w-3/5 pt-4 gap-3 sm:gap-6">
                         <div className="flex gap-4">
                             <p className="text-3xl font-extralight">{signedUser.username}</p>
                             <div className="flex items-center gap-4">

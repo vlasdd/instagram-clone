@@ -77,10 +77,10 @@ const NewPostModalTwo: React.FC<NewPostModalTwoProps> = React.memo(({ setCurrent
                 </div>
             </div>
             <div className="w-full h-full flex flex-col sm:flex-row">
-                <div className="relative">
+                <div className="relative bg-black sm:rounded-bl-xl">
                     <img
                         src={URL.createObjectURL(image[0])}
-                        className="h-[225px] sm:h-[460px] w-[450px] object-cover sm:rounded-bl-xl"
+                        className="h-[225px] sm:h-[460px] w-[450px] sm:rounded-bl-xl object-contain"
                     />
                     {
                         areEmojiOpen ?

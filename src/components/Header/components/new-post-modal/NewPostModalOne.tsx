@@ -81,10 +81,10 @@ const NewPostModalOne: React.FC<NewPostModalOneProps> = React.memo(({
             </div>
             {
                 image.length ?
-                    <div className="h-[calc(100%-40px)] w-full">
+                    <div className="h-[calc(100%-40px)] w-full bg-black rounded-b-xl">
                         <img
                             src={URL.createObjectURL(image[0])}
-                            className="h-full w-full object-cover rounded-b-xl"
+                            className="h-full w-full object-contain rounded-b-xl"
                         />
                     </div> :
                     <div

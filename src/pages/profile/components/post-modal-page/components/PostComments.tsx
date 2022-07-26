@@ -33,7 +33,7 @@ const PostComments: React.FC<PostCommentProps> = React.memo(({ currentPost, user
     }, [userInfo.userId])
 
     return (
-        <div className="w-full h-[calc(100%-180px)] sm:h-[calc(100%-180px)] px-3 flex flex-col items-start overflow-hidden overflow-y-auto no-bar">
+        <div className="w-full h-[calc(100%-120px)] sm:h-[calc(100%-180px)] px-3 flex flex-col items-start overflow-hidden overflow-y-auto no-bar">
             {
                 userInfo.userId.length ?
                     <>
