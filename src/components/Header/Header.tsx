@@ -123,7 +123,7 @@ const Header: React.FC = React.memo(() => {
                         </div> :
                         null
                 }
-                <div className="flex gap-4">
+                <div className="flex gap-2 sm:gap-4">
                     <button onClick={navigateToDashboard}>
                         <Home />
                     </button>

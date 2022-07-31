@@ -41,13 +41,13 @@ const ChatRoom: React.FC = React.memo(() => {
                                 }
                                 className="h-6 w-6 rounded-full object-cover"
                             />
-                            <p className="font-medium text-sm tracking-wide whitespace-nowrap">{secondUser.username}</p>
+                            <p className="font-medium text-sm tracking-wide whitespace-nowrap">
+                                {secondUser.username}
+                            </p>
                         </button>
                 }
                 <button onClick={toggleInfoOpen}>
-                    <Info
-                        isOpen={isInfoOpen}
-                    />
+                    <Info isOpen={isInfoOpen}/>
                 </button>
             </div>
             {

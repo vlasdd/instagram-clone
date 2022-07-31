@@ -122,9 +122,7 @@ const MessageForm: React.FC<MessageFormProps> = React.memo(({
                         <p>Send</p>
                     </button> :
                     <>
-                        <button
-                            onClick={addHeart}
-                        >
+                        <button onClick={addHeart}>
                             <Heart
                                 styles="h-7 w-7"
                                 includeHovering={false}

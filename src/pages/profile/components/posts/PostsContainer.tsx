@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Outlet } from 'react-router-dom'
 import PostType from 'types/postType'
-import PostImage from '../../../../components/post/PostImage'
+import PostImage from 'components/post/PostImage'
 
 const PostsContainer: React.FC<{ posts: PostType[], changePosts?: any }> = React.memo(({ posts, changePosts }) => {
     const postsImageElements = useMemo(() => [...posts].reverse().map(post => (

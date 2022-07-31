@@ -67,7 +67,7 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
                         />
                     </div>
                     <div className="flex flex-col w-5/6 sm:w-3/5 pt-4 gap-3 sm:gap-6">
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 justify-center sm:justify-start">
                             <p className="text-3xl font-extralight">{signedUser.username}</p>
                             <div className="flex items-center gap-4">
                                 <Link
@@ -81,28 +81,29 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex gap-2 sm:gap-8">
-                            <div className="flex gap-1 items-center flex-col sm:flex-row">
+                        <div className="flex gap-8 justify-center sm:justify-start">
+                            <div className="flex gap-1 items-center">
                                 <p className="font-medium">{signedUser.posts.length}</p>
                                 <p>{`post${signedUser.posts.length === 1 ? "" : "s"}`}</p>
                             </div>
                             <button
                                 onClick={handleNavigateFollowers}
-                                className="flex gap-1 items-center flex-col sm:flex-row"
+                                className="flex gap-1 items-center"
                             >
                                 <p className="font-medium">{signedUser.followers.length}</p>
                                 <p>{`follower${signedUser.followers.length === 1 ? "" : "s"}`}</p>
                             </button>
                             <button
                                 onClick={handleNavigateFollowing}
-                                className="flex gap-1 items-center flex-col sm:flex-row"
+                                className="flex gap-1 items-center"
                             >
                                 <p className="font-medium">{signedUser.following.length}</p>
                                 <p>following</p>
                             </button>
                         </div>
-                        <p className="font-medium">{signedUser.fullName}</p>
-                        <div className="flex"></div>
+                        <div className="flex px-8 sm:px-0">
+                            <p className="font-medium">{signedUser.fullName}</p>
+                        </div>
                     </div>
                 </div>
                 {

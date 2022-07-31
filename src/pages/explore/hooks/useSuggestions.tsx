@@ -8,9 +8,12 @@ import UserState from "types/userStateType";
 
 const SUGGESTIONS_AMOUNT = 30;
 
-type UseSuggestionsType = () => PostType[]
+type UseSuggestionsType = () => {
+    postsSuggestions: PostType[],
+    setPostsSuggestions: React.Dispatch<React.SetStateAction<PostType[]>>
+}
 
-const useSuggestions: any = () => {
+const useSuggestions: UseSuggestionsType = () => {
     const loggedUser = useAppSelector(state => state.signedUser.user);
     const [postsSuggestions, setPostsSuggestions] = useState<PostType[]>([]);
 

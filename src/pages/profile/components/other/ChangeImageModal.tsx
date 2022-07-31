@@ -39,9 +39,7 @@ const ChangeImageModal: React.FC<ChangeImageModalProps> = React.memo(({ closeEve
             </div>
             <p className="font-medium text-md">Synced Profile Photo</p>
             <p className="text-center text-gray-400 text-sm pb-2">Instagram</p>
-            <label
-                className="w-full h-12 border-t-2 flex items-center justify-center cursor-pointer"
-            >
+            <label className="w-full h-12 border-t-2 flex items-center justify-center cursor-pointer">
                 <input
                     type="file"
                     accept="image/png, image/jpg, image/jpeg"

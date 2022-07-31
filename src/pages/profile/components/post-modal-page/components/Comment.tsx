@@ -34,7 +34,13 @@ const Comment: React.FC<ICommentsProps> = React.memo(({
     const { postId } = useParams();
  
     const userInfo = useUserInfo(userId)
-    const { addLike, removeLike } = useCommentLikes({ userId: fromId, postId: postId as string, commentId, changePostsAdd, changePostsRemove })
+    const { addLike, removeLike } = useCommentLikes({ 
+        userId: fromId, 
+        postId: postId as string, 
+        commentId, 
+        changePostsAdd, 
+        changePostsRemove 
+    })
     
     const [isListModalOpen, setIsListModalOpen] = useState<boolean>(false);
 
