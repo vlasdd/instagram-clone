@@ -78,7 +78,7 @@ const NewMessageModal: React.FC<{ closeEvent: () => void }> = React.memo(({ clos
   />), [filteredUsers, chosenUsers])
 
   const createChat = useCallback(() => {
-    createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: closeEvent })
+    chosenUsers.forEach(user => createChatRoom({ chosenUserId: user.userId, closeEvent: closeEvent }))
   }, [chosenUsers])
 
   const handleWordEntering = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

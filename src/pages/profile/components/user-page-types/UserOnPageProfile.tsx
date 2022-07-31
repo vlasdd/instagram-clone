@@ -5,7 +5,6 @@ import RoutesTypes from 'constants/routes-types';
 import { clearErrors } from 'redux-setup/features/user-on-page/userOnPage';
 import fetchUserOnPage from 'redux-setup/features/user-on-page/thunks/fetchUserOnPage';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import Additional from 'svgs/empty/Additional';
 import Modal from 'components/modal/Modal';
 import ProfileNavBar from '../other/ProfileNavBar';
 import AreYouSureModal from 'components/modal/AreYouSureModal';
@@ -113,9 +112,6 @@ const UserOnPageProfile: React.FC = React.memo(() => {
                                                 Follow
                                             </button>
                                 }
-                                <button>
-                                    <Additional styles="h-7 w-7"/>
-                                </button>
                             </div>
                         </div>
                         <div className="flex gap-2 sm:gap-8">

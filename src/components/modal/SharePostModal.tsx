@@ -89,7 +89,7 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages });
+            chosenUsers.forEach(user => createChatRoom({ chosenUserId: user.userId, closeEvent: sendMessages }));
         }
     }
 
@@ -102,7 +102,7 @@ const SharePostModal: React.FC<SharePostModalProps> = React.memo(({ closeEvent, 
     }, [])
 
     const createRoom = () => {
-        createChatRoom({ chosenUserId: chosenUsers[0].userId, closeEvent: sendMessages })
+        chosenUsers.forEach(user => createChatRoom({ chosenUserId: user.userId, closeEvent: sendMessages }))
     }
 
     return (

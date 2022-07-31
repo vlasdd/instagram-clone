@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Link, Navigate, Outlet, useNavigate, useParams } from 'react-router-dom';
-import AccountsRoutes from 'constants/accounts-routes';
 import ProfileRoutes from 'constants/profile-routes';
 import RoutesTypes from 'constants/routes-types';
 import { clearErrors } from 'redux-setup/features/signed-user/signedUser';
 import fetchSignedUser from 'redux-setup/features/signed-user/thunks/fetchSignedUser';
 import { useAppDispatch, useAppSelector } from 'redux-setup/hooks';
-import Settings from 'svgs/empty/Settings';
 import Modal from 'components/modal/Modal';
 import ChangeImageModal from '../other/ChangeImageModal';
 import ProfileNavBar from '../other/ProfileNavBar';
@@ -69,17 +67,6 @@ const LoggedUsersProfile: React.FC = React.memo(() => {
                     <div className="flex flex-col w-5/6 sm:w-3/5 pt-4 gap-3 sm:gap-6">
                         <div className="flex gap-4 justify-center sm:justify-start">
                             <p className="text-3xl font-extralight">{signedUser.username}</p>
-                            <div className="flex items-center gap-4">
-                                <Link
-                                    to={RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE}
-                                    className="p-1 border rounded font-medium text-sm tracking-wide"
-                                >
-                                    Edit Profile
-                                </Link>
-                                <button>
-                                    <Settings styles="h-7 w-7"/>
-                                </button>
-                            </div>
                         </div>
                         <div className="flex gap-8 justify-center sm:justify-start">
                             <div className="flex gap-1 items-center">

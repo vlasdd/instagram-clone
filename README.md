@@ -54,7 +54,7 @@ This project is my attempt to implement some parts of the Instagram's functional
 
 ## Project Status
 
-This project is not finished yet
+Complete
 
 ## Usage
 

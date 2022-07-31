@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import ProfileRoutes from 'constants/profile-routes';
 import Posts from 'svgs/empty/Posts';
-import Profile from 'svgs/empty/Profile';
 import Saved from 'svgs/empty/Saved';
 
 const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersPage }) => {
@@ -14,9 +13,6 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
         switch(pathNameArray[pathNameArray.length - 1]){
             case ProfileRoutes.SAVED: {
                 return 1;
-            }
-            case ProfileRoutes.TAGGED: {
-                return 2;
             }
             default: {
                 return 0;
@@ -38,11 +34,6 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
     const handleSavedNavigate = () => {
         navigate(ProfileRoutes.SAVED);
         setCurrentTab(1);
-    }
-
-    const handleTaggedNavigate = () => {
-        navigate(ProfileRoutes.TAGGED);
-        setCurrentTab(2);
     }
 
     return (
@@ -74,16 +65,6 @@ const ProfileNavBar: React.FC<{ isUsersPage: boolean }> = React.memo(({ isUsersP
                     </button> :
                     null
             }
-            <button
-                onClick={handleTaggedNavigate}
-                className={`
-                    h-12 flex items-center text-gray-400 gap-1 
-                    ${currentTab === 2 && "border-t border-t-gray-900 text-black"}
-                `}
-            >
-                <Profile styles="w-4 h-4" />
-                <p>TAGGED</p>
-            </button>
         </nav>
     )
 })

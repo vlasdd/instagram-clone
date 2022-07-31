@@ -9,9 +9,6 @@ import { signOut } from 'firebase/auth';
 import { auth } from 'firebase-setup/firebaseConfig';
 import Profile from 'svgs/empty/Profile';
 import Saved from 'svgs/empty/Saved';
-import Settings from 'svgs/empty/Settings';
-import SwitchAccounts from 'svgs/empty/SwitchAccounts';
-import AccountsRoutes from 'constants/accounts-routes';
 
 const ProfileDropMenuContainer: React.FC = React.memo(() => {
     const dispatch = useAppDispatch();
@@ -32,10 +29,6 @@ const ProfileDropMenuContainer: React.FC = React.memo(() => {
         navigate(RoutesTypes.DASHBOARD + user.userId + "/" + ProfileRoutes.SAVED)
     }, [user.userId])
 
-    const navigateToEdit = useCallback(() => {
-        navigate(RoutesTypes.ACOUNTS + "/" + AccountsRoutes.EDIT_PROFILE)
-    }, [])
-
     return (
         <>
             <ProfileDropMenuElement
@@ -52,16 +45,6 @@ const ProfileDropMenuContainer: React.FC = React.memo(() => {
                 )}
                 text="Saved"
                 callback={navigateToSaved}
-            />
-            <ProfileDropMenuElement
-                image={<Settings styles="h-5 w-5 text-gray-700" />}
-                text="Settings"
-                callback={navigateToEdit}
-            />
-            <ProfileDropMenuElement
-                image={<SwitchAccounts />} 
-                text="Switch Accounts"
-                callback={() => console.log("clicked")}
             />
             <div className="w-full border-t-2"></div>
             <ProfileDropMenuElement
