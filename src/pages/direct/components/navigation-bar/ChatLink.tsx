@@ -43,7 +43,7 @@ const ChatLink: React.FC<ChatLinkProps> = React.memo(({ userId, chatId, lastMess
                     }
                     className="h-[60px] w-[60px] rounded-full object-cover"
                 />
-                <div className="flex flex-col justify-center text-left w-full">
+                <div className="flex flex-col justify-center text-left">
                     <p className="w-[165px] truncate text-sm tracking-wide">{userInfo.username}</p>
                     <div className="flex gap-1">
                         <p className="font-medium text-sm tracking-wide whitespace-nowrap">
