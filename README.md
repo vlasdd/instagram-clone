@@ -15,3 +15,7 @@
 + Framer Motion
 + React Emoji Picker
 + React Placeholder
+
+To Visit This App: *https://Vlased.github.io/instagram-clone/#/*
+
+***(`email:` 222222@gmail.com `password:` 222222)***
